@@ -1,0 +1,27 @@
+{
+  "name": "mentalmodeler-js",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0"
+  },
+  "scripts": {
+    "start": "npm run build-css && run-p -ncr watch-css start-js",
+    "start-js": "react-scripts start",
+    "build": "run-s -n build-css build-js",
+    "build-js": "react-scripts build",
+    "test": "run-s -n build-css test-js",
+    "test-js": "react-scripts test --env=jsdom",
+    "build-css": "node-less-chokidar src",
+    "watch-css": "node-less-chokidar src --watch",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "node-less-chokidar": "^0.3.1",
+    "npm-run-all": "^4.1.3"
+  }
+}
