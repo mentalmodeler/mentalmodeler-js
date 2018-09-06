@@ -5,13 +5,16 @@ import Concept from '../Concept/Concept';
 
 class Concepts extends Component {
     render() {
-        console.log('this.props.concepts:', this.props.concepts);
-        return this.props.concepts.map((concept, index) => (
-            <Concept
-                key={`comcept_${index}`}
-                {...concept}
-            />
-        ));
+        return (
+            <div>
+            {this.props.concepts.map((concept, index) => (
+                <Concept
+                    key={`concept_${index}`}
+                    {...concept}
+                />
+            ))}
+            </div>
+        );
     }
 }
 

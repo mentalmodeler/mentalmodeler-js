@@ -1,46 +1,62 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { dragConcept } from '../../actions/index';
+import {
+    conceptMove,
+    conceptFocus
+} from '../../actions/index';
 import './Concept.css';
 
 class Concept extends Component {
     constructor(props) {
         super(props);
-
-        this.x = 0;
-        this.y = 0;
     }
 
-    onMouseDown = (e) => {
-        console.log('down');
-        this.toggleDragHandlers(true);
-    }
-
-    toggleDragHandlers(on) {
+    toggleDragHandlers(on, e) {
+        const { x, y } = this.props;
         const func = on ? 'addEventListener' : 'removeEventListener';
         window[func]('mousemove', this.onMouseMove);
         window[func]('mouseup', this.onMouseUp);
+        this.setDragStarts(e, x, y);
+    }
+
+    setDragStarts(e, x, y) {
+        this.startScreenX = e.screenX;
+        this.startScreenY = e.screenY;
+        this.startX = parseInt(x);
+        this.startY = parseInt(y);
+    }
+
+    onMouseDown = (e) => {
+        const { id, conceptFocus } = this.props;
+        conceptFocus(id);
+        this.toggleDragHandlers(true, e);
     }
 
     onMouseMove = (e) => {
-        console.log('\tmove, x:', e.clientX, ', y:', e.clientY, '\noffsetX:', e.offsetX, ', offsetY:', e.offsetY);
+        const {id, conceptMove } = this.props;
+        const deltaX = e.screenX - this.startScreenX;
+        const deltaY = e.screenY - this.startScreenY;
+        const newX = deltaX + this.startX;
+        const newY = deltaY + this.startY;
+        conceptMove(id, Math.max(0, newX), Math.max(0, newY));
     }
 
     onMouseUp = (e) => {
-        console.log('up, e:', e);
-        this.toggleDragHandlers(false);
+        this.toggleDragHandlers(false, e);
     }
 
     render() {
-        const {name, x, y} = this.props
+        const {id, name, x, y, focused} = this.props
         const rootStyle = {
             left: `${x}px`,
             top: `${y}px`
         }
+
+        const rootClass = `Concept${focused ? ' Concept--focused' : ''}`
         return (
             <div
-                className="Concept"
+                className={rootClass}
                 style={rootStyle}
                 onMouseDown={this.onMouseDown}
             >
@@ -50,4 +66,16 @@ class Concept extends Component {
     }
 }
 
-export default connect()(Concept);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        conceptMove: (id, x, y) => {
+            dispatch(conceptMove(id, x, y))
+        },
+
+        conceptFocus: (id) => {
+            dispatch(conceptFocus(id))
+        }
+    };
+}
+
+export default connect(null, mapDispatchToProps)(Concept);

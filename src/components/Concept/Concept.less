@@ -5,14 +5,18 @@
     padding-bottom: 0px;
     border-radius: 6px;
     border: 1px solid #999;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,e6e6e6+100 */
-    background: #ffffff; /* Old browsers */
+    background: #ffffff;
     background: -moz-linear-gradient(top, #ffffff 0%, #e6e6e6 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #ffffff 0%,#e6e6e6 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #ffffff 0%,#e6e6e6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+    
+    box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    cursor: pointer;
 
-    box-shadow:inset 0 0 0 2px #fff;
+    &--focused {
+        z-index: 2;
+    }
 
     &__textarea {
         font-size: 14px;
@@ -25,6 +29,7 @@
         background: none;
         position: relative;
         top: 1px;
+        cursor: pointer;
         
         &:focus {
             outline-color: #83A603;
