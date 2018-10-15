@@ -1,0 +1,12 @@
+.Relationship {
+  position: absolute;
+  cursor: pointer;
+}
+.Relationship__svg {
+  overflow: visible;
+  position: absolute;
+  pointer-events: none;
+}
+.Relationship__svg--hit {
+  pointer-events: auto;
+}

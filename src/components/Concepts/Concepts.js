@@ -6,7 +6,7 @@ import Concept from '../Concept/Concept';
 class Concepts extends Component {
     render() {
         return (
-            <div>
+            <div className="map__concepts">
             {this.props.concepts.map((concept, index) => (
                 <Concept
                     key={`concept_${index}`}

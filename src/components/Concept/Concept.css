@@ -19,10 +19,8 @@
   z-index: 2;
 }
 .Concept__textarea {
-  font-size: 14px;
   line-height: 18px;
-  min-width: 80px;
-  max-width: 164px;
+  font-size: 14px;
   min-height: 18px;
   border: none;
   padding: 6px;
@@ -30,6 +28,7 @@
   position: relative;
   top: 1px;
   cursor: pointer;
+  resize: none;
 }
 .Concept__textarea:focus {
   outline-color: #83A603;

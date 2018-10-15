@@ -14,7 +14,7 @@ const concepts = (state = [], action) => {
         case 'CONCEPT_FOCUS':
             return state.map((concept) => {
                 if (concept.id === action.id) {
-                    console.log('concept.id:', concept.id);
+                    // console.log('concept.id:', concept.id);
                 }
                 return (concept.id === action.id)
                     ? {...concept, focused: true}

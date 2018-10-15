@@ -402,7 +402,7 @@ export default {
             "name": "Natural Beauty ",
             "notes": "",
             "confidence": "0",
-            "influence": "-0.25"
+            "influence": "-0.95"
             },
             {
             "id": "16",
@@ -423,7 +423,7 @@ export default {
             "name": "Property Damage",
             "notes": "",
             "confidence": "0",
-            "influence": "0.25"
+            "influence": "0.95"
             },
             {
             "id": "24",
@@ -444,7 +444,7 @@ export default {
             "name": "Tourism",
             "notes": "",
             "confidence": "0",
-            "influence": "-0.25"
+            "influence": "-0.5"
             }
         ]
         },
@@ -503,7 +503,7 @@ export default {
             "name": "Health and Safety",
             "notes": "",
             "confidence": "0",
-            "influence": "-0.25"
+            "influence": "-0.95"
             }
         ]
         },
@@ -522,14 +522,14 @@ export default {
             "name": "Recreational Forest Use",
             "notes": "",
             "confidence": "0",
-            "influence": "0.25"
+            "influence": "0.95"
             },
             {
             "id": "25",
             "name": "Economy",
             "notes": "",
             "confidence": "0",
-            "influence": "0.25"
+            "influence": "0.5"
             }
         ]
         },

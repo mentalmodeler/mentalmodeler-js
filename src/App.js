@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
-import Concepts from './components/Concepts/Concepts';
+import Map from './components/Map/Map';
 
 import './App.css';
 
@@ -18,13 +18,7 @@ class App extends Component {
             <div className="app">
                 <div className="controls">
                 </div>  
-                <div className="map">
-                    <div className="map__controls">
-                    </div>
-                    <div className="map__content">
-                        <Concepts />
-                    </div>
-                </div>
+                <Map />
             </div>
         );
     }

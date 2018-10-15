@@ -1,0 +1,16 @@
+@import '../../shared.less';
+
+.Relationship {
+    position: absolute;
+    cursor: pointer;
+
+    &__svg {
+        overflow: visible;
+        position: absolute;
+        pointer-events: none;
+
+        &--hit {
+            pointer-events: auto;
+        }
+    }
+}
