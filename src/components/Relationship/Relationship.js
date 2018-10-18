@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import {
-//     conceptMove,
-//     conceptFocus
-// } from '../../actions/index';
 import classnames from 'classnames';
 import './Relationship.css';
 
 class Relationship extends Component {
     constructor(props) {
         super(props);
-
-        console.log(this.props.comboId, '\nthis.props:', this.props, '\n\n');
     }
 
     onComponentDidMount() {
@@ -34,17 +28,31 @@ class Relationship extends Component {
     render() {
         const {
             comboId,
-            influencerId,
-            influencerX,
-            influencerY,
+            influence,
             influenceeId,
             influenceeX,
             influenceeY,
-            influence
+            influenceeWidth,
+            influenceeHeight,
+            influencerId,
+            influencerX,
+            influencerY,
+            influencerWidth,
+            influencerHeight
         } = this.props
+        
+        const sizeData = [influenceeWidth, influenceeHeight, influencerWidth, influencerHeight];
+        const missingSomeSizeData = sizeData.some((value) => (!value));
+        if (missingSomeSizeData) {
+            return null;
+        }
 
         const influenceAbsValue = Math.abs(influence);
         const lineThickness = Math.round(influenceAbsValue * 3 + 1);
+        const erX = influencerX + influencerWidth / 2;
+        const erY = influencerY + influencerHeight / 2;
+        const eeX = influenceeX + influenceeWidth / 2;
+        const eeY = influenceeY + influenceeHeight / 2;
 
         const svgClasses = classnames('Relationship__svg', {
             'Relationship__svg--negative': influence < 0,
@@ -56,7 +64,7 @@ class Relationship extends Component {
             : '#0351A6';
 
 
-        // console.log('\n', comboId, '\n\tinfluenceAbsValue:', influenceAbsValue, ', lineThickness:', lineThickness);
+        console.log('\n', comboId, '\n\tinfluenceAbsValue:', influenceAbsValue, ', lineThickness:', lineThickness);
 
         return (
             <span className="Relationship">
@@ -67,10 +75,10 @@ class Relationship extends Component {
                     onClick={this.onClick}
                 >
                     <line
-                        x1={influencerX}
-                        x2={influenceeX}
-                        y1={influencerY}
-                        y2={influenceeY}
+                        x1={erX}
+                        x2={eeX}
+                        y1={erY}
+                        y2={eeY}
                         stroke="transparent"
                         strokeWidth="10"
                     />
@@ -82,10 +90,10 @@ class Relationship extends Component {
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <line
-                            x1={influencerX}
-                            x2={influenceeX}
-                            y1={influencerY}
-                            y2={influenceeY}
+                            x1={erX}
+                            x2={eeX}
+                            y1={erY}
+                            y2={eeY}
                             stroke={stroke}
                             strokeWidth={lineThickness * 3}
                             opacity={0.3}
@@ -98,10 +106,10 @@ class Relationship extends Component {
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <line
-                        x1={influencerX}
-                        x2={influenceeX}
-                        y1={influencerY}
-                        y2={influenceeY}
+                        x1={erX}
+                        x2={eeX}
+                        y1={erY}
+                        y2={eeY}
                         stroke={stroke}
                         strokeWidth={lineThickness}
                     />

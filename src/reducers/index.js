@@ -13,13 +13,19 @@ const concepts = (state = [], action) => {
             });
         case 'CONCEPT_FOCUS':
             return state.map((concept) => {
-                if (concept.id === action.id) {
-                    // console.log('concept.id:', concept.id);
-                }
                 return (concept.id === action.id)
                     ? {...concept, focused: true}
                     : {...concept, focused: false}
                 ;
+            });
+        case 'CONCEPT_CHANGE':
+            return state.map((concept) => {
+                if (concept.id === action.id) {
+                    const c = {...concept, name: action.name, width: action.width, height: action.height};
+                    // console.log(concept.id, '\nconcept:', c, '\n');
+                    return c;
+                }
+                return concept;
             });
         default:
             return state;

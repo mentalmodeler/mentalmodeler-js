@@ -14,7 +14,18 @@ const conceptFocus = (id) => {
     }
 };
 
+const conceptChange = (id, name, width, height) => {
+    return {
+        type: 'CONCEPT_CHANGE',
+        id,
+        name,
+        width,
+        height
+    }
+};
+
 export {
     conceptMove,
-    conceptFocus
+    conceptFocus,
+    conceptChange
 };

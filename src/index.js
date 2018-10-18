@@ -11,8 +11,10 @@ import util from './utils/util';
 import fire from './data/fire.mmp';
 import './index.css';
 
+// prep json being creatingStore
+util.parsePositionData(fire.concepts);
 // fire.positions = util.getConceptsPosition(fire.concepts);
-// console.log('fire:', fire)
+console.log('fire:', fire)
 
 const store = createStore(allReducers, fire);
 

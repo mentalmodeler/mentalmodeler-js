@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
+// import PropTypes from 'prop-types';
 
 import {
     conceptMove,
-    conceptFocus
+    conceptFocus,
+    conceptChange
 } from '../../actions/index';
 import './Concept.css';
+
 
 const TEXTAREA_STYLES = {
     fontSize: 14,
@@ -20,6 +24,8 @@ class Concept extends Component {
         this.state = {
             value: this.props.name || ''
         }
+
+        this.height = 0;
     }
 
     componentDidMount() {
@@ -30,9 +36,17 @@ class Concept extends Component {
         }
     }
 
+    debouncedConceptChange = debounce(() => {
+        if (this.root) {
+            const {id, conceptChange} = this.props;
+            const {value} = this.state;
+            const {width, height} = this.root.getBoundingClientRect();
+            conceptChange(id, value, Math.round(width), Math.round(height));
+        }
+    }, 300)
+
     componentDidUpdate(prevProps, prevState) {
         const valueChanged = this.state.value !== prevState.value;
-        console.log('componentDidUpdate\n\tthis.state.value:', this.state.value,', \n\tprevState.value:', prevState.value);
         if (valueChanged) {
             this.autoExpand();
         }
@@ -53,9 +67,13 @@ class Concept extends Component {
         // set height to scrollHeight, but add border-width * 2 since that is not reported in scrollHeight
         // but is used in box-sizing: border-box to determine height of textarea element
         const newHeight = this.textarea.scrollHeight;
-        console.log('newHeight:', newHeight);
-        const paddingAdj = TEXTAREA_STYLES.padding * 2;
-        this.textarea.style.height = `${newHeight - paddingAdj}px`;
+        // console.log('newHeight:', newHeight);
+        // const paddingAdj = TEXTAREA_STYLES.padding * 2;
+        // console.log('newHeight:', newHeight);
+        this.height = newHeight; // - paddingAdj;
+        this.textarea.style.height = `${this.height}px`;
+
+        this.debouncedConceptChange();
     }
 
     // getComputedStyleValues(defaults) {
@@ -154,6 +172,10 @@ const mapDispatchToProps = (dispatch) => {
 
         conceptFocus: (id) => {
             dispatch(conceptFocus(id))
+        },
+
+        conceptChange: (id, text, width, height) => {
+            dispatch(conceptChange(id, text, width, height))
         }
     };
 }

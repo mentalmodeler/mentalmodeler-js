@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Relationship from '../Relationship/Relationship';
 import util from '../../utils/util';
 
-const getPosition = (id, positions) => (positions[id] || {x: 0, y: 0});
+const getPosition = (id, positions) => (positions[id] || {x: 0, y: 0, width: 0, height: 0});
 
 class Relationships extends Component {
     render() {
@@ -11,23 +11,44 @@ class Relationships extends Component {
         return (
             <div className="map__relationships">
             {concepts.map((concept, conceptIndex) => {
-                const {id, x, y} = concept;
                 const relationships = concept.relationships || [];
                 return relationships.map((relationship, relationshipIndex) => {
-                    const {id: influenceeId, ...rest} = relationship;
-                    const {x: influenceeX, y: influenceeY} = getPosition(influenceeId, positions);
-                    const influencerId = concept.id;
+                    const {
+                        id: influenceeId,
+                        ...rest
+                    } = relationship;
+
+                    const {
+                        x: influenceeX,
+                        y: influenceeY,
+                        width: influenceeWidth,
+                        height: influenceeHeight
+                    } = getPosition(influenceeId, positions);
+                    
+                    const {
+                        id: influencerId,
+                        x: influencerX,
+                        y: influencerY,
+                        width: influencerWidth,
+                        height: influencerHeight
+                    } = concept;
+                    
                     const comboId = `relationship_${influencerId}-${influenceeId}`;
+                    
                     return (
                         <Relationship
                             key={comboId}
                             comboId={comboId}
-                            influencerId={influencerId}
-                            influencerX={concept.x}
-                            influencerY={concept.y}
                             influenceeId={influenceeId}
                             influenceeX={influenceeX}
                             influenceeY={influenceeY}
+                            influenceeWidth={influenceeWidth}
+                            influenceeHeight={influenceeHeight}
+                            influencerId={influencerId}
+                            influencerX={influencerX}
+                            influencerY={influencerY}
+                            influencerWidth={influencerWidth}
+                            influencerHeight={influencerHeight}
                             {...rest}
                         />
                     );
@@ -39,8 +60,8 @@ class Relationships extends Component {
 }            
 
 const mapStateToProps = (state) => {
+    // console.log('\n-------Relationships > mapStateToProps\nstate:', state, '\n\n');
     const positions = util.getConceptsPosition(state.concepts);
-    // console.log('positions:', positions);
     return {
         concepts: state.concepts,
         positions
