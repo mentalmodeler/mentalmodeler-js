@@ -9,14 +9,16 @@ import App from './App';
 import util from './utils/util';
 
 import fire from './data/fire.mmp';
+import simple from './data/simple.mmp';
 import './index.css';
 
+const data = fire;
 // prep json being creatingStore
-util.parsePositionData(fire.concepts);
+util.parsePositionData(data.concepts);
 // fire.positions = util.getConceptsPosition(fire.concepts);
-console.log('fire:', fire)
-
-const store = createStore(allReducers, fire);
+// console.log('fire:', fire);
+// console.log('simple:', simple)
+const store = createStore(allReducers, data);
 
 ReactDOM.render(
     <Provider

@@ -10,3 +10,9 @@
 .Relationship__svg--hit {
   pointer-events: auto;
 }
+.Relationship__svg-arrow--positive {
+  fill: #0351A6;
+}
+.Relationship__svg-arrow--negative {
+  fill: #BF5513;
+}

@@ -6,7 +6,3 @@ const INFLUENCE_VALUE = {
     NEGATIVE_MEDIUM: -0.62,
     NEGATIVE_LOW: -0.25
 };
-
-export {
-    INFLUENCE_VALUE
-}
