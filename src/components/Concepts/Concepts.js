@@ -5,14 +5,19 @@ import Concept from '../Concept/Concept';
 
 class Concepts extends Component {
     render() {
+        const {concepts} = this.props;
+        const {collection, selectedConcept, selectedRelationship} = concepts;
         return (
             <div className="map__concepts">
-            {this.props.concepts.map((concept, index) => (
-                <Concept
-                    key={`concept_${index}`}
-                    {...concept}
-                />
-            ))}
+            {collection.map((concept, index) => {
+                return (
+                    <Concept
+                        key={`concept_${index}`}
+                        {...concept}
+                        selected={concept.id === selectedConcept && selectedRelationship === null}
+                    />
+                );
+            })}
             </div>
         );
     }

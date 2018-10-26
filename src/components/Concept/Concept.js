@@ -100,8 +100,16 @@ class Concept extends Component {
         }
     }
 
+    getSelectedConceptData() {
+        const data = {};
+        ['id', 'name', 'notes', 'units', 'preferredState', 'group', 'relationships', 'x', 'y', 'width', 'height'].forEach((key) => {
+            data[key] = this.props[key];
+        });
+        return data;
+    }
+
     onMouseDown = (e) => {
-        const { id, conceptFocus, x, y } = this.props;
+        const { id, selected, conceptFocus, x, y } = this.props;
         
         // store positions
         this.screenXBeforeDrag = e.screenX;
@@ -109,7 +117,9 @@ class Concept extends Component {
         this.xBeforeDrag = parseInt(x, 10);
         this.yBeforeDrag = parseInt(y, 10);
         
-        conceptFocus(id);
+        if (!selected) {
+            conceptFocus(id);
+        }
         
         this.toggleDragHandlers(true, e);
     }
@@ -129,6 +139,15 @@ class Concept extends Component {
         this.toggleDragHandlers(false, e);
     }
 
+    onFocus = (e) => {
+        const {id, selected, conceptFocus} = this.props;
+        if (!selected) {
+            conceptFocus(id);
+        }
+    }
+
+    onBlur = (e) => {}
+
     setRef = (ref) => {
         this.root = ref;
     }
@@ -138,14 +157,14 @@ class Concept extends Component {
     }
 
     render() {
-        const { id, name, x, y, focused } = this.props // eslint-disable-line
+        const { id, name, selected, x, y} = this.props // eslint-disable-line
         const { value } = this.state
         const rootStyle = {
             left: `${x}px`,
             top: `${y}px`
         }
 
-        const rootClass = `Concept${focused ? ' Concept--focused' : ''}`
+        const rootClass = `Concept${selected ? ' Concept--focused' : ''}`
         return (
             <div
                 className={rootClass}
@@ -156,6 +175,8 @@ class Concept extends Component {
                 <textarea
                     className="Concept__textarea"
                     value={value}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     ref={this.setTextareaRef}
                 />

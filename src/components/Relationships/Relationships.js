@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import Relationship from '../Relationship/Relationship';
 import util from '../../utils/util';
 
-const getPosition = (id, positions) => (positions[id] || {x: 0, y: 0, width: 0, height: 0});
 
 class Relationships extends Component {
     render() {
         const {positions, concepts} = this.props;
+        const {collection, selectedConcept, selectedRelationship} = concepts;
         return (
             <div className="map__relationships">
-            {concepts.map((concept, conceptIndex) => {
+            {collection.map((concept, conceptIndex) => {
                 const relationships = concept.relationships || [];
                 return relationships.map((relationship, relationshipIndex) => {
                     const {
@@ -23,7 +23,7 @@ class Relationships extends Component {
                         y: influenceeY,
                         width: influenceeWidth,
                         height: influenceeHeight
-                    } = getPosition(influenceeId, positions);
+                    } = util.getPosition(influenceeId, positions);
                     
                     const {
                         id: influencerId,
@@ -60,10 +60,11 @@ class Relationships extends Component {
 }            
 
 const mapStateToProps = (state) => {
+    const {concepts} = state;
     // console.log('\n-------Relationships > mapStateToProps\nstate:', state, '\n\n');
-    const positions = util.getConceptsPosition(state.concepts);
+    const positions = util.getConceptsPosition(concepts.collection);
     return {
-        concepts: state.concepts,
+        concepts,
         positions
     };
 }

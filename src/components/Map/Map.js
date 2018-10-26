@@ -6,12 +6,6 @@ import Relationships from '../Relationships/Relationships';
 
 import './Map.css';
 
-const mapStateToProps = (state) => {
-    return {
-        concepts: state.concepts
-    };
-}
-
 class Map extends Component {
     render() {
         // console.log('this.props:', this.props);
@@ -28,4 +22,4 @@ class Map extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Map);
+export default Map;

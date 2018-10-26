@@ -7,10 +7,11 @@ const conceptMove = (id, x, y) => {
     }
 };
 
-const conceptFocus = (id) => {
+const conceptFocus = (id, data = {}) => {
     return {
         type: 'CONCEPT_FOCUS',
-        id
+        id,
+        data
     }
 };
 
@@ -21,6 +22,14 @@ const conceptChange = (id, name, width, height) => {
         name,
         width,
         height
+    }
+};
+
+const relationshipFocus = (influencerId, influenceeId) => {
+    return {
+        type: 'RELATIONSHIP_FOCUS',
+        influencerId,
+        influenceeId
     }
 };
 

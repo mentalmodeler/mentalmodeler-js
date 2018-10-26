@@ -1,9 +1,37 @@
 const LINE_VALUE_INDICATOR_WIDTH = 20;
 
 const util = {
-    getConceptsPosition(concepts) {
-        const positions = {};
+    initData(data) {
+        const {
+            concepts,
+            groupNames,
+            info,
+            scenarios
+        } = data;
+        const collection = [...concepts];
+        util.parsePositionData(collection);
+        return {
+            concepts: {
+                collection,
+                selectedConcept: null,
+                selectedRelationship: null
+            },
+            groupNames,
+            info,
+            scenarios
+        };
+    },
+    
+    parsePositionData(concepts) {
         concepts.forEach((concept) => {
+            concept.x = parseInt(concept.x, 10);
+            concept.y = parseInt(concept.y, 10);
+        });
+    },
+
+    getConceptsPosition(collection) {
+        const positions = {};
+        collection.forEach((concept) => {
             positions[concept.id] = {
                 x: parseInt(concept.x, 10),
                 y: parseInt(concept.y, 10),
@@ -15,11 +43,8 @@ const util = {
         return positions;
     },
 
-    parsePositionData(concepts) {
-        concepts.forEach((concept) => {
-            concept.x = parseInt(concept.x, 10);
-            concept.y = parseInt(concept.y, 10);
-        });
+    getPosition(id, positions) {
+        return positions[id] || {x: 0, y: 0, width: 0, height: 0};
     },
 
     getDistanceBetweenPoints(x1, y1, x2, y2) {
@@ -38,7 +63,6 @@ const util = {
     },
 
     determineEdgePoint({eeX, eeY, erX, erY, eeWidth, eeHeight}) {
-        // 1 is ee, 2, is er
         let pct;
         const dist = util.getDistanceBetweenPoints(eeX, eeY, erX, erY);
         const eeRadians = Math.atan2(erX - eeX, erY - eeY);

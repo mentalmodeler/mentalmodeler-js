@@ -12,6 +12,8 @@ const arrowheadWidth = 16; // 9
 class Relationship extends Component {
     constructor(props) {
         super(props);
+
+        // console.log('this.props:', this.props);
     }
 
     onComponentDidMount() {
@@ -90,7 +92,7 @@ class Relationship extends Component {
             ? '#BF5513'
             : '#0351A6';
 
-        console.log('\n', comboId, '\ncolor:', color, 'influence:', influence, ', \n\n');
+        // console.log('\n', comboId, '\ncolor:', color, 'influence:', influence, ', \n\n');
         // console.log('\n', comboId, '\n\tinfluenceAbsValue:', influenceAbsValue, ', lineThickness:', lineThickness);
 
         return (

@@ -12,12 +12,14 @@ import fire from './data/fire.mmp';
 import simple from './data/simple.mmp';
 import './index.css';
 
-const data = fire;
+const data = util.initData(fire);
+
 // prep json being creatingStore
-util.parsePositionData(data.concepts);
+//data.concepts = util.initializeConcepts(data.concepts);
 // fire.positions = util.getConceptsPosition(fire.concepts);
-// console.log('fire:', fire);
-// console.log('simple:', simple)
+
+// console.log('data:', data);
+
 const store = createStore(allReducers, data);
 
 ReactDOM.render(
