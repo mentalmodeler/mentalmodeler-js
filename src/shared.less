@@ -3,3 +3,13 @@
 @main-color: #84a41f;
 @main-color-grad-dark: #657F14;
 @main-color-grad-light: #A0CA24;
+@text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
+@control-panel-header-bg: #4a4b4d;
+@controls-transition-duration: 300ms;
+
+.mixin-selected-control {
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}

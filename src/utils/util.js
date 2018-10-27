@@ -1,5 +1,10 @@
 const LINE_VALUE_INDICATOR_WIDTH = 20;
 
+const ELEMENT_TYPE = {
+    CONCEPT: 'concept',
+    RELATIONSHIP: 'relationship'
+};
+
 const util = {
     initData(data) {
         const {
@@ -88,6 +93,11 @@ const util = {
         
         return {x, y};
     }
+};
+
+export {
+    util,
+    ELEMENT_TYPE
 };
 
 export default util;
