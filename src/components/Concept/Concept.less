@@ -6,10 +6,10 @@
     padding-bottom: 0px;
     border-radius: 6px;
     border: 1px solid #000; // #999;
-    background: #ffffff;
-    background: -moz-linear-gradient(top, #ffffff 0%, #e6e6e6 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #ffffff 0%,#e6e6e6 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #ffffff 0%,#e6e6e6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    // background: #ffffff;
+    // background: -moz-linear-gradient(top, #ffffff 0%, #e6e6e6 100%); /* FF3.6-15 */
+    // background: -webkit-linear-gradient(top, #ffffff 0%,#e6e6e6 100%); /* Chrome10-25,Safari5.1-6 */
+    // background: linear-gradient(to bottom, #ffffff 0%,#e6e6e6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     
     box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
     z-index: 1;
@@ -18,8 +18,23 @@
 
     &--focused {
         z-index: 2;
-        box-shadow: inset 0 0 2px 3px @main-color; //#83A603;
+        // box-shadow: inset 0 0 2px 3px @concept-0-outline;
+
+        &.Concept--group-0 { box-shadow: inset 0 0 2px 3px @concept-0-outline; }
+        &.Concept--group-1 { box-shadow: inset 0 0 2px 3px @concept-1-outline; }
+        &.Concept--group-2 { box-shadow: inset 0 0 2px 3px @concept-2-outline; }
+        &.Concept--group-3 { box-shadow: inset 0 0 2px 3px @concept-3-outline; }
+        &.Concept--group-4 { box-shadow: inset 0 0 2px 3px @concept-4-outline; }
+        &.Concept--group-5 { box-shadow: inset 0 0 2px 3px @concept-5-outline; }
+        
     }
+
+    &--group-0 { .mixin-concept-bg(@concept-0-grad-light, @concept-0-grad-dark); }
+    &--group-1 { .mixin-concept-bg(@concept-1-grad-light, @concept-1-grad-dark); }
+    &--group-2 { .mixin-concept-bg(@concept-2-grad-light, @concept-2-grad-dark); }
+    &--group-3 { .mixin-concept-bg(@concept-3-grad-light, @concept-3-grad-dark); }
+    &--group-4 { .mixin-concept-bg(@concept-4-grad-light, @concept-4-grad-dark); }
+    &--group-5 { .mixin-concept-bg(@concept-5-grad-light, @concept-5-grad-dark); }
 
     &__textarea {
         @line-height: 18px;
@@ -36,10 +51,10 @@
         
         &:focus {
             outline: none;
-        //     outline-color: #83A603;
-        //     outline-offset: 0px;
-        //     outline-width: 4px;
         }
     }
+}
 
+.Concept__textarea::placeholder {
+    color: @placeholder-color;
 }

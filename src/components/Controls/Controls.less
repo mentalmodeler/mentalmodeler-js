@@ -32,6 +32,7 @@
     border-bottom: 1px solid #000;
     position: relative;
     cursor: pointer;
+    font-size: 14px;
 
     &:before {
         content: '';
@@ -64,7 +65,7 @@
     &--in {
         transition: max-height @controls-transition-duration ease-in;
     }
-    
+
     &--out {
         transition: max-height @controls-transition-duration ease-out;
     }
@@ -89,6 +90,58 @@
     }
 }
 
+.control__text-area::placeholder {
+    color: @placeholder-color;
+}
+
 .control-panel__body-content {
     padding: 10px;
+}
+
+.group-control {
+    margin: 0;
+
+    li {
+        margin-bottom: 8px;
+        display: flex;
+    }
+
+    input[type="radio"] {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+
+    input[type="text"] {
+        margin-left: 0;
+        width: 140px;
+        padding: 2px;
+        font-size: 14px;
+        line-height: 22px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+
+        &:focus,
+        &:active {
+            // border-color: transparent;
+            outline-width: 0;
+            border-color: #999;
+            box-shadow: 0 3px 5px rgba(100, 100, 100, 0.15);
+            position: relative;
+            bottom: 1px;
+        }
+    }
+
+    &__text {
+        color: #666;
+        &--0 { background-color: @concept-0-group-bg; }
+        &--1 { background-color: @concept-1-group-bg; }
+        &--2 { background-color: @concept-2-group-bg; }
+        &--3 { background-color: @concept-3-group-bg; }
+        &--4 { background-color: @concept-4-group-bg; }
+        &--5 { background-color: @concept-5-group-bg; }
+    }
+}
+
+.group-control input::placeholder {
+    color: @placeholder-color;
 }

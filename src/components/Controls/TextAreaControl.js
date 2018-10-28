@@ -9,7 +9,8 @@ class TextAreaControl extends Component {
         super(props);
 
         this.state = {
-            value: this.props.value
+            value: this.props.value,
+            isDirty: false
         };
     }
 
@@ -48,13 +49,40 @@ class TextAreaControl extends Component {
         const value = e.target.value;
         if (value !== this.state.value) {
             this.setState({
-                value
+                value,
+                isDirty: true
             });
+            if (this.props.onChange) {
+                this.props.onChange(value);
+            }
         }
     }
 
     setRef = (ref) => {
         this.textarea = ref;
+    }
+
+    onBlur = (e) => {
+        const {value, isDirty} = this.state;
+        if (this.props.onBlur) {
+            this.props.onBlur({
+                event: e,
+                value,
+                isDirty
+            });
+
+            if (isDirty) {
+                this.setState({
+                    isDirty: false
+                })
+            }
+        }
+    }
+
+    onFocus = (e) => {
+        if (this.props.onFocus) {
+            this.props.onFocus(e);
+        }
     }
 
     getStyle() {
@@ -65,8 +93,8 @@ class TextAreaControl extends Component {
             }
         });
         return style;
-        
     }
+
     render() {
         return (
             <textarea
@@ -75,6 +103,9 @@ class TextAreaControl extends Component {
                 ref={this.setRef}
                 onChange={this.onChange}
                 value={this.state.value}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+                placeholder={this.props.placeholder || ''}
             />
         );
     }

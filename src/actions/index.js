@@ -25,6 +25,30 @@ const conceptChange = (id, name, width, height) => {
     }
 };
 
+const conceptChangeNotes = (id, notes) => {
+    return {
+        type: 'CONCEPT_CHANGE_NOTES',
+        id,
+        notes
+    }
+};
+
+const conceptChangeUnits = (id, units) => {
+    return {
+        type: 'CONCEPT_CHANGE_UNITS',
+        id,
+        units
+    }
+};
+
+const conceptChangeGroup = (id, groupIndex) => {
+    return {
+        type: 'CONCEPT_CHANGE_GROUP',
+        id,
+        groupIndex
+    }
+};
+
 const relationshipFocus = (influencerId, influenceeId) => {
     return {
         type: 'RELATIONSHIP_FOCUS',
@@ -36,5 +60,8 @@ const relationshipFocus = (influencerId, influenceeId) => {
 export {
     conceptMove,
     conceptFocus,
-    conceptChange
+    conceptChange,
+    conceptChangeNotes,
+    conceptChangeUnits,
+    conceptChangeGroup
 };

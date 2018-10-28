@@ -1,13 +1,3 @@
-.mixin-selected-control {
-  background: #1e5799;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #657F14 0%, #A0CA24 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #657F14 0%, #A0CA24 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #657F14 0%, #A0CA24 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
 .controls {
   flex-grow: 0;
   flex-shrink: 0;
@@ -43,6 +33,7 @@
   border-bottom: 1px solid #000;
   position: relative;
   cursor: pointer;
+  font-size: 14px;
 }
 .control-panel__header:before {
   content: '';
@@ -63,16 +54,16 @@
 }
 .control-panel__header-icon-svg {
   fill: #fff;
-  transition: transform 300ms ease;
+  transition: transform 500ms ease;
 }
 .control-panel__body {
   background-color: #f2f2f2;
 }
 .control-panel__body--in {
-  transition: max-height 300ms ease-in;
+  transition: max-height 500ms ease-in;
 }
 .control-panel__body--out {
-  transition: max-height 300ms ease-out;
+  transition: max-height 500ms ease-out;
 }
 .control__text-area {
   width: 100%;
@@ -91,6 +82,61 @@
   outline-offset: 4px;
   outline-width: 6px;
 }
+.control__text-area::placeholder {
+  color: #bababd;
+}
 .control-panel__body-content {
   padding: 10px;
+}
+.group-control {
+  margin: 0;
+}
+.group-control li {
+  margin-bottom: 8px;
+  display: flex;
+}
+.group-control input[type="radio"] {
+  margin-left: 0;
+  margin-right: 8px;
+}
+.group-control input[type="text"] {
+  margin-left: 0;
+  width: 140px;
+  padding: 2px;
+  font-size: 14px;
+  line-height: 22px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.group-control input[type="text"]:focus,
+.group-control input[type="text"]:active {
+  outline-width: 0;
+  border-color: #999;
+  box-shadow: 0 3px 5px rgba(100, 100, 100, 0.15);
+  position: relative;
+  bottom: 1px;
+}
+.group-control__text {
+  color: #666;
+}
+.group-control__text--0 {
+  background-color: #e6e6e6;
+}
+.group-control__text--1 {
+  background-color: #FED0B4;
+}
+.group-control__text--2 {
+  background-color: #B3D0FD;
+}
+.group-control__text--3 {
+  background-color: #FFFEB6;
+}
+.group-control__text--4 {
+  background-color: #FEB4FD;
+}
+.group-control__text--5 {
+  background-color: #B4FEE5;
+}
+.group-control input::placeholder {
+  color: #bababd;
 }

@@ -4,20 +4,90 @@
   padding-bottom: 0px;
   border-radius: 6px;
   border: 1px solid #000;
-  background: #ffffff;
-  background: -moz-linear-gradient(top, #ffffff 0%, #e6e6e6 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #ffffff 0%, #e6e6e6 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
   z-index: 1;
   cursor: pointer;
 }
 .Concept--focused {
   z-index: 2;
-  box-shadow: inset 0 0 2px 3px #84a41f;
+}
+.Concept--focused.Concept--group-0 {
+  box-shadow: inset 0 0 2px 3px #83A603;
+}
+.Concept--focused.Concept--group-1 {
+  box-shadow: inset 0 0 2px 3px #E57429;
+}
+.Concept--focused.Concept--group-2 {
+  box-shadow: inset 0 0 2px 3px #2971E5;
+}
+.Concept--focused.Concept--group-3 {
+  box-shadow: inset 0 0 2px 3px #E5E529;
+}
+.Concept--focused.Concept--group-4 {
+  box-shadow: inset 0 0 2px 3px #E529E5;
+}
+.Concept--focused.Concept--group-5 {
+  box-shadow: inset 0 0 2px 3px #14D192;
+}
+.Concept--group-0 {
+  background: #e6e6e6;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #e6e6e6 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #e6e6e6 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #e6e6e6 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept--group-1 {
+  background: #FFD0B2;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #FFD0B2 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #FFD0B2 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #FFD0B2 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept--group-2 {
+  background: #B2CFFF;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #B2CFFF 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #B2CFFF 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #B2CFFF 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept--group-3 {
+  background: #FFFFB2;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #FFFFB2 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #FFFFB2 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #FFFFB2 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept--group-4 {
+  background: #FFB2FF;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #FFB2FF 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #FFB2FF 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #FFB2FF 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept--group-5 {
+  background: #B2FFE5;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #B2FFE5 0%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #B2FFE5 0%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #fff 0%, #B2FFE5 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 .Concept__textarea {
   line-height: 18px;

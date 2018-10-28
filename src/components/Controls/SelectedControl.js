@@ -13,8 +13,13 @@ class SelectedControl extends Component {
         return '[Relationship]'
     }
 
+    shouldComponentUpdate(nextProps) {
+        const {selectedType, selectedData} = this.props;
+        return (selectedType !== nextProps.selectedType)
+            || (selectedData.id !== nextProps.selectedData.id);
+    }
+
     render() {
-        console.log('SelectedControl > render\nthis.props:', this.props, '\n\n');
         return (
             <div className="selected-control">
                 <span className="selected-control__text">

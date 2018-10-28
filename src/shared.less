@@ -1,15 +1,57 @@
-@relationship-color-positive: #0351A6;
-@relationship-color-negative: #BF5513;
-@main-color: #84a41f;
-@main-color-grad-dark: #657F14;
-@main-color-grad-light: #A0CA24;
 @text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
 @control-panel-header-bg: #4a4b4d;
-@controls-transition-duration: 300ms;
+@controls-transition-duration: 500ms;
 
-.mixin-selected-control {
+@placeholder-color: #bababd;
+
+@relationship-color-positive: #0351A6;
+@relationship-color-negative: #E57429; //#BF5513;
+
+@main-color: #83A603; //#84a41f;
+@main-color-grad-dark: #657F14;
+@main-color-grad-light: #A0CA24;
+
+@concept-0-outline: @main-color;
+@concept-0-grad-light: #fff;
+@concept-0-grad-dark: #e6e6e6;
+@concept-0-group-bg: #e6e6e6;
+
+@concept-1-outline: #E57429;
+@concept-1-grad-light: #fff;
+@concept-1-grad-dark: #FFD0B2;
+@concept-1-group-bg: #FED0B4;
+
+@concept-2-outline: #2971E5;
+@concept-2-grad-light: #fff;
+@concept-2-grad-dark: #B2CFFF;
+@concept-2-group-bg: #B3D0FD;
+
+@concept-3-outline: #E5E529;
+@concept-3-grad-light: #fff;
+@concept-3-grad-dark: #FFFFB2;
+@concept-3-group-bg: #FFFEB6;
+
+@concept-4-outline: #E529E5;
+@concept-4-grad-light: #fff;
+@concept-4-grad-dark: #FFB2FF;
+@concept-4-group-bg: #FEB4FD;
+
+@concept-5-outline: #14D192;
+@concept-5-grad-light: #fff;
+@concept-5-grad-dark: #B2FFE5;
+@concept-5-group-bg: #B4FEE5;
+
+
+.mixin-selected-control() {
     background: #1e5799; /* Old browsers */
     background: -moz-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.mixin-concept-bg(@light;@dark) {
+    background: @dark; /* Old browsers */
+    background: -moz-linear-gradient(top, @dark 0%, @light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @dark 0%, @light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @light 0%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }

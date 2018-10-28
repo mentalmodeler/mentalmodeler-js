@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
+import classnames from 'classnames';
 // import PropTypes from 'prop-types';
 
 import {
@@ -157,17 +158,20 @@ class Concept extends Component {
     }
 
     render() {
-        const { id, name, selected, x, y} = this.props // eslint-disable-line
+        const { id, name, selected, x, y, group} = this.props // eslint-disable-line
         const { value } = this.state
         const rootStyle = {
             left: `${x}px`,
             top: `${y}px`
         }
 
-        const rootClass = `Concept${selected ? ' Concept--focused' : ''}`
+        const rootClassnames = classnames('Concept', `Concept--group-${group}`, {
+            'Concept--focused': selected,
+        });
+        
         return (
             <div
-                className={rootClass}
+                className={rootClassnames}
                 style={rootStyle}
                 ref={this.setRef}
                 onMouseDown={this.onMouseDown}
@@ -179,6 +183,7 @@ class Concept extends Component {
                     onBlur={this.onBlur}
                     onChange={this.onChange}
                     ref={this.setTextareaRef}
+                    placeholder="Enter name"
                 />
             </div>
         );

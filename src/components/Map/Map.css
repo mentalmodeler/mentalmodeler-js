@@ -16,3 +16,7 @@
   background-color: #fff;
   overflow: auto;
 }
+.map textarea::placeholder,
+.map input::placeholder {
+  color: #bababd !important;
+}
