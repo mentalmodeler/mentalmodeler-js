@@ -1,16 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 
-import {ELEMENT_TYPE} from '../../utils/util';
+import {util, ELEMENT_TYPE} from '../../utils/util';
 import ControlPanel from './ControlPanel';
 import TextAreaControl from './TextAreaControl';
 import SelectedControl from './SelectedControl';
 import GroupControl from './GroupControl';
+import ConfidenceControl from './ConfidenceControl';
 
 import {
     conceptChangeNotes,
     conceptChangeUnits,
-    conceptChangeGroup
+    conceptChangeGroup,
+    relationshipChangeConfidence
 } from '../../actions/index';
 
 import './Controls.css';
@@ -20,6 +22,10 @@ const mapStateToProps = (state) => {
     const {collection, selectedConcept, selectedRelationship} = concepts;
     let selectedType;
     let selectedData;
+    const associatedData = {
+        influencer: {},
+        influencee: {}
+    };
     if (selectedConcept !== null || selectedRelationship  !== null) {
         selectedType = selectedRelationship !== null
             ? ELEMENT_TYPE.RELATIONSHIP
@@ -33,14 +39,19 @@ const mapStateToProps = (state) => {
                 relationship.id === selectedRelationship
             ));
         }
-        selectedData = selectedType === ELEMENT_TYPE.RELATIONSHIP
-            ? selectedRelationshipData
-            : selectedConceptData;
+        selectedData = selectedConceptData;
+        if (selectedType === ELEMENT_TYPE.RELATIONSHIP) {
+            selectedData = selectedRelationshipData;
+            associatedData.influencer = selectedConceptData;
+            associatedData.influencee = util.findConcept(collection, selectedRelationshipData.id);
+        }
     }
 
+    // console.log('Controls, \n\tselectedConcept:', selectedConcept, ', selectedRelationship:', selectedRelationship, '\n\tselectedType:', selectedType, '\n\tselectedData:', selectedData);
     return {
         selectedType,
         selectedData,
+        associatedData,
         groupNames
     }
 }
@@ -57,7 +68,12 @@ const mapDispatchToProps = (dispatch) => {
 
         conceptChangeGroup: (id, groupIndex) => {
             dispatch(conceptChangeGroup(id, groupIndex))
+        },
+
+        relationshipChangeConfidence: (influencerId, influenceeId, value) => {
+            dispatch(relationshipChangeConfidence(influencerId, influenceeId, value))
         }
+
     };
 }
 
@@ -87,9 +103,20 @@ class Controls extends Component {
         conceptChangeGroup(selectedData.id, groupIndex);
     }
 
+    onConfidenceChange = (value) => {}
+    onConfidenceBlur = ({event, value, isDirty}) => {
+        const {associatedData, relationshipChangeConfidence} = this.props;
+        const {influencer, influencee} = associatedData;
+        if (isDirty) {
+            relationshipChangeConfidence(influencer.id, influencee.id, value);
+        }
+    }
+
     render() {
-        const {selectedType, selectedData, groupNames} = this.props;
+        const {selectedType, selectedData, associatedData, groupNames} = this.props;
         // console.log('Controls > render\nthis.props:', this.props, '\n\n');
+        const dataSource = selectedType === ELEMENT_TYPE.CONCEPT ? 'influencer' : 'relationship';
+
         return (
             <div className="controls">
                 {selectedType && selectedData &&
@@ -97,6 +124,7 @@ class Controls extends Component {
                         <SelectedControl
                             selectedType={selectedType}
                             selectedData={selectedData}
+                            associatedData={associatedData}
                         />
                         <ControlPanel title="Notes">
                             <TextAreaControl
@@ -108,28 +136,40 @@ class Controls extends Component {
                                 placeholder="Enter notes"
                             />
                         </ControlPanel>
-                        <ControlPanel title="Unit of measurement">
-                            <TextAreaControl
-                                className="control-panel__body-content"
-                                maxHeight={200}
-                                value={selectedData && selectedData.units || ''}
-                                onChange={this.onUnitsChange}
-                                onBlur={this.onUnitsBlur}
-                                placeholder="Enter units of measurement"
-                            />  
-                        </ControlPanel>
-                        <ControlPanel title="Group">
-                            <GroupControl
-                                selectedType={selectedType}
-                                selectedData={selectedData}
-                                groupNames={groupNames}
-                                onNameChange={this.onGroupNameChange}
-                                onSelectionChange={this.onGroupSelectionChange}
-                            />
-                        </ControlPanel>
-                        <ControlPanel title="View Filter">
-                            
-                        </ControlPanel>
+                        {selectedType === ELEMENT_TYPE.CONCEPT &&
+                            <Fragment>
+                                <ControlPanel title="Unit of measurement">
+                                    <TextAreaControl
+                                        className="control-panel__body-content"
+                                        maxHeight={200}
+                                        value={selectedData && selectedData.units || ''}
+                                        onChange={this.onUnitsChange}
+                                        onBlur={this.onUnitsBlur}
+                                        placeholder="Enter units of measurement"
+                                    />  
+                                </ControlPanel>
+                                <ControlPanel title="Group">
+                                    <GroupControl
+                                        selectedType={selectedType}
+                                        selectedData={selectedData}
+                                        groupNames={groupNames}
+                                        onNameChange={this.onGroupNameChange}
+                                        onSelectionChange={this.onGroupSelectionChange}
+                                    />
+                                </ControlPanel>
+                                <ControlPanel title="View Filter"></ControlPanel>
+                            </Fragment>
+                        }
+                        {selectedType === ELEMENT_TYPE.RELATIONSHIP &&
+                            <ControlPanel title="Confidence Rating">
+                                    <ConfidenceControl
+                                        maxHeight={200}
+                                        onChange={this.onConfidenceChange}
+                                        onBlur={this.onConfidenceBlur}
+                                        value={selectedData && selectedData.confidence || '0'}
+                                    />  
+                                </ControlPanel>
+                        }
                     </Fragment>
                 }
             </div>

@@ -19,6 +19,19 @@
         text-shadow: @text-shadow;
         letter-spacing: 0.5px;
         line-height: 20px;
+        font-size: 16px;
+    }
+
+    &__relationship-concept-text {
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    &__relationship-influence-text {
+        font-weight: 600;
+        margin: 10px 0;
+        line-height: 16px;     
     }
 }
 
@@ -144,4 +157,59 @@
 
 .group-control input::placeholder {
     color: @placeholder-color;
+}
+
+.confidence-control {
+    padding-top: 16px;
+
+    &__label {
+        display: flex;
+        justify-content: space-between;
+        user-select: none;
+        
+        span {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #999;
+        }
+    }
+
+    &__input-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    &__input-notches {
+        height: 100%;
+        left: 9px;
+        width: calc(~'100% - 14px');
+        position: absolute;
+        // background-color: rgba(255, 0, 0, 0.3);
+        display: flex;
+        justify-content: space-between;
+        //z-index: -1;
+        pointer-events: none;
+    }
+
+    &__input-notch {
+        width: 1px;
+        background-color: #999;
+        position: relative;
+        height: calc(~'100% - 10px');
+        top: 5px;
+    }
+
+    &__input {
+        height: 40px;
+        width: 100%;
+        cursor: pointer;
+        background-color: transparent;
+
+        input[type=range]::-moz-range-thumb,
+        input[type=range]::-webkit-slider-thumb,
+        input[type=range]::-ms-thumb {}
+        position: relative;
+        z-index: 1;
+
+    }
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
+import {relationshipFocus} from '../../actions/index';
+
 import util from '../../utils/util';
 
 import './Relationship.css';
@@ -25,8 +27,11 @@ class Relationship extends Component {
     }
 
     onClick = (e) => {
-        const {comboId, influence} = this.props;
-        console.log(comboId, '> click, influence:', influence);
+        const {influencerId, influenceeId, relationshipFocus} = this.props;
+        relationshipFocus(influencerId, influenceeId);
+
+        // const {comboId, influence} = this.props;
+        // console.log(comboId, '> click, influence:', influence);
     }
 
     getSVGClass() {
@@ -194,27 +199,12 @@ class Relationship extends Component {
     }
 }
 
-/*
-<svg width="600px" height="100px">
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
-    </marker>
-  </defs>
-  <line x1="295" y1="50" x2="95" y2="75" stroke="#000" stroke-width="5" marker-end="url(#arrow)" />
-</svg>
-*/
+const mapDispatchToProps = (dispatch) => {
+    return {
+        relationshipFocus: (influencerId, influenceeId) => {
+            dispatch(relationshipFocus(influencerId, influenceeId))
+        }
+    };
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         conceptMove: (id, x, y) => {
-//             dispatch(conceptMove(id, x, y))
-//         },
-
-//         conceptFocus: (id) => {
-//             dispatch(conceptFocus(id))
-//         }
-//     };
-// }
-// export default connect(null, mapDispatchToProps)(Relationship);
-export default Relationship;
+export default connect(null, mapDispatchToProps)(Relationship);

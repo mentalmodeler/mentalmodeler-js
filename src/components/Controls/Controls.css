@@ -23,6 +23,17 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
   letter-spacing: 0.5px;
   line-height: 20px;
+  font-size: 16px;
+}
+.selected-control__relationship-concept-text {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+}
+.selected-control__relationship-influence-text {
+  font-weight: 600;
+  margin: 10px 0;
+  line-height: 16px;
 }
 .control-panel {
   flex-shrink: 0;
@@ -139,4 +150,45 @@
 }
 .group-control input::placeholder {
   color: #bababd;
+}
+.confidence-control {
+  padding-top: 16px;
+}
+.confidence-control__label {
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+}
+.confidence-control__label span {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #999;
+}
+.confidence-control__input-wrapper {
+  width: 100%;
+  position: relative;
+}
+.confidence-control__input-notches {
+  height: 100%;
+  left: 9px;
+  width: calc(100% - 14px);
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.confidence-control__input-notch {
+  width: 1px;
+  background-color: #999;
+  position: relative;
+  height: calc(100% - 10px);
+  top: 5px;
+}
+.confidence-control__input {
+  height: 40px;
+  width: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
 }

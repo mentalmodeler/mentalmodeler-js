@@ -57,11 +57,22 @@ const relationshipFocus = (influencerId, influenceeId) => {
     }
 };
 
+const relationshipChangeConfidence = (influencerId, influenceeId, value) => {
+    return {
+        type: 'RELATIONSHIP_CHANGE_CONFIDENCE',
+        influencerId,
+        influenceeId,
+        value
+    }
+}
+
 export {
     conceptMove,
     conceptFocus,
     conceptChange,
     conceptChangeNotes,
     conceptChangeUnits,
-    conceptChangeGroup
+    conceptChangeGroup,
+    relationshipFocus,
+    relationshipChangeConfidence
 };

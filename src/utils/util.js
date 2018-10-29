@@ -5,6 +5,8 @@ const ELEMENT_TYPE = {
     RELATIONSHIP: 'relationship'
 };
 
+const CONFIDENCE__VALUES = [3, 2, 1, 0, -1, -2, -3];
+
 const util = {
     initData(data) {
         const {
@@ -92,12 +94,34 @@ const util = {
         const y = eeY + (erY - eeY) * pct;
         
         return {x, y};
+    },
+
+    findConcept(collection, id) {
+        return collection.find((concept) => (concept.id === id));
+    },
+
+    getPropValue(object = {}, path = [], defaultValue = '') {
+        let o = object;
+        let found = false;
+        while (path.length > 0) {
+            const prop = path.shift();
+            if (o && o.hasOwnProperty(prop)) {
+                o = o[prop];
+                found = true;
+            } else {
+                return defaultValue;
+            }
+        }
+        return found
+            ? o
+            : defaultValue;
     }
 };
 
 export {
     util,
-    ELEMENT_TYPE
+    ELEMENT_TYPE,
+    CONFIDENCE__VALUES
 };
 
 export default util;
