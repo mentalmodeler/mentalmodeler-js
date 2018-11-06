@@ -2,34 +2,41 @@
   position: absolute;
   padding: 2px;
   padding-bottom: 0px;
-  border-radius: 6px;
-  border: 1px solid #000;
-  box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
   z-index: 1;
   cursor: pointer;
 }
-.Concept--focused {
+.Concept__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 6px;
+  border: 1px solid #000;
+  box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.Concept__bg--focused {
   z-index: 2;
 }
-.Concept--focused.Concept--group-0 {
+.Concept__bg--focused.Concept--group-0 {
   box-shadow: inset 0 0 2px 3px #83A603;
 }
-.Concept--focused.Concept--group-1 {
+.Concept__bg--focused.Concept--group-1 {
   box-shadow: inset 0 0 2px 3px #E57429;
 }
-.Concept--focused.Concept--group-2 {
+.Concept__bg--focused.Concept--group-2 {
   box-shadow: inset 0 0 2px 3px #2971E5;
 }
-.Concept--focused.Concept--group-3 {
+.Concept__bg--focused.Concept--group-3 {
   box-shadow: inset 0 0 2px 3px #E5E529;
 }
-.Concept--focused.Concept--group-4 {
+.Concept__bg--focused.Concept--group-4 {
   box-shadow: inset 0 0 2px 3px #E529E5;
 }
-.Concept--focused.Concept--group-5 {
+.Concept__bg--focused.Concept--group-5 {
   box-shadow: inset 0 0 2px 3px #14D192;
 }
-.Concept--group-0 {
+.Concept__bg--group-0 {
   background: #e6e6e6;
   /* Old browsers */
   background: -moz-linear-gradient(top, #e6e6e6 0%, #fff 100%);
@@ -39,7 +46,7 @@
   background: linear-gradient(to bottom, #fff 0%, #e6e6e6 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept--group-1 {
+.Concept__bg--group-1 {
   background: #FFD0B2;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFD0B2 0%, #fff 100%);
@@ -49,7 +56,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFD0B2 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept--group-2 {
+.Concept__bg--group-2 {
   background: #B2CFFF;
   /* Old browsers */
   background: -moz-linear-gradient(top, #B2CFFF 0%, #fff 100%);
@@ -59,7 +66,7 @@
   background: linear-gradient(to bottom, #fff 0%, #B2CFFF 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept--group-3 {
+.Concept__bg--group-3 {
   background: #FFFFB2;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFFFB2 0%, #fff 100%);
@@ -69,7 +76,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFFFB2 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept--group-4 {
+.Concept__bg--group-4 {
   background: #FFB2FF;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFB2FF 0%, #fff 100%);
@@ -79,7 +86,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFB2FF 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept--group-5 {
+.Concept__bg--group-5 {
   background: #B2FFE5;
   /* Old browsers */
   background: -moz-linear-gradient(top, #B2FFE5 0%, #fff 100%);
@@ -88,6 +95,43 @@
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #fff 0%, #B2FFE5 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.Concept__button-wrapper {
+  position: absolute;
+  top: -12px;
+  right: 0;
+  bottom: -12px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  z-index: -1;
+  pointer-event: none;
+}
+.Concept__button {
+  background: #000;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #000 0%, #000 35%, #333 65%, #333 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #000 0%, #000 35%, #333 65%, #333 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #333 0%, #333 35%, #000 65%, #000 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  height: 24px;
+  width: 30px;
+  position: relative;
+  transition: transform 300ms ease;
+  border: 2px solid #000;
+  cursor: pointer;
+}
+.Concept__button--top {
+  align-self: flex-start;
+  top: 12px;
+  border-radius: 6px 6px 0 0;
+}
+.Concept__button--bottom {
+  align-self: flex-end;
+  bottom: 12px;
+  border-radius: 0 0 6px 6px;
 }
 .Concept__textarea {
   line-height: 18px;
@@ -100,7 +144,17 @@
   top: 1px;
   cursor: pointer;
   resize: none;
+  z-index: 2;
 }
 .Concept__textarea:focus {
   outline: none;
+}
+.Concept:hover .Concept__button--top {
+  transform: translateY(-24px);
+}
+.Concept:hover .Concept__button--bottom {
+  transform: translateY(24px);
+}
+.Concept__textarea::placeholder {
+  color: #bababd;
 }

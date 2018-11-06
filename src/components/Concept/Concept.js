@@ -23,7 +23,8 @@ class Concept extends Component {
         super(props);
 
         this.state = {
-            value: this.props.name || ''
+            value: this.props.name || '',
+            isOver: false
         }
 
         this.height = 0;
@@ -140,6 +141,24 @@ class Concept extends Component {
         this.toggleDragHandlers(false, e);
     }
 
+    onMouseOver = (e) => {
+        console.log('onMouseOver');
+        if (!this.state.isOver) {
+            this.setState({
+                isOver: true
+            });
+        }
+    }
+
+    onMouseOut = (e) => {
+        console.log('onMouseOut');
+        if (this.state.isOver) {
+            this.setState({
+                isOver: false
+            });
+        }
+    }
+
     onFocus = (e) => {
         const {id, selected, conceptFocus} = this.props;
         if (!selected) {
@@ -168,6 +187,10 @@ class Concept extends Component {
         const rootClassnames = classnames('Concept', `Concept--group-${group}`, {
             'Concept--focused': selected,
         });
+
+        const bgClassnames = classnames('Concept__bg', `Concept__bg--group-${group}`, {
+            'Concept__bg--focused': selected,
+        });
         
         return (
             <div
@@ -176,6 +199,19 @@ class Concept extends Component {
                 ref={this.setRef}
                 onMouseDown={this.onMouseDown}
             >
+                <div  className="Concept__button-wrapper">
+                    <button
+                        className="Concept__button Concept__button--top"
+                    >
+                    </button>
+                </div>
+                <div  className="Concept__button-wrapper">
+                    <button
+                        className="Concept__button Concept__button--bottom"
+                    >
+                    </button>
+                </div>
+                <div  className={bgClassnames}></div>
                 <textarea
                     className="Concept__textarea"
                     value={value}

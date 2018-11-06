@@ -41,6 +41,12 @@
 @concept-5-grad-dark: #B2FFE5;
 @concept-5-group-bg: #B4FEE5;
 
+@button-grad-dark: #000;
+@button-grad-light: #333;
+
+@concept-button-width: 30px;
+@concept-button-height: 24px;
+@concept-button-border-radius: 6px;
 
 .mixin-selected-control() {
     background: #1e5799; /* Old browsers */
@@ -54,4 +60,11 @@
     background: -moz-linear-gradient(top, @dark 0%, @light 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, @dark 0%, @light 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, @light 0%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.mixin-button-bg(@light;@dark) {
+    background: @dark; /* Old browsers */
+    background: -moz-linear-gradient(top, @dark 0%, @dark 35%, @light 65%, @light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @dark 0%, @dark 35%, @light 65%, @light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @light 0%, @light 35%, @dark 65%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
