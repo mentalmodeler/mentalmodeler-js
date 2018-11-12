@@ -115,7 +115,7 @@ class Controls extends Component {
     render() {
         const {selectedType, selectedData, associatedData, groupNames} = this.props;
         // console.log('Controls > render\nthis.props:', this.props, '\n\n');
-        const dataSource = selectedType === ELEMENT_TYPE.CONCEPT ? 'influencer' : 'relationship';
+        // const dataSource = selectedType === ELEMENT_TYPE.CONCEPT ? 'influencer' : 'relationship';
 
         return (
             <div className="controls">
@@ -130,7 +130,7 @@ class Controls extends Component {
                             <TextAreaControl
                                 className="control-panel__body-content"
                                 maxHeight={200}
-                                value={selectedData && selectedData.notes || ''}
+                                value={selectedData && selectedData.notes ? selectedData.notes : ''}
                                 onChange={this.onNotesChange}
                                 onBlur={this.onNotesBlur}
                                 placeholder="Enter notes"
@@ -142,7 +142,7 @@ class Controls extends Component {
                                     <TextAreaControl
                                         className="control-panel__body-content"
                                         maxHeight={200}
-                                        value={selectedData && selectedData.units || ''}
+                                        value={selectedData && selectedData.units ? selectedData.units : ''}
                                         onChange={this.onUnitsChange}
                                         onBlur={this.onUnitsBlur}
                                         placeholder="Enter units of measurement"
@@ -166,7 +166,7 @@ class Controls extends Component {
                                         maxHeight={200}
                                         onChange={this.onConfidenceChange}
                                         onBlur={this.onConfidenceBlur}
-                                        value={selectedData && selectedData.confidence || '0'}
+                                        value={selectedData && selectedData.confidence ? selectedData.confidence : '0'}
                                     />  
                                 </ControlPanel>
                         }

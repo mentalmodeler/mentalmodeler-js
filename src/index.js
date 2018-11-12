@@ -9,15 +9,11 @@ import App from './App';
 import util from './utils/util';
 
 import fire from './data/fire.mmp';
-import simple from './data/simple.mmp';
+// import simple from './data/simple.mmp';
 import './index.css';
 
+// prep json before creatingStore
 const data = util.initData(fire);
-
-// prep json being creatingStore
-//data.concepts = util.initializeConcepts(data.concepts);
-// fire.positions = util.getConceptsPosition(fire.concepts);
-
 // console.log('data:', data);
 
 const store = createStore(allReducers, data);

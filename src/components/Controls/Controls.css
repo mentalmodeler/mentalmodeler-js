@@ -8,7 +8,10 @@
   flex-flow: column;
 }
 .selected-control {
-  background: #1e5799;
+  padding: 10px;
+}
+.selected-control--group-0 {
+  background: #A0CA24;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #A0CA24 100%);
   /* FF3.6-15 */
@@ -16,11 +19,60 @@
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #657F14 0%, #A0CA24 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  padding: 10px;
+}
+.selected-control--group-1 {
+  background: #FED0B4;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #E57429 0%, #FED0B4 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #E57429 0%, #FED0B4 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #E57429 0%, #FED0B4 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.selected-control--group-2 {
+  background: #B3D0FD;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #2971E5 0%, #B3D0FD 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #2971E5 0%, #B3D0FD 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #2971E5 0%, #B3D0FD 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.selected-control--group-3 {
+  background: #FFFEB6;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #E5E529 0%, #FFFEB6 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #E5E529 0%, #FFFEB6 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #E5E529 0%, #FFFEB6 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.selected-control--group-4 {
+  background: #FEB4FD;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #E529E5 0%, #FEB4FD 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #E529E5 0%, #FEB4FD 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #E529E5 0%, #FEB4FD 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.selected-control--group-5 {
+  background: #B4FEE5;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #14D192 0%, #B4FEE5 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #14D192 0%, #B4FEE5 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #14D192 0%, #B4FEE5 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 .selected-control__text {
   color: #fff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 1px 3px #000000;
   letter-spacing: 0.5px;
   line-height: 20px;
   font-size: 16px;
@@ -32,7 +84,7 @@
 }
 .selected-control__relationship-influence-text {
   font-weight: 600;
-  margin: 10px 0;
+  margin: 6px 0 4px;
   line-height: 16px;
 }
 .control-panel {
@@ -70,12 +122,6 @@
 .control-panel__body {
   background-color: #f2f2f2;
 }
-.control-panel__body--in {
-  transition: max-height 500ms ease-in;
-}
-.control-panel__body--out {
-  transition: max-height 500ms ease-out;
-}
 .control__text-area {
   width: 100%;
   font-weight: 300;
@@ -94,7 +140,7 @@
   outline-width: 6px;
 }
 .control__text-area::placeholder {
-  color: #bababd;
+  color: #9b9c9d;
 }
 .control-panel__body-content {
   padding: 10px;
@@ -149,7 +195,7 @@
   background-color: #B4FEE5;
 }
 .group-control input::placeholder {
-  color: #bababd;
+  color: #9b9c9d;
 }
 .confidence-control {
   padding-top: 16px;

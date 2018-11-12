@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import {ELEMENT_TYPE} from '../../utils/util';
-
 import './Controls.css';
 
 const groups = ['', '', '', '', '', ''];
@@ -74,13 +72,11 @@ class GroupControl extends Component {
     }
 
     render() {
-        const {selectedData, groupNames} = this.props;
-        const {value} = this.state;
+        const {selectedData} = this.props;
         const group = parseInt(selectedData.group, 10);
         return (
             <ul className="group-control control-panel__body-content">
                 {groups.map((a, index) => {
-                    const name = groupNames[index];
                     return (
                         <li
                             key={`group-control-${index}`}

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import {ELEMENT_TYPE} from '../../utils/util';
-
 import './Controls.css';
 
 class TextAreaControl extends Component {

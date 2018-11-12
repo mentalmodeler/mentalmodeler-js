@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import classnames from 'classnames';
 import {ELEMENT_TYPE} from '../../utils/util';
 
 import './Controls.css';
@@ -17,15 +17,15 @@ class SelectedControl extends Component {
         const {influencer, influencee} = associatedData;
         return (
             <div className="selected-control__text">
-                <div className="selected-control__relationship-concept-text">{this.getConceptName(associatedData.influencer)}</div>
+                <div className="selected-control__relationship-concept-text">{this.getConceptName(influencer)}</div>
                 <div className="selected-control__relationship-influence-text">{this.getRelationshipName(selectedData)}</div>
-                <div className="selected-control__relationship-concept-text">{this.getConceptName(associatedData.influencee)}</div>
+                <div className="selected-control__relationship-concept-text">{this.getConceptName(influencee)}</div>
             </div>
         );
     }
 
     getConceptName(selectedData) {
-        return selectedData && selectedData.name || '[Component]';
+        return selectedData && selectedData.name ? selectedData.name : '[Component]';
     }
 
     getRelationshipName(relationship) {
@@ -42,18 +42,21 @@ class SelectedControl extends Component {
         const {selectedType, selectedData, associatedData} = this.props;
         return (selectedType !== nextProps.selectedType)
             || (selectedData.id !== nextProps.selectedData.id)
-            || (!!selectedData.influencer
-                && !!selectedData.influencee
-                && !!nextProps.selectedData.influencer
-                && !!nextProps.selectedData.influencee
-                && (selectedData.influencer !== nextProps.selectedData.influencer
-                    || selectedData.influencee !== nextProps.selectedData.influencee)
-        );
+            || (associatedData.influencer.id !== nextProps.associatedData.influencer.id)
+            || (associatedData.influencee.id !== nextProps.associatedData.influencee.id);
+
     }
 
     render() {
+        const {selectedData} = this.props;
+        let groupClass = `selected-control--group-${selectedData && selectedData.group ? selectedData.group : 0}`
+        // if (selectedType === ELEMENT_TYPE.RELATIONSHIP && selectedData && selectedData.influence !== 0) {
+        //     groupClass = `selected-control--group-influence-${selectedData.influence > 0 ? 'positive' : 'negative'}`
+        // } 
+        const rootClass = classnames('selected-control', groupClass);
+        
         return (
-            <div className="selected-control">
+            <div className={rootClass}>
                 <div className="selected-control__text">
                     {this.getDisplayText()}
                 </div>

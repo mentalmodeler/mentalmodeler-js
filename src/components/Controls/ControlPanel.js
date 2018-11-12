@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import {ELEMENT_TYPE} from '../../utils/util';
-
 import './Controls.css';
 
 const arrowheadHeight = 12;
@@ -73,7 +71,6 @@ class Control extends Component {
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"
                         height={`${arrowheadHeight}px`}
-                        width={`${arrowheadWidth}px`}
                         width={`${arrowheadWidth}px`}
                         viewBox={`0 0 ${arrowheadWidth} ${arrowheadHeight}`}
                     >

@@ -1,13 +1,14 @@
 @text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
+@text-shadow-selected-control: 0 1px 3px rgba(0, 0, 0, 1);
 @control-panel-header-bg: #4a4b4d;
 @controls-transition-duration: 500ms;
 
-@placeholder-color: #bababd;
+@placeholder-color: #9b9c9d;
 
 @relationship-color-positive: #0351A6;
 @relationship-color-negative: #E57429; //#BF5513;
 
-@main-color: #83A603; //#84a41f;
+@main-color: #A0CA24; // #83A603; //#84a41f;
 @main-color-grad-dark: #657F14;
 @main-color-grad-light: #A0CA24;
 
@@ -43,16 +44,18 @@
 
 @button-grad-dark: #000;
 @button-grad-light: #333;
+@button-grad-hover-light: @main-color-grad-light;
+@button-grad-hover-dark: @main-color-grad-dark;
 
 @concept-button-width: 30px;
-@concept-button-height: 24px;
+@concept-button-height: 28px;
 @concept-button-border-radius: 6px;
 
-.mixin-selected-control() {
-    background: #1e5799; /* Old browsers */
-    background: -moz-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, @main-color-grad-dark 0%, @main-color-grad-light 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+.mixin-selected-control(@grad-light; @grad-dark) {
+    background: @grad-light; /* Old browsers */
+    background: -moz-linear-gradient(top, @grad-dark 0%, @grad-light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @grad-dark 0%, @grad-light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @grad-dark 0%, @grad-light 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .mixin-concept-bg(@light;@dark) {
@@ -64,7 +67,11 @@
 
 .mixin-button-bg(@light;@dark) {
     background: @dark; /* Old browsers */
-    background: -moz-linear-gradient(top, @dark 0%, @dark 35%, @light 65%, @light 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, @dark 0%, @dark 35%, @light 65%, @light 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, @light 0%, @light 35%, @dark 65%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(top, @dark 0%, @dark 25%, @light 75%, @light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @dark 0%, @dark 25%, @light 75%, @light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @light 0%, @light 25%, @dark 75%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.mixin-selected-control-bg(@color) {
+    box-shadow: inset 0 0 4px 2px @color;
 }

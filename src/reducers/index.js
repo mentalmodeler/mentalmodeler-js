@@ -2,31 +2,35 @@
 import {combineReducers} from 'redux';
 
 const updateCollectionConcept = function (collection, id, updatedProps = {}) {
-    return collection.map((concept) => (concept.id == id ? {...concept, ...updatedProps} : concept));
+    return collection.map((concept) => (concept.id === id ? {...concept, ...updatedProps} : concept));
+};
+
+const removeConceptFromCollection = function (collection, removeId) {
+    // remove any relationships pointing to the removed concept
+    return collection.map((concept) => (
+        {...concept, relationships: removeRelationships(removeId, concept.relationships)}
+    )).filter((concept) => (concept.id !== removeId));
+};
+
+const removeRelationships = function (influenceeId, relationships = []) {
+    return relationships.filter((relationship) => (relationship.id !== influenceeId));
 };
 
 const updateCollectionRelationship = function (collection, influencerId, influenceeId, updatedProps = {}) {
     // console.log('updateCollectionRelationship\n\tinfluencerId:', influencerId, ', influenceeId:', influenceeId, ', updatedProps:', updatedProps);
     return  collection.map((concept) => {
-        if (concept.id == influencerId && concept.relationships && concept.relationships.length > 0) {
-            const newRelationshipIndex = concept.relationships.findIndex((relationship) => (relationship.id == influenceeId));
-            if (newRelationshipIndex > -1) {
-                let newRelationship = concept.relationships[newRelationshipIndex];
-                newRelationship = {...newRelationship, ...updatedProps};
-                const newRelationships = concept.relationships.slice();
-                newRelationships.splice(newRelationshipIndex, 1, newRelationship);
-                return {...concept, relationships: newRelationships};
-            }
+        if (concept.id === influencerId && concept.relationships && concept.relationships.length > 0) {
+            const newRelationships = concept.relationships.map((relationship) => (
+                relationship.id === influenceeId ? {...relationship, ...updatedProps} : relationship
+            ));
+            return {...concept, relationships: newRelationships};
         }
         return concept;
     });
-
 };
 
-const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship:null}, action) => {
-    // console.log('concepts\naction:', action, ', \nstate:', state);
-    const {collection, selectedConcept, selectedRelationship} = state;
-    let newCollection = [];
+const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship: null, tempRelationship: null}, action) => {
+    const {collection} = state;
     switch (action.type) {
         case 'CONCEPT_MOVE':
             return {
@@ -47,6 +51,23 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
                     confidence: action.value
                 })
             };
+        case 'RELATIONSHIP_DRAW_TEMP':
+            let tempRelationship = null;
+            if (action.drawing) {
+                tempRelationship = {
+                    id: action.id,
+                    startX: action.startX,
+                    startY: action.startY,
+                    endX: action.endX,
+                    endY: action.endY,
+                    width: action.width,
+                    height: action.height,
+                };
+            }
+            return {
+                ...state,
+                tempRelationship
+            };
         case 'CONCEPT_CHANGE':
             return {
                 ...state,
@@ -55,6 +76,11 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
                     width: action.width,
                     height: action.height
                 })
+            };
+        case 'CONCEPT_DELETE':
+            return {
+                ...state,
+                collection: removeConceptFromCollection(collection, action.id)
             };
         case 'CONCEPT_CHANGE_NOTES':
             return {

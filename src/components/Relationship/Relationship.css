@@ -1,6 +1,10 @@
 .Relationship {
   position: absolute;
   cursor: pointer;
+  z-index: 0;
+}
+.Relationship--temp {
+  z-index: 2;
 }
 .Relationship__svg {
   overflow: visible;
@@ -10,9 +14,18 @@
 .Relationship__svg--hit {
   pointer-events: auto;
 }
+.Relationship--has-temp-relationship {
+  pointer-events: none;
+}
+.Relationship--has-temp-relationship > .Relationship__svg--hit {
+  pointer-events: none;
+}
 .Relationship__svg-arrow--positive {
   fill: #0351A6;
 }
 .Relationship__svg-arrow--negative {
   fill: #BF5513;
+}
+.Relationship__svg-arrow--neutral {
+  fill: #333;
 }

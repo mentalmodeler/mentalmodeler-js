@@ -12,51 +12,42 @@ const arrowheadHeight = 16; // 6
 const arrowheadWidth = 16; // 9
 
 class Relationship extends Component {
-    constructor(props) {
-        super(props);
-
-        // console.log('this.props:', this.props);
-    }
-
-    onComponentDidMount() {
-
-    }
-
     setRef = (ref) => {
         this.root = ref;
     }
 
     onClick = (e) => {
         const {influencerId, influenceeId, relationshipFocus} = this.props;
+        console.log('relationshipFocus\n\tinfluencerId:', influencerId, ', influenceeId:', influenceeId);
         relationshipFocus(influencerId, influenceeId);
 
         // const {comboId, influence} = this.props;
         // console.log(comboId, '> click, influence:', influence);
     }
 
-    getSVGClass() {
-        const {influence} = this.props;
-    }
-
     render() {
         const {
-            comboId,
+            // comboId,
             influence,
-            influenceeId,
+            // influenceeId,
             influenceeX,
             influenceeY,
             influenceeWidth,
             influenceeHeight,
-            influencerId,
+            // influencerId,
             influencerX,
             influencerY,
             influencerWidth,
-            influencerHeight
+            influencerHeight,
+            selected,
+            className,
+            tempLine,
+            hasTempRelationship
         } = this.props
-        
+
         const sizeData = [influenceeWidth, influenceeHeight, influencerWidth, influencerHeight];
         const missingSomeSizeData = sizeData.some((value) => (!value));
-        if (missingSomeSizeData) {
+        if (missingSomeSizeData && !tempLine) {
             return null;
         }
 
@@ -66,42 +57,58 @@ class Relationship extends Component {
         let erY = influencerY + influencerHeight / 2;
         let eeX = influenceeX + influenceeWidth / 2;
         let eeY = influenceeY + influenceeHeight / 2;
-        const edgeEE = util.determineEdgePoint({
-            eeX,
-            eeY,
-            erX,
-            erY,
-            eeWidth: influenceeWidth,
-            eeHeight: influenceeHeight
-        });
-        // const edgeEr = util.determineEdgePoint({
-        //     eeX : erX,
-        //     eeY: erY,
-        //     erX: eeX,
-        //     erY: eeY,
-        //     eeWidth: influencerWidth,
-        //     eeHeight: influencerHeight
+        if (!tempLine) {
+            const edgeEE = util.determineEdgePoint({
+                eeX,
+                eeY,
+                erX,
+                erY,
+                eeWidth: influenceeWidth,
+                eeHeight: influenceeHeight
+            });
+            eeX = edgeEE.x;
+            eeY = edgeEE.y;
+            
+
+            // const edgeEr = util.determineEdgePoint({
+            //     eeX : erX,
+            //     eeY: erY,
+            //     erX: eeX,
+            //     erY: eeY,
+            //     eeWidth: influencerWidth,
+            //     eeHeight: influencerHeight
+            // });
+            // erX  = edgeEr.x;
+            // erY  = edgeEr.y;
+        } else {
+            erX = influencerX + influencerWidth;
+            erY = influencerY + influencerHeight;
+            eeX = influenceeX + influencerWidth;
+            eeY = influenceeY + influencerHeight;
+        }
+        
+        // const svgClasses = classnames('Relationship__svg', {
+        //     'Relationship__svg--negative': influence < 0,
+        //     'Relationship__svg--positive': influence > 0,
+        //     'Relationship__svg--neutral': influence === 0,
+        //     'Relationship__svg--selected': selected 
         // });
-        eeX = edgeEE.x;
-        eeY = edgeEE.y;
-        // erX  = edgeEr.x;
-        // erY  = edgeEr.y;
         
-        const svgClasses = classnames('Relationship__svg', {
-            'Relationship__svg--negative': influence < 0,
-            'Relationship__svg--positive': influence > 0 
+        const negative = influence < 0;
+        let influenceModifier = selected ? 'selected' : 'neutral';
+        let color = selected ? '#83A603' : '#333';
+        if (!selected && influence !== 0) {
+            color = negative ? '#BF5513' : '#0351A6';
+            influenceModifier = negative ? 'negative' : 'positive';
+        }
+
+        const rootClassname = classnames('Relationship', {
+            [className]: !!className,
+            'Relationship--has-temp-relationship' : hasTempRelationship
         });
-        
-        const negative = influence < 0
-        const color = negative
-            ? '#BF5513'
-            : '#0351A6';
-
-        // console.log('\n', comboId, '\ncolor:', color, 'influence:', influence, ', \n\n');
-        // console.log('\n', comboId, '\n\tinfluenceAbsValue:', influenceAbsValue, ', lineThickness:', lineThickness);
-
+        console.log('rootClassname:', rootClassname);
         return (
-            <span className="Relationship">
+            <span className={rootClassname}>
                 {lineThickness > 1 &&
                     <svg
                         className="Relationship__svg Relationship__svg--bg"
@@ -130,7 +137,7 @@ class Relationship extends Component {
                         y1={erY}
                         y2={eeY}
                         stroke={color}
-                        strokeWidth={lineThickness}
+                        strokeWidth={tempLine ? 2 : lineThickness}
                     />
                 </svg>
                 <svg
@@ -140,6 +147,20 @@ class Relationship extends Component {
                     onClick={this.onClick}
                 >   
                     <defs>
+                        <marker
+                            id="arrow-neutral"
+                            markerWidth={`${arrowheadWidth}`}
+                            markerHeight={`${arrowheadHeight}`}
+                            refX={`${arrowheadWidth}`}
+                            refY={`${arrowheadHeight/2}`}
+                            orient="auto"
+                            markerUnits="userSpaceOnUse"
+                        >
+                            <path
+                                d={`M0,0 L0,${arrowheadHeight} L${arrowheadWidth},${arrowheadHeight / 2} z`}
+                                fill={'#333'}
+                            />
+                        </marker>
                         <marker
                             id="arrow-negative"
                             markerWidth={`${arrowheadWidth}`}
@@ -190,7 +211,7 @@ class Relationship extends Component {
                         y2={eeY}
                         stroke="transparent"
                         strokeWidth="10"
-                        markerEnd={`url(#arrow-${negative ? 'negative' : 'positive'})`}
+                        markerEnd={`url(#arrow-${influenceModifier})`}
                     />
                 </svg>
                 

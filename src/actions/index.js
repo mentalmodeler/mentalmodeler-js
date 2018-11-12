@@ -49,11 +49,33 @@ const conceptChangeGroup = (id, groupIndex) => {
     }
 };
 
+const conceptDelete = (id) => {
+    return {
+        type: 'CONCEPT_DELETE',
+        id
+    }
+};
+
 const relationshipFocus = (influencerId, influenceeId) => {
     return {
         type: 'RELATIONSHIP_FOCUS',
         influencerId,
         influenceeId
+    }
+};
+
+const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, height) => {
+    // console.log('relationshipDrawTemp\n\tdrawing:', drawing, ', startX:', startX, ', startY:', startY, ', endX:', endX, ', endY:', endY, ' width:', width,  ', height:', height);
+    return {
+        type: 'RELATIONSHIP_DRAW_TEMP',
+        id,
+        drawing,
+        startX,
+        startY,
+        endX,
+        endY,
+        width,
+        height
     }
 };
 
@@ -70,9 +92,11 @@ export {
     conceptMove,
     conceptFocus,
     conceptChange,
+    conceptDelete,
     conceptChangeNotes,
     conceptChangeUnits,
     conceptChangeGroup,
     relationshipFocus,
-    relationshipChangeConfidence
+    relationshipChangeConfidence,
+    relationshipDrawTemp
 };

@@ -4,12 +4,13 @@
     position: absolute;
     padding: 2px;
     padding-bottom: 0px;
-    // border-radius: 6px;
-    // border: 1px solid #000;
-    // box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
     z-index: 1;
     cursor: pointer;
     
+    &--focused {
+        z-index: 3;
+    }
+
     &__bg {
         position: absolute;
         top: 0;
@@ -21,14 +22,12 @@
         box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
 
         &--focused {
-            z-index: 2;
-            &.Concept--group-0 { box-shadow: inset 0 0 2px 3px @concept-0-outline; }
-            &.Concept--group-1 { box-shadow: inset 0 0 2px 3px @concept-1-outline; }
-            &.Concept--group-2 { box-shadow: inset 0 0 2px 3px @concept-2-outline; }
-            &.Concept--group-3 { box-shadow: inset 0 0 2px 3px @concept-3-outline; }
-            &.Concept--group-4 { box-shadow: inset 0 0 2px 3px @concept-4-outline; }
-            &.Concept--group-5 { box-shadow: inset 0 0 2px 3px @concept-5-outline; }
-            
+            &.Concept__bg--group-0 { .mixin-selected-control-bg(@concept-0-outline); }
+            &.Concept__bg--group-1 { .mixin-selected-control-bg(@concept-1-outline); }
+            &.Concept__bg--group-2 { .mixin-selected-control-bg(@concept-2-outline); }
+            &.Concept__bg--group-3 { .mixin-selected-control-bg(@concept-3-outline); }
+            &.Concept__bg--group-4 { .mixin-selected-control-bg(@concept-4-outline); }
+            &.Concept__bg--group-5 { .mixin-selected-control-bg(@concept-5-outline); }
         }
     
         &--group-0 { .mixin-concept-bg(@concept-0-grad-light, @concept-0-grad-dark); }
@@ -39,46 +38,48 @@
         &--group-5 { .mixin-concept-bg(@concept-5-grad-light, @concept-5-grad-dark); }
     }
 
-    // &--focused {
-    //     z-index: 2;
-    //     &.Concept--group-0 { box-shadow: inset 0 0 2px 3px @concept-0-outline; }
-    //     &.Concept--group-1 { box-shadow: inset 0 0 2px 3px @concept-1-outline; }
-    //     &.Concept--group-2 { box-shadow: inset 0 0 2px 3px @concept-2-outline; }
-    //     &.Concept--group-3 { box-shadow: inset 0 0 2px 3px @concept-3-outline; }
-    //     &.Concept--group-4 { box-shadow: inset 0 0 2px 3px @concept-4-outline; }
-    //     &.Concept--group-5 { box-shadow: inset 0 0 2px 3px @concept-5-outline; }
-        
-    // }
-
-    // &--group-0 { .mixin-concept-bg(@concept-0-grad-light, @concept-0-grad-dark); }
-    // &--group-1 { .mixin-concept-bg(@concept-1-grad-light, @concept-1-grad-dark); }
-    // &--group-2 { .mixin-concept-bg(@concept-2-grad-light, @concept-2-grad-dark); }
-    // &--group-3 { .mixin-concept-bg(@concept-3-grad-light, @concept-3-grad-dark); }
-    // &--group-4 { .mixin-concept-bg(@concept-4-grad-light, @concept-4-grad-dark); }
-    // &--group-5 { .mixin-concept-bg(@concept-5-grad-light, @concept-5-grad-dark); }
-
     &__button-wrapper {
         position: absolute;
-        top: 0 - @concept-button-height / 2;
+        top: 0;
         right: 0;
-        bottom: 0 - @concept-button-height / 2;
+        bottom: 0;
         left: 0;
         // background-color: rgba(255, 0, 0, 0.3);
         display: flex;
         justify-content: center;
         z-index: -1;
-        pointer-event: none;
+        // pointer-events: none;
+
+        &--top {
+            top: 0 - @concept-button-height / 2;
+            // background-color: rgba(255, 0, 0, 0.3);
+        }
+
+        &--bottom {
+            bottom: 0 - @concept-button-height / 2;
+            // background-color: rgba(0, 255, 0, 0.3);    
+        }
     }
 
     &__button {
+        outline: none;
         .mixin-button-bg(@button-grad-light, @button-grad-dark);
+        border: 2px solid @button-grad-dark;
         height: @concept-button-height;
         width: @concept-button-width;
         position: relative;
         transition: transform 300ms ease;
         border: 2px solid #000;
         cursor: pointer;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
+        > * {
+            pointer-events: none;
+        }
+        
         &--top {
             align-self: flex-start;
             top: @concept-button-height / 2; 
@@ -90,7 +91,27 @@
             bottom: @concept-button-height / 2;
             border-radius: 0 0 @concept-button-border-radius @concept-button-border-radius;
         }
+
+        &:hover {
+            .mixin-button-bg(@button-grad-hover-light, @button-grad-hover-dark);
+            border-color: @button-grad-hover-dark;
+        }
     }
+
+    &__icon--trash {
+        fill: #fff;
+        stroke: #fff;
+        height: 19px;
+        transform: scale(1.2);
+    }
+
+    &__icon--line {
+        fill: #fff;
+        stroke: #fff;
+        height: 19px;
+        transform: scale(1.2);
+    }
+
 
     &__textarea {
         @line-height: 18px;
@@ -113,6 +134,8 @@
 }
 
 .Concept:hover {
+    z-index: 3;
+     
     .Concept__button--top {
         transform: translateY(0 - @concept-button-height);
     }
@@ -120,6 +143,28 @@
     .Concept__button--bottom {
         transform: translateY(@concept-button-height);
     }
+}
+
+.Concept--line-mouse-down {
+    .Concept__button--bottom {
+        transform: translateY(@concept-button-height);
+    }
+}
+
+.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover {
+    z-index: 1;
+
+    .Concept__button--top,
+    .Concept__button--bottom {
+        transform: none;
+    }
+
+    > .Concept__bg--group-0 { .mixin-selected-control-bg(@concept-0-outline); }
+    > .Concept__bg--group-1 { .mixin-selected-control-bg(@concept-1-outline); }
+    > .Concept__bg--group-2 { .mixin-selected-control-bg(@concept-2-outline); }
+    > .Concept__bg--group-3 { .mixin-selected-control-bg(@concept-3-outline); }
+    > .Concept__bg--group-4 { .mixin-selected-control-bg(@concept-4-outline); }
+    > .Concept__bg--group-5 { .mixin-selected-control-bg(@concept-5-outline); }
 }
 
 .Concept__textarea::placeholder {

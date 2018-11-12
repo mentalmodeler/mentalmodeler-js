@@ -7,7 +7,21 @@ import util from '../../utils/util';
 class Relationships extends Component {
     render() {
         const {positions, concepts} = this.props;
-        const {collection, selectedConcept, selectedRelationship} = concepts;
+        let {collection, selectedConcept, selectedRelationship, tempRelationship} = concepts;
+        if (false) {
+            tempRelationship = {
+                startX: 400,
+                endX: 400,
+                startY: 400,
+                endY: 700,
+                id: 14,
+                width: 100,
+                height: 100
+            };
+        }
+        const hasTempRelationship = !!tempRelationship;
+        console.log('hasTempRelationship:', hasTempRelationship);
+
         return (
             <div className="map__relationships">
             {collection.map((concept, conceptIndex) => {
@@ -34,10 +48,13 @@ class Relationships extends Component {
                     } = concept;
                     
                     const comboId = `relationship_${influencerId}-${influenceeId}`;
+                    const selected = selectedConcept === influencerId
+                        && selectedRelationship === influenceeId;
                     
                     return (
                         <Relationship
                             key={comboId}
+                            hasTempRelationship={hasTempRelationship}
                             comboId={comboId}
                             influenceeId={influenceeId}
                             influenceeX={influenceeX}
@@ -49,11 +66,30 @@ class Relationships extends Component {
                             influencerY={influencerY}
                             influencerWidth={influencerWidth}
                             influencerHeight={influencerHeight}
+                            selected={selected}
                             {...rest}
                         />
                     );
                 })
             })}
+            {tempRelationship &&
+                <Relationship
+                    className="Relationship--temp"
+                    key="tempRelationship"
+                    influenceeX={tempRelationship.endX}
+                    influenceeY={tempRelationship.endY}
+                    influenceeWidth={tempRelationship.width / 2}
+                    influenceeHeight={tempRelationship.height + 15}
+                    influencerX={tempRelationship.startX}
+                    influencerY={tempRelationship.startY}
+                    influencerWidth={tempRelationship.width / 2}
+                    influencerHeight={tempRelationship.height + 15}
+                    selected={false}
+                    influence={0}
+                    tempLine={true}
+                    hasTempRelationship={hasTempRelationship}                            
+                />
+            }
             </div>
         );
     }

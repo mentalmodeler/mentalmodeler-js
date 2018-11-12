@@ -21,7 +21,8 @@ const util = {
             concepts: {
                 collection,
                 selectedConcept: null,
-                selectedRelationship: null
+                selectedRelationship: null,
+                tempRelationship: null
             },
             groupNames,
             info,
@@ -33,6 +34,10 @@ const util = {
         concepts.forEach((concept) => {
             concept.x = parseInt(concept.x, 10);
             concept.y = parseInt(concept.y, 10);
+            const {relationships = []} = concept;
+            relationships.forEach((relationship) => {
+                relationship.influence = parseFloat(relationship.influence);
+            });
         });
     },
 
