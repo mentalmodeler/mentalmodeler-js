@@ -20,12 +20,13 @@ class Relationships extends Component {
             };
         }
         const hasTempRelationship = !!tempRelationship;
-        console.log('hasTempRelationship:', hasTempRelationship);
+        // console.log('hasTempRelationship:', hasTempRelationship);
 
         return (
             <div className="map__relationships">
             {collection.map((concept, conceptIndex) => {
                 const relationships = concept.relationships || [];
+                // console.log(conceptIndex, ', relationships:', relationships);
                 return relationships.map((relationship, relationshipIndex) => {
                     const {
                         id: influenceeId,

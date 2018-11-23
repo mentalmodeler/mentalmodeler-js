@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import {relationshipFocus} from '../../actions/index';
 
+import RelationshipValueDisplay from '../RelationshipValueDisplay/RelationshipValueDisplay';
 import util from '../../utils/util';
 
 import './Relationship.css';
@@ -18,7 +19,6 @@ class Relationship extends Component {
 
     onClick = (e) => {
         const {influencerId, influenceeId, relationshipFocus} = this.props;
-        console.log('relationshipFocus\n\tinfluencerId:', influencerId, ', influenceeId:', influenceeId);
         relationshipFocus(influencerId, influenceeId);
 
         // const {comboId, influence} = this.props;
@@ -69,17 +69,16 @@ class Relationship extends Component {
             eeX = edgeEE.x;
             eeY = edgeEE.y;
             
-
-            // const edgeEr = util.determineEdgePoint({
-            //     eeX : erX,
-            //     eeY: erY,
-            //     erX: eeX,
-            //     erY: eeY,
-            //     eeWidth: influencerWidth,
-            //     eeHeight: influencerHeight
-            // });
-            // erX  = edgeEr.x;
-            // erY  = edgeEr.y;
+            const edgeEr = util.determineEdgePoint({
+                eeX : erX,
+                eeY: erY,
+                erX: eeX,
+                erY: eeY,
+                eeWidth: influencerWidth,
+                eeHeight: influencerHeight
+            });
+            erX  = edgeEr.x;
+            erY  = edgeEr.y;
         } else {
             erX = influencerX + influencerWidth;
             erY = influencerY + influencerHeight;
@@ -106,7 +105,7 @@ class Relationship extends Component {
             [className]: !!className,
             'Relationship--has-temp-relationship' : hasTempRelationship
         });
-        console.log('rootClassname:', rootClassname);
+        // console.log('rootClassname:', rootClassname);
         return (
             <span className={rootClassname}>
                 {lineThickness > 1 &&
@@ -214,7 +213,15 @@ class Relationship extends Component {
                         markerEnd={`url(#arrow-${influenceModifier})`}
                     />
                 </svg>
-                
+                {!tempLine && 
+                    <RelationshipValueDisplay
+                        erX={erX}
+                        eeX={eeX}
+                        erY={erY}
+                        eeY={eeY}
+                        influence={influence}
+                    />
+                }
             </span>
         );
     }

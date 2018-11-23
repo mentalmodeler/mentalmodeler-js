@@ -8,12 +8,12 @@ import allReducers from './reducers';
 import App from './App';
 import util from './utils/util';
 
-import fire from './data/fire.mmp';
-// import simple from './data/simple.mmp';
+import fire from './data/fire.mmp'; // eslint-disable-line
+import simple from './data/simple.mmp'; // eslint-disable-line
 import './index.css';
 
 // prep json before creatingStore
-const data = util.initData(fire);
+const data = util.initData(simple);
 // console.log('data:', data);
 
 const store = createStore(allReducers, data);

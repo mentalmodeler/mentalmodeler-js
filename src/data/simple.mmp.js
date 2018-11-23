@@ -38,6 +38,17 @@ export default {
             "y": "27",
             "preferredState": "0",
             "relationships": []
+        },
+        {
+            "id": "3",
+            "name": "Other value",
+            "notes": "",
+            "units": "",
+            "group": "0",
+            "x": "134",
+            "y": "127",
+            "preferredState": "0",
+            "relationships": []
         }
     ],
 }

@@ -1,5 +1,14 @@
 
 import {combineReducers} from 'redux';
+import util from '../utils/util';
+
+const createRelationship = function(props = {}) {
+    return {...{id: '', name: '', notes:  '', confidence: 0, influence: 0}, ...props};
+}
+
+const createConcept = function(props = {}) {
+    return {...{id: util.createId(), name: '', notes:  '', units: '', group: 0, x: 20, y: 20, preferredState: 0, relationships: []}, ...props};
+}
 
 const updateCollectionConcept = function (collection, id, updatedProps = {}) {
     return collection.map((concept) => (concept.id === id ? {...concept, ...updatedProps} : concept));
@@ -16,9 +25,21 @@ const removeRelationships = function (influenceeId, relationships = []) {
     return relationships.filter((relationship) => (relationship.id !== influenceeId));
 };
 
+const addRelationshipToConcept = function (collection, influencerId, influenceeId) {
+    return collection.map((concept) => {
+        if (concept.id === influencerId) {
+            const relationships =  concept.relationships || [];
+            const newRelationships = relationships.slice();
+            newRelationships.push(createRelationship({id: influenceeId}));
+            return {...concept, relationships: newRelationships};
+        }
+        return concept;
+    });
+};
+
 const updateCollectionRelationship = function (collection, influencerId, influenceeId, updatedProps = {}) {
     // console.log('updateCollectionRelationship\n\tinfluencerId:', influencerId, ', influenceeId:', influenceeId, ', updatedProps:', updatedProps);
-    return  collection.map((concept) => {
+    return collection.map((concept) => {
         if (concept.id === influencerId && concept.relationships && concept.relationships.length > 0) {
             const newRelationships = concept.relationships.map((relationship) => (
                 relationship.id === influenceeId ? {...relationship, ...updatedProps} : relationship
@@ -29,7 +50,7 @@ const updateCollectionRelationship = function (collection, influencerId, influen
     });
 };
 
-const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship: null, tempRelationship: null}, action) => {
+const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship: null, tempRelationship: null, tempTarget: null}, action) => {
     const {collection} = state;
     switch (action.type) {
         case 'CONCEPT_MOVE':
@@ -67,6 +88,25 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
             return {
                 ...state,
                 tempRelationship
+            };
+        case 'RELATIONSHIP_SET_TEMP_TARGET':
+            return {
+                ...state,
+                tempTarget: action.id
+            };
+        case 'RELATIONSHIP_ADD':
+            console.log('RELATIONSHIP_ADD, action.influencerId:', action.influencerId, ', action.influenceeId:', action.influenceeId);
+            return {
+                ...state,
+                collection: addRelationshipToConcept(collection, action.influencerId, action.influenceeId),
+                tempTarget: null
+            };
+        case 'CONCEPT_ADD':
+            const newCollection = collection.slice();
+            newCollection.push(createConcept());
+            return {
+                ...state,
+                collection: newCollection
             };
         case 'CONCEPT_CHANGE':
             return {

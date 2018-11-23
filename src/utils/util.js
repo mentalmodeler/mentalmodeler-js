@@ -22,7 +22,8 @@ const util = {
                 collection,
                 selectedConcept: null,
                 selectedRelationship: null,
-                tempRelationship: null
+                tempRelationship: null,
+                tempTarget: null
             },
             groupNames,
             info,
@@ -120,6 +121,21 @@ const util = {
         return found
             ? o
             : defaultValue;
+    },
+
+    createId() {
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        const dashSpots = [8, 13, 18, 23];
+        return [...Array(36)].map((value, index) => (
+            dashSpots.indexOf(index) > -1
+                ? '-'
+                : chars[Math.floor(Math.random() * (index === 0 ? 26 : chars.length))]
+        )).join('');
+        // return [...Array(19)].map((value, index) => (
+        //     (index + 1) % 5 === 0
+        //         ? '-'
+        //         : chars[Math.floor(Math.random() * chars.length)]
+        // )).join('');
     }
 };
 

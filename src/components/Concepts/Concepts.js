@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Concept from '../Concept/Concept';
-
+import util from '../../utils/util';
 
 class Concepts extends Component {
     render() {
         const {concepts} = this.props;
-        const {collection, selectedConcept, selectedRelationship, tempRelationship} = concepts;
+        const {collection, selectedConcept, selectedRelationship, tempRelationship, tempTarget} = concepts;
         const hasTempRelationship = !!tempRelationship;
 
         // console.log('tempRelationship:', tempRelationship);
@@ -20,6 +20,7 @@ class Concepts extends Component {
                         {...concept}
                         hasTempRelationship={hasTempRelationship}
                         isTempRelationship={hasTempRelationship && concept.id === tempRelationship.id}
+                        tempTarget={tempTarget}
                         selected={concept.id === selectedConcept && selectedRelationship === null}
                     />
                 );

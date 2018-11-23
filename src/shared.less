@@ -8,7 +8,7 @@
 @relationship-color-positive: #0351A6;
 @relationship-color-negative: #E57429; //#BF5513;
 
-@main-color: #A0CA24; // #83A603; //#84a41f;
+@main-color: #83A603; // #A0CA24; // #83A603; //#84a41f;
 @main-color-grad-dark: #657F14;
 @main-color-grad-light: #A0CA24;
 
@@ -66,12 +66,36 @@
 }
 
 .mixin-button-bg(@light;@dark) {
+    @bottom: 15%; // 25%;
+    @top: 85%; // 75%;
     background: @dark; /* Old browsers */
-    background: -moz-linear-gradient(top, @dark 0%, @dark 25%, @light 75%, @light 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, @dark 0%, @dark 25%, @light 75%, @light 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, @light 0%, @light 25%, @dark 75%, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(top, @dark 0%, @dark @bottom, @light @top, @light 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, @dark 0%, @dark @bottom, @light @top, @light 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, @light 0%, @light @bottom, @dark @top, @dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .mixin-selected-control-bg(@color) {
     box-shadow: inset 0 0 4px 2px @color;
+}
+
+.mm-button() {
+    cursor: pointer;
+    color: #fff;
+    outline: none;
+    text-shadow: 0 0 2px #000;
+    
+    .mixin-button-bg(@button-grad-light, @button-grad-dark);
+
+    &:hover {
+        .mixin-button-bg(@button-grad-hover-light, @button-grad-hover-dark);
+        border-color: @button-grad-hover-dark;
+    }
+
+    &:active {
+        .mixin-button-bg(@button-grad-hover-dark, @button-grad-hover-light);
+    }
+
+    svg {
+        filter: drop-shadow(0 0 1px #000);
+    }
 }

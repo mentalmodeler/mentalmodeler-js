@@ -1,0 +1,81 @@
+@import (reference) '../../shared.less';
+
+.relationship-value-display {
+    @expanded-width: 40px;
+
+    position: absolute;
+
+    &__collapsed {
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #000;
+        .mm-button();
+
+        > div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &--has-influence-value span {
+            position: relative;
+            bottom: 1px;
+            // right: 1px;
+        }
+    }
+
+    &__expanded {
+        overflow: hidden;
+        border-radius: 6px;
+        // height: 150px;
+        width: @expanded-width + 2;
+        background: @concept-0-grad-dark;
+        display: flex;
+        flex-flow: column;
+        border: 1px solid #000;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &__delete-icon {
+        fill: #fff;
+        height: 14px;
+        width: 14px;
+    }
+
+    &__delete {
+        border-radius: 6px 6px 0 0;
+        width: @expanded-width;
+        height: 28px;
+        padding-top: 2px;
+        border: 1px solid #000;
+        .mm-button();
+    }
+
+    &__slider[type="range"][orient="vertical"] {
+        writing-mode: bt-lr; /* IE */
+        -webkit-appearance: slider-vertical; /* WebKit */
+        height: 80px;
+        width: @expanded-width;
+        margin: 4px 0;
+    }
+
+    &__input {
+        font-weight: 300;
+        background: #000;
+        border: none;
+        color: #fff;
+        height: 22px;
+        font-size: 14px;
+        line-height: 22px;
+        text-align: center;
+        .mixin-concept-bg(@button-grad-light, @button-grad-dark);
+        outline: none;
+    }
+}

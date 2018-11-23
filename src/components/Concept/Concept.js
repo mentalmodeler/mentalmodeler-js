@@ -9,7 +9,9 @@ import {
     conceptFocus,
     conceptChange,
     conceptDelete,
-    relationshipDrawTemp
+    relationshipDrawTemp,
+    relationshipSetTempTarget,
+    relationshipAdd
 } from '../../actions/index';
 
 import './Concept.css';
@@ -150,14 +152,35 @@ class Concept extends Component {
     }
 
     onMouseUp = (e) => {
-        const {relationshipDrawTemp, id} = this.props;
+        const {id, relationshipDrawTemp, relationshipAdd, tempTarget} = this.props;
         const {lineMouseDown} = this.state;
         this.toggleDragHandlers(false, e);
         if (lineMouseDown) {
+            if (tempTarget !== null) {
+                console.log('tempTarget:', tempTarget)
+                relationshipAdd(id, tempTarget);
+            }
             relationshipDrawTemp(id, false);
             this.setState({
                 lineMouseDown: false
             });
+
+            
+        }
+    }
+
+    onMouseOver = (e) => {
+        const {id, hasTempRelationship, relationshipSetTempTarget} = this.props;
+        if (hasTempRelationship) {
+            relationshipSetTempTarget(id)
+            
+        }
+    }
+
+    onMouseOut = (e) => {
+        const {id, hasTempRelationship, relationshipSetTempTarget} = this.props;
+        if (hasTempRelationship) {
+            relationshipSetTempTarget(null)
         }
     }
 
@@ -212,9 +235,25 @@ class Concept extends Component {
                 style={rootStyle}
                 ref={this.setRef}
                 onMouseDown={this.onMouseDown}
+                onMouseOver={this.onMouseOver}
+                onMouseOut={this.onMouseOut}
+                dataid={id}
             >
+            <textarea
+                    className="Concept__textarea"
+                    value={value}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    onChange={this.onChange}
+                    ref={this.setTextareaRef}
+                    placeholder="Enter name"
+                />
                 <div className="Concept__button-wrapper Concept__button-wrapper--top">
-                    <button className="Concept__button Concept__button--top" onClick={this.onClickDelete}>
+                    <button 
+                        className="Concept__button Concept__button--top"
+                        onClick={this.onClickDelete}
+                        tabIndex={-1}
+                    >
                         <svg className="Concept__icon--trash" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 900.5 900.5">
                             <g>
                                 <path d="M176.415,880.5c0,11.046,8.954,20,20,20h507.67c11.046,0,20-8.954,20-20V232.487h-547.67V880.5L176.415,880.5z
@@ -230,6 +269,7 @@ class Concept extends Component {
                     <button
                         className="Concept__button Concept__button--bottom"
                         ref={this.setLineButtonRef}
+                        tabIndex={-1}
                         // onMouseDown={this.onLineMouseDown}
                     >
                         <svg className="Concept__icon--line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 612 612" style={{enableBackground: 'new 0 0 612 612'}} xmlSpace="preserve">
@@ -244,15 +284,6 @@ class Concept extends Component {
                     </button>
                 </div>
                 <div  className={bgClassnames}></div>
-                <textarea
-                    className="Concept__textarea"
-                    value={value}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
-                    onChange={this.onChange}
-                    ref={this.setTextareaRef}
-                    placeholder="Enter name"
-                />
             </div>
         );
     }
@@ -278,6 +309,14 @@ const mapDispatchToProps = (dispatch) => {
 
         relationshipDrawTemp: (id, drawing, startX, startY, endX, endY, width, height) => {
             dispatch(relationshipDrawTemp(id, drawing, startX, startY, endX, endY, width, height))
+        },
+
+        relationshipSetTempTarget: (id) => {
+            dispatch(relationshipSetTempTarget(id));
+        },
+
+        relationshipAdd: (influencerId, influenceeId) => {
+            dispatch(relationshipAdd(influencerId, influenceeId));
         }
     };
 }

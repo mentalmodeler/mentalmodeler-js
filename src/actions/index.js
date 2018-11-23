@@ -56,6 +56,12 @@ const conceptDelete = (id) => {
     }
 };
 
+const conceptAdd = () => {
+    return {
+        type: 'CONCEPT_ADD'
+    }
+};
+
 const relationshipFocus = (influencerId, influenceeId) => {
     return {
         type: 'RELATIONSHIP_FOCUS',
@@ -79,6 +85,21 @@ const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, he
     }
 };
 
+const relationshipSetTempTarget = (id) => {
+    return {
+        type: 'RELATIONSHIP_SET_TEMP_TARGET',
+        id
+    }
+};
+
+const relationshipAdd = (influencerId, influenceeId) => {
+    return {
+        type: 'RELATIONSHIP_ADD',
+        influencerId,
+        influenceeId
+    }
+};
+
 const relationshipChangeConfidence = (influencerId, influenceeId, value) => {
     return {
         type: 'RELATIONSHIP_CHANGE_CONFIDENCE',
@@ -96,7 +117,10 @@ export {
     conceptChangeNotes,
     conceptChangeUnits,
     conceptChangeGroup,
+    conceptAdd,
     relationshipFocus,
     relationshipChangeConfidence,
-    relationshipDrawTemp
+    relationshipDrawTemp,
+    relationshipSetTempTarget,
+    relationshipAdd
 };

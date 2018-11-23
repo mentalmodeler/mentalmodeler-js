@@ -9,6 +9,14 @@
     
     &--focused {
         z-index: 3;
+        
+        .Concept__button--top {
+            transform: translateY(0 - @concept-button-height);
+        }
+    
+        .Concept__button--bottom {
+            transform: translateY(@concept-button-height);
+        }
     }
 
     &__bg {
@@ -62,8 +70,8 @@
     }
 
     &__button {
-        outline: none;
-        .mixin-button-bg(@button-grad-light, @button-grad-dark);
+        .mm-button();
+        //.mixin-button-bg(@button-grad-light, @button-grad-dark);
         border: 2px solid @button-grad-dark;
         height: @concept-button-height;
         width: @concept-button-width;
@@ -75,7 +83,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        outline: none;
 
+        &:focus {
+            // box-shadow: 0 0 1px 3px @button-grad-hover-light, inset 0 0 2px 1px @button-grad-hover-light;
+        }
+        
         > * {
             pointer-events: none;
         }
@@ -84,12 +97,20 @@
             align-self: flex-start;
             top: @concept-button-height / 2; 
             border-radius: @concept-button-border-radius @concept-button-border-radius 0 0;
+            
+            &:focus {
+                transform: translateY(0 - @concept-button-height);
+            }
         }
 
         &--bottom {
             align-self: flex-end;
             bottom: @concept-button-height / 2;
             border-radius: 0 0 @concept-button-border-radius @concept-button-border-radius;
+            
+            &:focus {
+                transform: translateY(@concept-button-height);
+            }
         }
 
         &:hover {
@@ -133,7 +154,8 @@
     }
 }
 
-.Concept:hover {
+.Concept:hover,
+.Concept:focus {
     z-index: 3;
      
     .Concept__button--top {
@@ -151,20 +173,26 @@
     }
 }
 
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover {
-    z-index: 1;
-
-    .Concept__button--top,
-    .Concept__button--bottom {
-        transform: none;
+.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship) {
+    > * {
+        pointer-events: none;
     }
+    
+    &:hover {
+        z-index: 1;
 
-    > .Concept__bg--group-0 { .mixin-selected-control-bg(@concept-0-outline); }
-    > .Concept__bg--group-1 { .mixin-selected-control-bg(@concept-1-outline); }
-    > .Concept__bg--group-2 { .mixin-selected-control-bg(@concept-2-outline); }
-    > .Concept__bg--group-3 { .mixin-selected-control-bg(@concept-3-outline); }
-    > .Concept__bg--group-4 { .mixin-selected-control-bg(@concept-4-outline); }
-    > .Concept__bg--group-5 { .mixin-selected-control-bg(@concept-5-outline); }
+        .Concept__button--top,
+        .Concept__button--bottom {
+            transform: none;
+        }
+
+        > .Concept__bg--group-0 { .mixin-selected-control-bg(@concept-0-outline); }
+        > .Concept__bg--group-1 { .mixin-selected-control-bg(@concept-1-outline); }
+        > .Concept__bg--group-2 { .mixin-selected-control-bg(@concept-2-outline); }
+        > .Concept__bg--group-3 { .mixin-selected-control-bg(@concept-3-outline); }
+        > .Concept__bg--group-4 { .mixin-selected-control-bg(@concept-4-outline); }
+        > .Concept__bg--group-5 { .mixin-selected-control-bg(@concept-5-outline); }
+    }
 }
 
 .Concept__textarea::placeholder {
