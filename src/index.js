@@ -17,40 +17,73 @@ const models = {
     simple: simple,
     fire: fire
 };
+let loadTimeoutId;
 let initialized = false;
 let data;
-let store;
-
-console.log('models[simple]:', models['simple']);
+let store = createStore(allReducers, {});
 
 function init(modelName, targetSelector) {
-    const model = models[modelName];
-    if (model && !initialized) {
-        initialized = true;
-        data = util.initData(model);
-        store = createStore(allReducers, data);
-        render(targetSelector);
+    try {
+        const model = models[modelName];
+        if (model && !initialized) {
+            initialized = true;
+            data = util.initData(model);
+            store = createStore(allReducers, data);
+            render(targetSelector);
+        }
+    } catch (e) {
+        console.error('ERROR - ConceptMap > init, e:', e);
     }
 }
 
-function load(model) {
-
+function load(json) {
+    let data;
+    try {
+        data = JSON.parse(json);
+        data = util.initData(data);
+        console.log('MentalModelerConceptMap > load\ndata:', data);
+        clearTimeout(loadTimeoutId);
+        loadTimeoutId = setTimeout(() => {
+            loadTimeoutId = undefined;
+            this.props.modelLoad(data);
+        }, 250);
+        this.props.modelLoad({});
+            
+    } catch (e) {
+        console.error('ERROR - ConceptMap > load, e:', e);
+    }
 }
 
 function save() {
-
+    try {
+        const data =  util.exportData(store.getState());
+        console.log('MentalModelerConceptMap > save\ndata:', data);
+        return data;
+    } catch (e) {
+        console.error('ERROR - ConceptMap > save, e:', e);
+    }
 }
 
 function render(target = '#root') {
-    ReactDOM.render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        document.querySelector(target)
-    );
+    try {
+        let elem;
+        if (target instanceof Element || target instanceof HTMLDocument) {
+            elem = target;
+        } else if (typeof target === 'string') {
+            elem = document.querySelector(target);
+        }
+        ReactDOM.render(
+            <Provider store={store}>
+                <App />
+            </Provider>,
+            elem
+        );
+    } catch (e) {
+        console.error('ERROR - ConceptMap > render, e:', e);
+    }
 }
 
-init('fire');
+// init('fire');
 
 // Define public API
 let publicApi = {
@@ -63,7 +96,6 @@ let publicApi = {
 };
 
 // registerServiceWorker();
-
 // console.log('store.getState():', store.getState());
 
 // Expose to global scope to interact with LiveLab
@@ -72,33 +104,4 @@ if (typeof window !== 'undefined') {
 }
 
 // Export API
-// module.exports = publicApi;
-
-
-// /**
-//  * render()
-//  * JS wrapper for managing rendering of component
-//  */
-// function render(options) {
-//     let target = options.target;
-//     let comp = ReactDOM.render(
-//         <Typeahead {...options} />,
-//         document.querySelector(target)
-//     );
-//     return comp;
-// }
-
-// // Define public API
-// let publicApi = {
-//     render,
-//     ConceptMap: App,
-//     Typeahead
-// };
-
-// // Expose to global scope to interact with LiveLab
-// if (typeof window !== 'undefined') {
-//     window.MentalModelerConceptMap = publicApi;
-// }
-
-// // Export API
 // module.exports = publicApi;

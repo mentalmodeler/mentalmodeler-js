@@ -121,6 +121,57 @@
   justify-content: center;
   text-shadow: 0 0 2px #000;
 }
+.map-controls__save {
+  flex-grow: 0;
+  font-size: 16px;
+  height: 100%;
+  padding-right: 16px;
+  padding-left: 16px;
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+  text-shadow: 0 0 2px #000;
+  border: 1px solid #000;
+  background: #000;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #000 0%, #000 15%, #333 85%, #333 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #000 0%, #000 15%, #333 85%, #333 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #333 0%, #333 15%, #000 85%, #000 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.map-controls__save:hover {
+  background: #657F14;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  border-color: #657F14;
+}
+.map-controls__save:active {
+  background: #657F14;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
+}
+.map-controls__save svg {
+  filter: drop-shadow(0 0 1px #000);
+}
+.map-controls__save > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 2px #000;
+}
 .map-controls__add-component-icon {
   height: 16px;
   width: 16px;

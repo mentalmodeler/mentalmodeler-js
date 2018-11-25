@@ -52,7 +52,6 @@ const addRelationshipToConcept = function (collection, influencerId, influenceeI
         if (concept.id === influencerId) {
             const relationships =  concept.relationships.slice() || [];
             const alreadyHasRelationship = !!(relationships.find(relationship => relationship.id === influenceeId))
-            console.log('influencerId:', influencerId, ', influenceeId:', influenceeId, ', alreadyHasRelationship:', alreadyHasRelationship);
             if (!alreadyHasRelationship) {
                 relationships.push(createRelationship({id: influenceeId}));
             }

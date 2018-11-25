@@ -30,6 +30,22 @@ const util = {
             scenarios
         };
     },
+
+    exportData(state = {}) {
+        let concepts = [];
+        let groupNames = {0: '', 1: '', 2: '', 3: '', 4: '', 5: ''};
+        if (state.groupNames) {
+            groupNames = {...groupNames, ...state.groupNames};
+        }
+        if (state.concepts && state.concepts.collection) {
+            concepts = [...state.concepts.collection];
+        }
+        const js = {concepts, groupNames};
+        return {
+            js,
+            json: JSON.stringify(js)
+        };
+    },
     
     parsePositionData(concepts) {
         concepts.forEach((concept) => {

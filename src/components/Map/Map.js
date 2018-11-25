@@ -30,20 +30,22 @@ class Map extends Component {
 
     onFileReaderLoadEnd = (e) => {
         const result = e.target.result;
-        let data;
-        try {
-            data = JSON.parse(result);
-            data = util.initData(data);
-            console.log('onFileReaderLoadEnd, data:', data);
-            setTimeout(() => {
-                this.props.modelLoad(data);
-            }, 250);
-            this.props.modelLoad({});
-                
-        } catch (e) {
-            console.error('parse JSON error:', e);
+        if (window.MentalModelerConceptMap) {
+            window.MentalModelerConceptMap.load(result);
         }
-        // console.log('onFileReaderLoadEnd, e.target.result:', e.target.result);
+        // let data;
+        // try {
+        //     data = JSON.parse(result);
+        //     data = util.initData(data);
+        //     console.log('onFileReaderLoadEnd, data:', data);
+        //     setTimeout(() => {
+        //         this.props.modelLoad(data);
+        //     }, 250);
+        //     this.props.modelLoad({});
+                
+        // } catch (e) {
+        //     console.error('parse JSON error:', e);
+        // }
     }
 
     handleInputChange = (e) => {
@@ -74,6 +76,13 @@ class Map extends Component {
         }
     }
 
+    onClickSave = (e) => {
+        console.log('onClickSave');
+        if (window.MentalModelerConceptMap) {
+            window.MentalModelerConceptMap.save();
+        }
+    }
+
     render() {
         // console.log('this.props:', this.props);
         return (
@@ -99,8 +108,16 @@ class Map extends Component {
                             style={{display: 'none'}}
                             onChange={this.handleInputChange}
                         />
-                        <button className="map-controls__load" onClick={this.onClickLoad}>{'LOAD'}</button>
+                        <button className="map-controls__load" onClick={this.onClickLoad}>
+                            <span>{'LOAD'}</span>
+                        </button>
                     </div>
+                    <button
+                        className="map-controls__save"  
+                        onClick={this.onClickSave}
+                    >
+                        <span>{'SAVE'}</span>
+                    </button>
                 </div>
                 <div
                     className="map__content"
