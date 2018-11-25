@@ -81,7 +81,7 @@ class ConfidenceControl extends Component {
                         step={step}
                         value={this.state.value}
                         onChange={this.onChange}
-                        onBlur={this.onBlur}
+                        onBlurfor={this.onBlur}
                     />
                 </div>
             </div>

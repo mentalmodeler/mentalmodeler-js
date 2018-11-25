@@ -119,6 +119,9 @@ class Controls extends Component {
 
         return (
             <div className="controls">
+                {!(selectedType || selectedData) &&
+                    <div className="controls__bg">{'mentalmodeler'}</div>
+                }
                 {selectedType && selectedData &&
                     <Fragment>
                         <SelectedControl
@@ -145,7 +148,7 @@ class Controls extends Component {
                                         value={selectedData && selectedData.units ? selectedData.units : ''}
                                         onChange={this.onUnitsChange}
                                         onBlur={this.onUnitsBlur}
-                                        placeholder="Enter units of measurement"
+                                        placeholder="Enter units"
                                     />  
                                 </ControlPanel>
                                 <ControlPanel title="Group">

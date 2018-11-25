@@ -1,5 +1,5 @@
 
-export default {
+{
     "info": {
         "id": "c9825a3a-8d4d-461a-aed7-ae10afc207fd",
         "name": "Fire",

@@ -3,10 +3,12 @@ import {connect} from 'react-redux';
 
 import Concepts from '../Concepts/Concepts';
 import Relationships from '../Relationships/Relationships';
+import util from '../../utils/util';
 
 import {
     conceptFocus,
-    conceptAdd
+    conceptAdd,
+    modelLoad
 } from '../../actions/index';
 
 import './Map.css';
@@ -26,6 +28,52 @@ class Map extends Component {
         this.mapContent = ref;
     }
 
+    onFileReaderLoadEnd = (e) => {
+        const result = e.target.result;
+        let data;
+        try {
+            data = JSON.parse(result);
+            data = util.initData(data);
+            console.log('onFileReaderLoadEnd, data:', data);
+            setTimeout(() => {
+                this.props.modelLoad(data);
+            }, 250);
+            this.props.modelLoad({});
+                
+        } catch (e) {
+            console.error('parse JSON error:', e);
+        }
+        // console.log('onFileReaderLoadEnd, e.target.result:', e.target.result);
+    }
+
+    handleInputChange = (e) => {
+        const file = e.target.files[0];
+        console.log('file:', file);
+        if (file) {
+            const fileReader = new FileReader();
+            fileReader.onloadend = this.onFileReaderLoadEnd;
+            fileReader.readAsText(file);
+        }
+
+        // console.log('handleInputChange, files.target.files:', files.target.files, '\nthis:', this);
+    }
+
+    toggleInputButtonClick = (enable) => {
+        if (this.inputButtonRef && this.input) {
+            this.inputButtonRef
+        }
+    }
+
+    setInputRef = (ref) => {
+        this.inputRef = ref;
+    }
+
+    onClickLoad = (e) => {
+        if (this.inputRef) {
+            this.inputRef.click();
+        }
+    }
+
     render() {
         // console.log('this.props:', this.props);
         return (
@@ -42,6 +90,17 @@ class Map extends Component {
                             {'ADD COMPONENT'}
                         </span>
                     </button>
+                    <div>
+                        <input
+                            type="file"
+                            id="fileElem"
+                            ref={this.setInputRef}
+                            accept=".js,.xml,.mmp"
+                            style={{display: 'none'}}
+                            onChange={this.handleInputChange}
+                        />
+                        <button className="map-controls__load" onClick={this.onClickLoad}>{'LOAD'}</button>
+                    </div>
                 </div>
                 <div
                     className="map__content"
@@ -64,6 +123,10 @@ const mapDispatchToProps = (dispatch) => {
 
         conceptAdd: () => {
             dispatch(conceptAdd());
+        },
+
+        modelLoad: (state) => {
+            dispatch(modelLoad(state))
         }
     };
 }

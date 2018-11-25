@@ -16,22 +16,47 @@ const updateCollectionConcept = function (collection, id, updatedProps = {}) {
 
 const removeConceptFromCollection = function (collection, removeId) {
     // remove any relationships pointing to the removed concept
-    return collection.map((concept) => (
+    console.log('removeConceptFromCollection');
+    const c =  collection.map((concept) => (
         {...concept, relationships: removeRelationships(removeId, concept.relationships)}
-    )).filter((concept) => (concept.id !== removeId));
+    )).filter((concept) => {
+        console.log('\tremoveId:', removeId);
+        if (concept.id === removeId) {
+            console.log('found:', concept);
+        }
+        return concept.id !== removeId
+    });
+    console.log('c:', c, '\n\n');
+    return c;
 };
 
 const removeRelationships = function (influenceeId, relationships = []) {
     return relationships.filter((relationship) => (relationship.id !== influenceeId));
 };
 
+const removeRelationshipFromConcept = function(collection, influencerId, influenceeId) {
+    return collection.map((concept) => {
+        if (concept.id === influencerId) {
+            const relationships = concept.relationships || [];
+            const newRelationships = relationships.filter((relationship) => (
+                relationship.id !== influenceeId
+            ));
+            return {...concept, relationships: newRelationships};
+        }
+        return concept;
+    })
+}
+
 const addRelationshipToConcept = function (collection, influencerId, influenceeId) {
     return collection.map((concept) => {
         if (concept.id === influencerId) {
-            const relationships =  concept.relationships || [];
-            const newRelationships = relationships.slice();
-            newRelationships.push(createRelationship({id: influenceeId}));
-            return {...concept, relationships: newRelationships};
+            const relationships =  concept.relationships.slice() || [];
+            const alreadyHasRelationship = !!(relationships.find(relationship => relationship.id === influenceeId))
+            console.log('influencerId:', influencerId, ', influenceeId:', influenceeId, ', alreadyHasRelationship:', alreadyHasRelationship);
+            if (!alreadyHasRelationship) {
+                relationships.push(createRelationship({id: influenceeId}));
+            }
+            return {...concept, relationships: relationships};
         }
         return concept;
     });
@@ -51,6 +76,7 @@ const updateCollectionRelationship = function (collection, influencerId, influen
 };
 
 const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship: null, tempRelationship: null, tempTarget: null}, action) => {
+    // console.log('concepts REDUCER, action:', action);
     const {collection} = state;
     switch (action.type) {
         case 'CONCEPT_MOVE':
@@ -71,6 +97,18 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
                 collection: updateCollectionRelationship(collection, action.influencerId, action.influenceeId, {
                     confidence: action.value
                 })
+            };
+        case 'RELATIONSHIP_CHANGE_INFLUENCE':
+            return {
+                ...state,
+                collection: updateCollectionRelationship(collection, action.influencerId, action.influenceeId, {
+                    influence: action.value
+                })
+            };
+        case 'RELATIONSHIP_DELETE':
+            return {
+                ...state,
+                collection: removeRelationshipFromConcept(collection, action.influencerId, action.influenceeId)
             };
         case 'RELATIONSHIP_DRAW_TEMP':
             let tempRelationship = null;
@@ -176,11 +214,19 @@ const scenarios = (state = [], action) => {
     }
 }
 
-const allReducers = combineReducers({
+const appReducers = combineReducers({
     concepts,
     groupNames,
     info,
     scenarios
 });
 
-export default allReducers
+const allReducers = (state, action) => {
+    // console.log('allReducers, action:', action);
+    if (action.type === 'MODEL_LOAD') {
+        state = action.state || {}
+    }
+    return appReducers(state, action)
+}
+
+export default allReducers;

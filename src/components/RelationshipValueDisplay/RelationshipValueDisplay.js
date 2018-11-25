@@ -1,27 +1,130 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
+import debounce from 'lodash.debounce';
 
-// import {
-//     conceptFocus,
-//     conceptAdd
-// } from '../../actions/index';
+import util from '../../utils/util';
+
+import {
+    relationshipChangeInfluence,
+    relationshipDelete
+} from '../../actions/index';
 
 import './RelationshipValueDisplay.css';
 
 class RelationshipValueDisplay extends Component {
     constructor(props) {
         super(props);
-
+       
         this.state = {
-            expanded: true,
-            positionPct: 0.5
+            expanded: false,
+            positionPct: 0.5,
+            influenceValue: this.props.influence || 0,
+            tempInfluenceTextValue: this.props.influence || 0
+        }
+    }
+    
+    componentDidMount() {
+        if (this.state.expanded) {
+            this.toggleWindowMouseDownListener(true);
         }
     }
 
+    toggleWindowMouseDownListener(enable) {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('mousedown', this.handleWindowMouseDown);
+
+            if (enable) {
+                window.addEventListener('mousedown', this.handleWindowMouseDown);
+            }
+        }
+    }
+
+    handleWindowMouseDown = (e) => {
+        console.log('this.root:', this.root, '\ne.target:', e.target);
+        if (this.state.expanded && this.root && !this.root.contains(e.target)) {
+            this.toggleWindowMouseDownListener(false);
+            this.setState({
+                expanded: false
+            })
+        }
+    }
+
+    debouncedChangeInfluenceText = debounce(() => {
+        this.setTextValue();
+    }, 2000)
+
+    onChangeInfluenceSlider = (e) => {
+        const {influenceValue} = this.state;
+        const {influencerId, influenceeId} = this.props;
+        const value = e.target.value;
+        if (value !== influenceValue) {
+            this.props.relationshipChangeInfluence(influencerId, influenceeId, value);
+            this.setState({
+                influenceValue: value,
+                tempInfluenceTextValue: value
+            });
+        }
+    }
+
+    onChangeInfluenceText = (e) => {
+        const {tempInfluenceTextValue} = this.state;
+        const value = e.target.value;
+        if (value !== tempInfluenceTextValue) {
+            this.setState({
+                tempInfluenceTextValue: value
+            });
+        }
+        this.debouncedChangeInfluenceText();
+    }
+
+    setTextValue = () => {
+        const {tempInfluenceTextValue, influenceValue} = this.state;
+        const parsedValue = parseFloat(tempInfluenceTextValue);
+        let value = influenceValue;
+        if (!isNaN(parsedValue)) {
+            let norm = util.normalize(parsedValue);
+            if (norm !== influenceValue) {
+                console.log('\tnorm:', norm);
+                value = norm;
+            }
+        }
+        if (value !== influenceValue) {
+            this.setState({
+                influenceValue: value,
+                tempInfluenceTextValue: value
+            });
+        }
+    }
+
+    onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.setTextValue();
+        }
+    }
+
+    onClickDelete = (e) => {
+        const {influencerId, influenceeId, relationshipDelete} = this.props;
+        relationshipDelete(influencerId, influenceeId);
+    }
+
+    onClickExpand = (e) => {
+        if (!this.state.expanded) {
+            this.setState({
+                expanded: true
+            });
+            this.toggleWindowMouseDownListener(true);
+        }
+    }
+
+    setRef = (ref) => {
+        this.root = ref;
+        // console.log('this.root:', this.root);
+    }
+
     render() {
-        const {expanded, positionPct} = this.state;
-        const {erX, erY, eeX, eeY, influence} = this.props;
+        const {expanded, positionPct, influenceValue, tempInfluenceTextValue} = this.state;
+        const {erX, erY, eeX, eeY} = this.props;
         const x = eeX + (erX - eeX) * positionPct;
         const y = eeY + (erY - eeY) * positionPct;
         const posStyle = expanded
@@ -34,28 +137,28 @@ class RelationshipValueDisplay extends Component {
                 top: `${y - 12}px`,
             };
         let display = '?';
-        if (influence !== 0) {
-            display = influence > 0
+        if (influenceValue !== 0) {
+            display = influenceValue > 0
                 ? '+'
                 : '–';
         }
         
         const collapsedClasses = classnames('relationship-value-display__collapsed', {
-            'relationship-value-display__collapsed--has-influence-value' : influence !== 0
+            'relationship-value-display__collapsed--has-influence-value' : influenceValue !== 0
         });
 
         const expandedClasses = classnames('relationship-value-display__expanded', {});
 
         return (
-            <div className="relationship-value-display" style={posStyle}>
+            <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
                 {!expanded &&
-                    <button className={collapsedClasses}>
+                    <button className={collapsedClasses} onClick={this.onClickExpand}>
                         <div><span>{display}</span></div>
                     </button>
                 }
                 {expanded &&
                     <div className={expandedClasses}>
-                        <button className="relationship-value-display__delete">
+                        <button className="relationship-value-display__delete" onClick={this.onClickDelete}>
                             <svg className="relationship-value-display__delete-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 900.5 900.5">
                                 <g>
                                     <path d="M176.415,880.5c0,11.046,8.954,20,20,20h507.67c11.046,0,20-8.954,20-20V232.487h-547.67V880.5L176.415,880.5z
@@ -67,17 +170,39 @@ class RelationshipValueDisplay extends Component {
                             </svg>
                         </button>
                         <div className="relationship-value-display__slider-wrapper">
+                            <div className="relationship-value-display__slider-bg">
+                                <div className="relationship-value-display__slider-bg-left">
+                                    <svg className="relationship-value-display__increase-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 40">
+                                        <polygon points="5,0 18,0 18,40"/>
+                                    </svg>
+                                    <svg className="relationship-value-display__decrease-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 40">
+                                        <polygon points="18,0 5,40 18,40"/>
+                                    </svg>
+                                </div>
+                                <div className="relationship-value-display__slider-bg-right">
+                                    <span className="relationship-value-display__plus-icon">{'+'}</span>
+                                    <span className="relationship-value-display__minus-icon">{'–'}</span>
+                                </div>
+                            </div>
                             <input
                                 type="range"
                                 className="relationship-value-display__slider"
                                 orient="vertical"
+                                max="1"
+                                min="-1"
+                                step="0.01"
+                                value={influenceValue}
+                                onChange={this.onChangeInfluenceSlider}
                             />
                         </div>                        
                         <input
                             type="text"
                             className="relationship-value-display__input"
-                            maxLength="4"
-                            value={influence}
+                            maxLength="5"
+                            value={tempInfluenceTextValue}
+                            onChange={this.onChangeInfluenceText}
+                            onBlur={this.setTextValue}
+                            onKeyDown={this.onKeyDown}
                         />
                     </div>
                 }
@@ -88,13 +213,13 @@ class RelationshipValueDisplay extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // conceptFocus: (id) => {
-        //     dispatch(conceptFocus(id))
-        // },
+        relationshipChangeInfluence: (influencerId, influenceeId, value) => {
+            dispatch(relationshipChangeInfluence(influencerId, influenceeId, value))
+        },
 
-        // conceptAdd: () => {
-        //     dispatch(conceptAdd());
-        // }
+        relationshipDelete: (influencerId, influenceeId) => {
+            dispatch(relationshipDelete(influencerId, influenceeId))
+        }
     };
 }
 

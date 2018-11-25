@@ -2,8 +2,8 @@
 
 .relationship-value-display {
     @expanded-width: 40px;
-
     position: absolute;
+    z-index: 1;
 
     &__collapsed {
         width: 24px;
@@ -36,7 +36,7 @@
         border-radius: 6px;
         // height: 150px;
         width: @expanded-width + 2;
-        background: @concept-0-grad-dark;
+        // background-color: @concept-0-grad-dark;
         display: flex;
         flex-flow: column;
         border: 1px solid #000;
@@ -52,10 +52,63 @@
     &__delete {
         border-radius: 6px 6px 0 0;
         width: @expanded-width;
-        height: 28px;
+        height: 24px;
         padding-top: 2px;
         border: 1px solid #000;
         .mm-button();
+    }
+
+    &__slider-wrapper {
+        height: 88px;
+        width: @expanded-width;
+        position: relative;
+        background-color: @concept-0-grad-dark;
+    }
+
+    &__slider-bg {
+        position: absolute;
+        z-index: 0;
+        top: 4px;
+        left: 0;
+        right: 0;
+        bottom: 4px;
+        pointer-events: none;
+        display: flex;
+        flex-wrap: nowrap;
+        > * {
+            // flex-grow: 1;
+            // flex-shrink: 0;
+            width: 50%;
+            display: flex;
+            flex-flow: column;
+            flex-wrap: nowrap;
+        }
+    }
+
+    &__slider-bg-right {
+        width: 40%;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    &__plus-icon {
+        position: relative;
+        bottom: 6px;
+    }
+
+    &__minus-icon {
+        position: relative;
+        top: 6px;
+    }
+
+    &__increase-icon {
+        stroke: none;
+        fill: #b2c9e1;
+    }
+
+    &__decrease-icon {
+        stroke: none;
+        fill: #dbbca9;
     }
 
     &__slider[type="range"][orient="vertical"] {
@@ -64,6 +117,9 @@
         height: 80px;
         width: @expanded-width;
         margin: 4px 0;
+        cursor: ns-resize;
+        position: relative;
+        z-index: 1;
     }
 
     &__input {
@@ -75,7 +131,9 @@
         font-size: 14px;
         line-height: 22px;
         text-align: center;
-        .mixin-concept-bg(@button-grad-light, @button-grad-dark);
+        // .mixin-concept-bg(@button-grad-light, @button-grad-dark);
+        .mm-button();
         outline: none;
+        cursor: text;
     }
 }

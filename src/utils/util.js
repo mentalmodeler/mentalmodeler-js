@@ -136,6 +136,10 @@ const util = {
         //         ? '-'
         //         : chars[Math.floor(Math.random() * chars.length)]
         // )).join('');
+    },
+
+    normalize(value, min = -1, max = 1) {
+        return Math.max(Math.min(value, max), min);
     }
 };
 

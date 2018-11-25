@@ -1,7 +1,7 @@
 @text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
 @text-shadow-selected-control: 0 1px 3px rgba(0, 0, 0, 1);
 @control-panel-header-bg: #4a4b4d;
-@controls-transition-duration: 500ms;
+@controls-transition-duration: 250ms;
 
 @placeholder-color: #9b9c9d;
 
@@ -83,6 +83,7 @@
     color: #fff;
     outline: none;
     text-shadow: 0 0 2px #000;
+    border: 1px solid #000;
     
     .mixin-button-bg(@button-grad-light, @button-grad-dark);
 
@@ -92,7 +93,8 @@
     }
 
     &:active {
-        .mixin-button-bg(@button-grad-hover-dark, @button-grad-hover-light);
+        .mixin-button-bg(@button-grad-hover-light, @button-grad-hover-dark);
+        box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, .4);
     }
 
     svg {

@@ -27,14 +27,14 @@ class Relationship extends Component {
 
     render() {
         const {
-            // comboId,
+            comboId,
             influence,
-            // influenceeId,
+            influenceeId,
             influenceeX,
             influenceeY,
             influenceeWidth,
             influenceeHeight,
-            // influencerId,
+            influencerId,
             influencerX,
             influencerY,
             influencerWidth,
@@ -219,6 +219,8 @@ class Relationship extends Component {
                         eeX={eeX}
                         erY={erY}
                         eeY={eeY}
+                        influencerId={influencerId}
+                        influenceeId={influenceeId}
                         influence={influence}
                     />
                 }

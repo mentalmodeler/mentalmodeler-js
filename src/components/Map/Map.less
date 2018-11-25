@@ -1,6 +1,7 @@
 @import (reference) '../../shared.less';
 
 .map {
+    z-index: 0;
     flex-grow: 1;
     min-height: 100%;
     display: flex;
@@ -13,7 +14,7 @@
         height: 44px;
         display: flex;
     }
-    
+
     &__content {
         position: relative;
         flex-grow: 1;
@@ -31,6 +32,22 @@
     &__add-component {
         flex-grow: 1;
         font-size: 16px;
+        .mm-button();
+
+        > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 2px #000;
+        }
+    }
+
+    &__load {
+        flex-grow: 0;
+        font-size: 16px;
+        height: 100%;
+        padding-right: 16px;
+        padding-left: 16px;
         .mm-button();
 
         > span {

@@ -7,6 +7,16 @@
   display: flex;
   flex-flow: column;
 }
+.controls__bg {
+  transform: rotateZ(270deg) scale(10);
+  position: absolute;
+  bottom: 0;
+  left: 40px;
+  transform-origin: top left;
+  color: #ececec;
+  z-index: 0;
+  letter-spacing: -0.5px;
+}
 .selected-control {
   padding: 10px;
 }
@@ -117,7 +127,7 @@
 }
 .control-panel__header-icon-svg {
   fill: #fff;
-  transition: transform 500ms ease;
+  transition: transform 250ms ease;
 }
 .control-panel__body {
   background-color: #f2f2f2;

@@ -21,58 +21,55 @@ class Relationships extends Component {
         }
         const hasTempRelationship = !!tempRelationship;
         // console.log('hasTempRelationship:', hasTempRelationship);
-
         return (
             <div className="map__relationships">
-            {collection.map((concept, conceptIndex) => {
-                const relationships = concept.relationships || [];
-                // console.log(conceptIndex, ', relationships:', relationships);
-                return relationships.map((relationship, relationshipIndex) => {
-                    const {
-                        id: influenceeId,
-                        ...rest
-                    } = relationship;
-
-                    const {
-                        x: influenceeX,
-                        y: influenceeY,
-                        width: influenceeWidth,
-                        height: influenceeHeight
-                    } = util.getPosition(influenceeId, positions);
-                    
-                    const {
-                        id: influencerId,
-                        x: influencerX,
-                        y: influencerY,
-                        width: influencerWidth,
-                        height: influencerHeight
-                    } = concept;
-                    
-                    const comboId = `relationship_${influencerId}-${influenceeId}`;
-                    const selected = selectedConcept === influencerId
-                        && selectedRelationship === influenceeId;
-                    
-                    return (
-                        <Relationship
-                            key={comboId}
-                            hasTempRelationship={hasTempRelationship}
-                            comboId={comboId}
-                            influenceeId={influenceeId}
-                            influenceeX={influenceeX}
-                            influenceeY={influenceeY}
-                            influenceeWidth={influenceeWidth}
-                            influenceeHeight={influenceeHeight}
-                            influencerId={influencerId}
-                            influencerX={influencerX}
-                            influencerY={influencerY}
-                            influencerWidth={influencerWidth}
-                            influencerHeight={influencerHeight}
-                            selected={selected}
-                            {...rest}
-                        />
-                    );
+            {
+                collection.map((concept, conceptIndex) => {
+                    const relationships = concept.relationships || [];
+                    return relationships.map((relationship, relationshipIndex) => {
+                        const {
+                            id: influenceeId,
+                            ...rest
+                        } = relationship;
+                        const {
+                            x: influenceeX,
+                            y: influenceeY,
+                            width: influenceeWidth,
+                            height: influenceeHeight
+                        } = util.getPosition(influenceeId, positions);    
+                        const {
+                            id: influencerId,
+                            x: influencerX,
+                            y: influencerY,
+                            width: influencerWidth,
+                            height: influencerHeight
+                        } = concept;
+                        const comboId = `relationship_${influencerId}-${influenceeId}`;                        
+                        const selected = selectedConcept === influencerId
+                            && selectedRelationship === influenceeId;
+                        
+                        return (
+                            <Relationship
+                                key={comboId}
+                                hasTempRelationship={hasTempRelationship}
+                                comboId={comboId}
+                                influenceeId={influenceeId}
+                                influenceeX={influenceeX}
+                                influenceeY={influenceeY}
+                                influenceeWidth={influenceeWidth}
+                                influenceeHeight={influenceeHeight}
+                                influencerId={influencerId}
+                                influencerX={influencerX}
+                                influencerY={influencerY}
+                                influencerWidth={influencerWidth}
+                                influencerHeight={influencerHeight}
+                                selected={selected}
+                                {...rest}
+                            />
+                        );
+                    })
                 })
-            })}
+            }
             {tempRelationship &&
                 <Relationship
                     className="Relationship--temp"

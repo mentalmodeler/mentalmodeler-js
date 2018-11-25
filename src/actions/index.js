@@ -107,6 +107,30 @@ const relationshipChangeConfidence = (influencerId, influenceeId, value) => {
         influenceeId,
         value
     }
+};
+
+const relationshipChangeInfluence = (influencerId, influenceeId, value) => {
+    return {
+        type: 'RELATIONSHIP_CHANGE_INFLUENCE',
+        influencerId,
+        influenceeId,
+        value
+    }
+}
+
+const relationshipDelete = (influencerId, influenceeId) => {
+    return {
+        type: 'RELATIONSHIP_DELETE',
+        influencerId,
+        influenceeId
+    }
+}
+
+const modelLoad = (state) => {
+    return {
+        type: 'MODEL_LOAD',
+        state
+    }
 }
 
 export {
@@ -122,5 +146,8 @@ export {
     relationshipChangeConfidence,
     relationshipDrawTemp,
     relationshipSetTempTarget,
-    relationshipAdd
+    relationshipAdd,
+    relationshipChangeInfluence,
+    relationshipDelete,
+    modelLoad
 };

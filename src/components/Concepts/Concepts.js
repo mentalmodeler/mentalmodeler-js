@@ -16,7 +16,7 @@ class Concepts extends Component {
             {collection.map((concept, index) => {
                 return (
                     <Concept
-                        key={`concept_${index}`}
+                        key={`concept_${concept.id}`}
                         {...concept}
                         hasTempRelationship={hasTempRelationship}
                         isTempRelationship={hasTempRelationship && concept.id === tempRelationship.id}
