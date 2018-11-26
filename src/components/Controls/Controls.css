@@ -6,6 +6,8 @@
   background-color: #e6e6e6;
   display: flex;
   flex-flow: column;
+  overflow: auto;
+  position: relative;
 }
 .controls__bg {
   transform: rotateZ(270deg) scale(10);
@@ -161,19 +163,20 @@
 .group-control li {
   margin-bottom: 8px;
   display: flex;
+  align-items: center;
 }
 .group-control input[type="radio"] {
-  margin-left: 0;
-  margin-right: 8px;
+  margin: 0 8px 0 0;
 }
 .group-control input[type="text"] {
-  margin-left: 0;
   width: 140px;
   padding: 2px;
   font-size: 14px;
   line-height: 22px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin: 0;
+  height: initial;
 }
 .group-control input[type="text"]:focus,
 .group-control input[type="text"]:active {
@@ -184,24 +187,30 @@
   bottom: 1px;
 }
 .group-control__text {
-  color: #666;
+  color: #000;
 }
-.group-control__text--0 {
+.group-control__text--0[type="text"],
+.group-control__text--0[type="text"]:focus {
   background-color: #e6e6e6;
 }
-.group-control__text--1 {
+.group-control__text--1[type="text"],
+.group-control__text--1[type="text"]:focus {
   background-color: #FED0B4;
 }
-.group-control__text--2 {
+.group-control__text--2[type="text"],
+.group-control__text--2[type="text"]:focus {
   background-color: #B3D0FD;
 }
-.group-control__text--3 {
+.group-control__text--3[type="text"],
+.group-control__text--3[type="text"]:focus {
   background-color: #FFFEB6;
 }
-.group-control__text--4 {
+.group-control__text--4[type="text"],
+.group-control__text--4[type="text"]:focus {
   background-color: #FEB4FD;
 }
-.group-control__text--5 {
+.group-control__text--5[type="text"],
+.group-control__text--5[type="text"]:focus {
   background-color: #B4FEE5;
 }
 .group-control input::placeholder {

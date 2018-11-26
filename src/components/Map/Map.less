@@ -13,6 +13,7 @@
         flex-shrink: 0;
         height: 44px;
         display: flex;
+        overflow: hidden
     }
 
     &__content {
@@ -30,10 +31,10 @@
 
 .map-controls {
     &__add-component {
+        .mm-button();
         flex-grow: 1;
         font-size: 16px;
-        .mm-button();
-
+        
         > span {
             display: flex;
             align-items: center;
@@ -43,12 +44,13 @@
     }
 
     &__load {
+        .mm-button();
         flex-grow: 0;
         font-size: 16px;
         height: 100%;
         padding-right: 16px;
         padding-left: 16px;
-        .mm-button();
+        
 
         > span {
             display: flex;
@@ -59,12 +61,13 @@
     }
     
     &__save {
+        .mm-button();
         flex-grow: 0;
         font-size: 16px;
         height: 100%;
         padding-right: 16px;
         padding-left: 16px;
-        .mm-button();
+        
 
         > span {
             display: flex;

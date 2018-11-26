@@ -122,31 +122,37 @@
     &__icon--trash {
         fill: #fff;
         stroke: #fff;
-        height: 19px;
-        transform: scale(1.2);
+        height: 16px;
+        width: 16px;
+        //transform: scale(1.2);
     }
 
     &__icon--line {
         fill: #fff;
         stroke: #fff;
-        height: 19px;
-        transform: scale(1.2);
+        height: 16px;
+        width: 16px;
+        //transform: scale(1.2);
     }
 
 
     &__textarea {
+        width: 168px;
         @line-height: 18px;
         line-height: @line-height;
         font-size: 14px;
         min-height: @line-height;
         border: none;
         padding: 6px;    
-        background: none;
+        background: none !important; // foundation.css overrides
         position: relative;
-        top: 1px;
+        // top: 1px; // foundation.css overrides
         cursor: pointer;
         resize: none;
         z-index: 2;
+        
+        // foundation.css overrides
+        box-shadow: none !important;
         
         &:focus {
             outline: none;

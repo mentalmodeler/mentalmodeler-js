@@ -3,51 +3,42 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker'; 
 import allReducers from './reducers';
 import App from './App';
 import util from './utils/util';
+import {modelLoad} from './actions/index';
 
 import fire from './data/fire.mmp'; // eslint-disable-line
 import simple from './data/simple.mmp'; // eslint-disable-line
 
 import './index.css';
 
-const models = {
-    simple: simple,
-    fire: fire
-};
+const params = new URLSearchParams(document.location.search.substring(1));
+const initialize = !!params.has('init') && document.location.hostname === 'localhost';
+
 let loadTimeoutId;
-let initialized = false;
-let data;
 let store = createStore(allReducers, {});
 
-function init(modelName, targetSelector) {
-    try {
-        const model = models[modelName];
-        if (model && !initialized) {
-            initialized = true;
-            data = util.initData(model);
-            store = createStore(allReducers, data);
-            render(targetSelector);
-        }
-    } catch (e) {
-        console.error('ERROR - ConceptMap > init, e:', e);
-    }
+function loadModel(state) {
+    console.log('MentalModelerConceptMap > loadModel\nstate:', state, '\n\n');
+    store.dispatch(modelLoad(state));
 }
 
 function load(json) {
-    let data;
+    let data = json;
     try {
-        data = JSON.parse(json);
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }        
         data = util.initData(data);
         console.log('MentalModelerConceptMap > load\ndata:', data);
         clearTimeout(loadTimeoutId);
         loadTimeoutId = setTimeout(() => {
             loadTimeoutId = undefined;
-            this.props.modelLoad(data);
+            loadModel(data);
         }, 250);
-        this.props.modelLoad({});
+        loadModel({});
             
     } catch (e) {
         console.error('ERROR - ConceptMap > load, e:', e);
@@ -83,16 +74,16 @@ function render(target = '#root') {
     }
 }
 
-// init('fire');
+if (initialize) {
+    render();
+    load(simple);
+}
 
 // Define public API
 let publicApi = {
-    init,
     render,
     load,
-    save,
-    ConceptMap: App,
-    store
+    save
 };
 
 // registerServiceWorker();

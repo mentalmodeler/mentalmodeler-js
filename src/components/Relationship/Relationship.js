@@ -20,14 +20,10 @@ class Relationship extends Component {
     onClick = (e) => {
         const {influencerId, influenceeId, relationshipFocus} = this.props;
         relationshipFocus(influencerId, influenceeId);
-
-        // const {comboId, influence} = this.props;
-        // console.log(comboId, '> click, influence:', influence);
     }
 
     render() {
         const {
-            comboId,
             influence,
             influenceeId,
             influenceeX,

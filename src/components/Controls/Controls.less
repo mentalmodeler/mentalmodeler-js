@@ -8,6 +8,8 @@
     background-color:#e6e6e6;
     display: flex;
     flex-flow: column;
+    overflow: auto;
+    position: relative;
 
     &__bg {
         transform: rotateZ(270deg) scale(10);
@@ -135,21 +137,22 @@
     li {
         margin-bottom: 8px;
         display: flex;
+        align-items: center;
     }
 
     input[type="radio"] {
-        margin-left: 0;
-        margin-right: 8px;
+        margin: 0 8px 0 0;
     }
 
     input[type="text"] {
-        margin-left: 0;
         width: 140px;
         padding: 2px;
         font-size: 14px;
         line-height: 22px;
         border: 1px solid #ccc;
         border-radius: 4px;
+        margin: 0;
+        height: initial;
 
         &:focus,
         &:active {
@@ -163,13 +166,37 @@
     }
 
     &__text {
-        color: #666;
-        &--0 { background-color: @concept-0-group-bg; }
-        &--1 { background-color: @concept-1-group-bg; }
-        &--2 { background-color: @concept-2-group-bg; }
-        &--3 { background-color: @concept-3-group-bg; }
-        &--4 { background-color: @concept-4-group-bg; }
-        &--5 { background-color: @concept-5-group-bg; }
+        color: #000;
+
+        &--0[type="text"],
+        &--0[type="text"]:focus {
+            background-color: @concept-0-group-bg;
+        }
+
+        &--1[type="text"],
+        &--1[type="text"]:focus {
+            background-color: @concept-1-group-bg;
+        }
+
+        &--2[type="text"],
+        &--2[type="text"]:focus {
+            background-color: @concept-2-group-bg;
+        }
+
+        &--3[type="text"],
+        &--3[type="text"]:focus {
+            background-color: @concept-3-group-bg;
+        }
+        
+        &--4[type="text"],
+        &--4[type="text"]:focus {
+            background-color: @concept-4-group-bg;
+        }
+        
+        &--5[type="text"],
+        &--5[type="text"]:focus {
+            background-color: @concept-5-group-bg;
+        }
     }
 }
 

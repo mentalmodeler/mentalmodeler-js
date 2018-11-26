@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 
 import Concepts from '../Concepts/Concepts';
 import Relationships from '../Relationships/Relationships';
-import util from '../../utils/util';
 
 import {
     conceptFocus,
@@ -32,20 +31,9 @@ class Map extends Component {
         const result = e.target.result;
         if (window.MentalModelerConceptMap) {
             window.MentalModelerConceptMap.load(result);
+        } else {
+            console.error('ERROR - window.MentalModelerConceptMap is undefined');
         }
-        // let data;
-        // try {
-        //     data = JSON.parse(result);
-        //     data = util.initData(data);
-        //     console.log('onFileReaderLoadEnd, data:', data);
-        //     setTimeout(() => {
-        //         this.props.modelLoad(data);
-        //     }, 250);
-        //     this.props.modelLoad({});
-                
-        // } catch (e) {
-        //     console.error('parse JSON error:', e);
-        // }
     }
 
     handleInputChange = (e) => {
@@ -55,14 +43,6 @@ class Map extends Component {
             const fileReader = new FileReader();
             fileReader.onloadend = this.onFileReaderLoadEnd;
             fileReader.readAsText(file);
-        }
-
-        // console.log('handleInputChange, files.target.files:', files.target.files, '\nthis:', this);
-    }
-
-    toggleInputButtonClick = (enable) => {
-        if (this.inputButtonRef && this.input) {
-            this.inputButtonRef
         }
     }
 
@@ -84,7 +64,6 @@ class Map extends Component {
     }
 
     render() {
-        // console.log('this.props:', this.props);
         return (
             <div className="map">
                 <div className="map__controls">
@@ -99,6 +78,7 @@ class Map extends Component {
                             {'ADD COMPONENT'}
                         </span>
                     </button>
+                    {/*
                     <div>
                         <input
                             type="file"
@@ -118,6 +98,7 @@ class Map extends Component {
                     >
                         <span>{'SAVE'}</span>
                     </button>
+                    */}
                 </div>
                 <div
                     className="map__content"

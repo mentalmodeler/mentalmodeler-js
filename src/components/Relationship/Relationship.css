@@ -7,7 +7,7 @@
   z-index: 2;
 }
 .Relationship__svg {
-  overflow: visible;
+  overflow: visible !important;
   position: absolute;
   pointer-events: none;
 }

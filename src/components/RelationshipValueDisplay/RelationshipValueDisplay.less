@@ -6,12 +6,12 @@
     z-index: 1;
 
     &__collapsed {
+        .mm-button();
         width: 24px;
         height: 24px;
         font-size: 16px;
         border-radius: 6px;
         border: 1px solid #000;
-        .mm-button();
 
         > div {
             position: absolute;
@@ -50,12 +50,12 @@
     }
 
     &__delete {
+        .mm-button();
         border-radius: 6px 6px 0 0;
         width: @expanded-width;
         height: 24px;
         padding-top: 2px;
         border: 1px solid #000;
-        .mm-button();
     }
 
     &__slider-wrapper {
@@ -123,6 +123,7 @@
     }
 
     &__input {
+        .mm-button();
         font-weight: 300;
         background: #000;
         border: none;
@@ -132,7 +133,6 @@
         line-height: 22px;
         text-align: center;
         // .mixin-concept-bg(@button-grad-light, @button-grad-dark);
-        .mm-button();
         outline: none;
         cursor: text;
     }

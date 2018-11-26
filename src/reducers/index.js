@@ -16,18 +16,9 @@ const updateCollectionConcept = function (collection, id, updatedProps = {}) {
 
 const removeConceptFromCollection = function (collection, removeId) {
     // remove any relationships pointing to the removed concept
-    console.log('removeConceptFromCollection');
-    const c =  collection.map((concept) => (
+    return collection.map((concept) => (
         {...concept, relationships: removeRelationships(removeId, concept.relationships)}
-    )).filter((concept) => {
-        console.log('\tremoveId:', removeId);
-        if (concept.id === removeId) {
-            console.log('found:', concept);
-        }
-        return concept.id !== removeId
-    });
-    console.log('c:', c, '\n\n');
-    return c;
+    )).filter((concept) => (concept.id !== removeId));
 };
 
 const removeRelationships = function (influenceeId, relationships = []) {
@@ -185,8 +176,9 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
     }
 }
 
-const groupNames = (state = '', action) => {
+const groupNames = (state = {0: '', 1: '', 2: '', 3: '', 4: '', 5: ''}, action) => {
     // console.log('concepts\naction:', action, ', \nstate:', state);
+
     switch (action.type) {
         case 'CHANGE_NAME':
             return state;

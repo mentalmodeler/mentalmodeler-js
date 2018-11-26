@@ -113,8 +113,7 @@ class Concept extends Component {
     onMouseDown = (e) => {
         const {id, selected, conceptFocus, x, y} = this.props;
         const lineButtonMouseDown = e.target === this.lineButtonRef;
-        const {lineMouseDown} = this.state;
-
+        
         // store positions
         this.screenXBeforeDrag = e.screenX;
         this.screenYBeforeDrag = e.screenY;
@@ -178,7 +177,7 @@ class Concept extends Component {
     }
 
     onMouseOut = (e) => {
-        const {id, hasTempRelationship, relationshipSetTempTarget} = this.props;
+        const {hasTempRelationship, relationshipSetTempTarget} = this.props;
         if (hasTempRelationship) {
             relationshipSetTempTarget(null)
         }
@@ -211,13 +210,15 @@ class Concept extends Component {
     }
 
     render() {
-        const { id, name, selected, x, y, group, hasTempRelationship, isTempRelationship} = this.props // eslint-disable-line
+        const { id, name, selected, x, y, group = '0', hasTempRelationship, isTempRelationship} = this.props // eslint-disable-line
         const { value, lineMouseDown } = this.state
         const rootStyle = {
             left: `${x}px`,
             top: `${y}px`
         }
-        const rootClassnames = classnames('Concept', `Concept--group-${group}`, {
+        const groupNum = group || '0';
+        console.log('groupNum:', groupNum);
+        const rootClassnames = classnames('Concept', `Concept--group-${groupNum}`, {
             'Concept--focused': selected,
             'Concept--line-mouse-down': lineMouseDown,
             'Concept--temp-relationship-exists': hasTempRelationship,
@@ -225,7 +226,7 @@ class Concept extends Component {
         });
 
 
-        const bgClassnames = classnames('Concept__bg', `Concept__bg--group-${group}`, {
+        const bgClassnames = classnames('Concept__bg', `Concept__bg--group-${groupNum}`, {
             'Concept__bg--focused': selected,
         });
         
