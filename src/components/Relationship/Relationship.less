@@ -1,48 +1,50 @@
 @import (reference) '../../shared.less';
 
-.Relationship {
-    position: absolute;
-    cursor: pointer;
-    z-index: 0;
+.MentalMapper {
 
-    &--temp {
-        z-index: 2;
-        // pointer-events: none;
-        // > * {
-        //     pointer-events: none;
-        // }
-    }
-
-    &__svg {
-        overflow: visible !important;
+    .Relationship {
         position: absolute;
-        pointer-events: none;
+        cursor: pointer;
+        z-index: 0;
 
-        &--hit {
-            pointer-events: auto;
+        &--temp {
+            z-index: 2;
+            // pointer-events: none;
+            // > * {
+            //     pointer-events: none;
+            // }
         }
-    }
 
-    &--has-temp-relationship {
-        pointer-events: none;
-        
-        > .Relationship__svg--hit {
+        &__svg {
+            overflow: visible !important;
+            position: absolute;
             pointer-events: none;
-        }
-    }
-    
-    &__svg-arrow {
-        &--positive {
-            fill: #0351A6;
+
+            &--hit {
+                pointer-events: auto;
+            }
         }
 
-        &--negative {
-            fill: #BF5513;
+        &--has-temp-relationship {
+            pointer-events: none;
+            
+            > .Relationship__svg--hit {
+                pointer-events: none;
+            }
         }
+        
+        &__svg-arrow {
+            &--positive {
+                fill: #0351A6;
+            }
 
-        &--neutral {
-            fill: #333;
+            &--negative {
+                fill: #BF5513;
+            }
+
+            &--neutral {
+                fill: #333;
+            }
         }
     }
-}
-    
+}   

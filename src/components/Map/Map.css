@@ -1,4 +1,4 @@
-.map {
+.MentalMapper .map {
   z-index: 0;
   flex-grow: 1;
   min-height: 100%;
@@ -6,24 +6,24 @@
   flex-flow: column;
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
 }
-.map__controls {
+.MentalMapper .map__controls {
   flex-grow: 0;
   flex-shrink: 0;
   height: 44px;
   display: flex;
   overflow: hidden;
 }
-.map__content {
+.MentalMapper .map__content {
   position: relative;
   flex-grow: 1;
   background-color: #fff;
   overflow: auto;
 }
-.map textarea::placeholder,
-.map input::placeholder {
+.MentalMapper .map textarea::placeholder,
+.MentalMapper .map input::placeholder {
   color: #9a9b9d !important;
 }
-.map-controls__add-component {
+.MentalMapper .map-controls__add-component {
   cursor: pointer;
   color: #fff;
   outline: none;
@@ -42,7 +42,7 @@
   flex-grow: 1;
   font-size: 16px;
 }
-.map-controls__add-component:hover {
+.MentalMapper .map-controls__add-component:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -53,7 +53,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.map-controls__add-component:active {
+.MentalMapper .map-controls__add-component:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -64,16 +64,16 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.map-controls__add-component svg {
+.MentalMapper .map-controls__add-component svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.map-controls__add-component > span {
+.MentalMapper .map-controls__add-component > span {
   display: flex;
   align-items: center;
   justify-content: center;
   text-shadow: 0 0 2px #000;
 }
-.map-controls__load {
+.MentalMapper .map-controls__load {
   cursor: pointer;
   color: #fff;
   outline: none;
@@ -95,7 +95,7 @@
   padding-right: 16px;
   padding-left: 16px;
 }
-.map-controls__load:hover {
+.MentalMapper .map-controls__load:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -106,7 +106,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.map-controls__load:active {
+.MentalMapper .map-controls__load:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -117,16 +117,16 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.map-controls__load svg {
+.MentalMapper .map-controls__load svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.map-controls__load > span {
+.MentalMapper .map-controls__load > span {
   display: flex;
   align-items: center;
   justify-content: center;
   text-shadow: 0 0 2px #000;
 }
-.map-controls__save {
+.MentalMapper .map-controls__save {
   cursor: pointer;
   color: #fff;
   outline: none;
@@ -148,7 +148,7 @@
   padding-right: 16px;
   padding-left: 16px;
 }
-.map-controls__save:hover {
+.MentalMapper .map-controls__save:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -159,7 +159,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.map-controls__save:active {
+.MentalMapper .map-controls__save:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -170,16 +170,16 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.map-controls__save svg {
+.MentalMapper .map-controls__save svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.map-controls__save > span {
+.MentalMapper .map-controls__save > span {
   display: flex;
   align-items: center;
   justify-content: center;
   text-shadow: 0 0 2px #000;
 }
-.map-controls__add-component-icon {
+.MentalMapper .map-controls__add-component-icon {
   height: 16px;
   width: 16px;
   fill: #fff;

@@ -1,20 +1,20 @@
-.Concept {
+.MentalMapper .Concept {
   position: absolute;
   padding: 2px;
   padding-bottom: 0px;
   z-index: 1;
   cursor: pointer;
 }
-.Concept--focused {
+.MentalMapper .Concept--focused {
   z-index: 3;
 }
-.Concept--focused .Concept__button--top {
+.MentalMapper .Concept--focused .Concept__button--top {
   transform: translateY(-28px);
 }
-.Concept--focused .Concept__button--bottom {
+.MentalMapper .Concept--focused .Concept__button--bottom {
   transform: translateY(28px);
 }
-.Concept__bg {
+.MentalMapper .Concept__bg {
   position: absolute;
   top: 0;
   right: 0;
@@ -24,25 +24,25 @@
   border: 1px solid #000;
   box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
-.Concept__bg--focused.Concept__bg--group-0 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-0 {
   box-shadow: inset 0 0 4px 2px #83A603;
 }
-.Concept__bg--focused.Concept__bg--group-1 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-1 {
   box-shadow: inset 0 0 4px 2px #E57429;
 }
-.Concept__bg--focused.Concept__bg--group-2 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-2 {
   box-shadow: inset 0 0 4px 2px #2971E5;
 }
-.Concept__bg--focused.Concept__bg--group-3 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-3 {
   box-shadow: inset 0 0 4px 2px #E5E529;
 }
-.Concept__bg--focused.Concept__bg--group-4 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-4 {
   box-shadow: inset 0 0 4px 2px #E529E5;
 }
-.Concept__bg--focused.Concept__bg--group-5 {
+.MentalMapper .Concept__bg--focused.Concept__bg--group-5 {
   box-shadow: inset 0 0 4px 2px #14D192;
 }
-.Concept__bg--group-0 {
+.MentalMapper .Concept__bg--group-0 {
   background: #e6e6e6;
   /* Old browsers */
   background: -moz-linear-gradient(top, #e6e6e6 0%, #fff 100%);
@@ -52,7 +52,7 @@
   background: linear-gradient(to bottom, #fff 0%, #e6e6e6 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__bg--group-1 {
+.MentalMapper .Concept__bg--group-1 {
   background: #FFD0B2;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFD0B2 0%, #fff 100%);
@@ -62,7 +62,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFD0B2 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__bg--group-2 {
+.MentalMapper .Concept__bg--group-2 {
   background: #B2CFFF;
   /* Old browsers */
   background: -moz-linear-gradient(top, #B2CFFF 0%, #fff 100%);
@@ -72,7 +72,7 @@
   background: linear-gradient(to bottom, #fff 0%, #B2CFFF 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__bg--group-3 {
+.MentalMapper .Concept__bg--group-3 {
   background: #FFFFB2;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFFFB2 0%, #fff 100%);
@@ -82,7 +82,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFFFB2 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__bg--group-4 {
+.MentalMapper .Concept__bg--group-4 {
   background: #FFB2FF;
   /* Old browsers */
   background: -moz-linear-gradient(top, #FFB2FF 0%, #fff 100%);
@@ -92,7 +92,7 @@
   background: linear-gradient(to bottom, #fff 0%, #FFB2FF 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__bg--group-5 {
+.MentalMapper .Concept__bg--group-5 {
   background: #B2FFE5;
   /* Old browsers */
   background: -moz-linear-gradient(top, #B2FFE5 0%, #fff 100%);
@@ -102,7 +102,7 @@
   background: linear-gradient(to bottom, #fff 0%, #B2FFE5 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-.Concept__button-wrapper {
+.MentalMapper .Concept__button-wrapper {
   position: absolute;
   top: 0;
   right: 0;
@@ -112,13 +112,13 @@
   justify-content: center;
   z-index: -1;
 }
-.Concept__button-wrapper--top {
+.MentalMapper .Concept__button-wrapper--top {
   top: -14px;
 }
-.Concept__button-wrapper--bottom {
+.MentalMapper .Concept__button-wrapper--bottom {
   bottom: -14px;
 }
-.Concept__button {
+.MentalMapper .Concept__button {
   color: #fff;
   text-shadow: 0 0 2px #000;
   border: 1px solid #000;
@@ -143,7 +143,7 @@
   align-items: center;
   outline: none;
 }
-.Concept__button:hover {
+.MentalMapper .Concept__button:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -154,7 +154,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.Concept__button:active {
+.MentalMapper .Concept__button:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -165,29 +165,29 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.Concept__button svg {
+.MentalMapper .Concept__button svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.Concept__button > * {
+.MentalMapper .Concept__button > * {
   pointer-events: none;
 }
-.Concept__button--top {
+.MentalMapper .Concept__button--top {
   align-self: flex-start;
   top: 14px;
   border-radius: 6px 6px 0 0;
 }
-.Concept__button--top:focus {
+.MentalMapper .Concept__button--top:focus {
   transform: translateY(-28px);
 }
-.Concept__button--bottom {
+.MentalMapper .Concept__button--bottom {
   align-self: flex-end;
   bottom: 14px;
   border-radius: 0 0 6px 6px;
 }
-.Concept__button--bottom:focus {
+.MentalMapper .Concept__button--bottom:focus {
   transform: translateY(28px);
 }
-.Concept__button:hover {
+.MentalMapper .Concept__button:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -198,19 +198,19 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.Concept__icon--trash {
+.MentalMapper .Concept__icon--trash {
   fill: #fff;
   stroke: #fff;
   height: 16px;
   width: 16px;
 }
-.Concept__icon--line {
+.MentalMapper .Concept__icon--line {
   fill: #fff;
   stroke: #fff;
   height: 16px;
   width: 16px;
 }
-.Concept__textarea {
+.MentalMapper .Concept__textarea {
   width: 168px;
   line-height: 18px;
   font-size: 14px;
@@ -224,52 +224,52 @@
   z-index: 2;
   box-shadow: none !important;
 }
-.Concept__textarea:focus {
+.MentalMapper .Concept__textarea:focus {
   outline: none;
 }
-.Concept:hover,
-.Concept:focus {
+.MentalMapper .Concept:hover,
+.MentalMapper .Concept:focus {
   z-index: 3;
 }
-.Concept:hover .Concept__button--top,
-.Concept:focus .Concept__button--top {
+.MentalMapper .Concept:hover .Concept__button--top,
+.MentalMapper .Concept:focus .Concept__button--top {
   transform: translateY(-28px);
 }
-.Concept:hover .Concept__button--bottom,
-.Concept:focus .Concept__button--bottom {
+.MentalMapper .Concept:hover .Concept__button--bottom,
+.MentalMapper .Concept:focus .Concept__button--bottom {
   transform: translateY(28px);
 }
-.Concept--line-mouse-down .Concept__button--bottom {
+.MentalMapper .Concept--line-mouse-down .Concept__button--bottom {
   transform: translateY(28px);
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship) > * {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship) > * {
   pointer-events: none;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover {
   z-index: 1;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover .Concept__button--top,
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover .Concept__button--bottom {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover .Concept__button--top,
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover .Concept__button--bottom {
   transform: none;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-0 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-0 {
   box-shadow: inset 0 0 4px 2px #83A603;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-1 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-1 {
   box-shadow: inset 0 0 4px 2px #E57429;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-2 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-2 {
   box-shadow: inset 0 0 4px 2px #2971E5;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-3 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-3 {
   box-shadow: inset 0 0 4px 2px #E5E529;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-4 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-4 {
   box-shadow: inset 0 0 4px 2px #E529E5;
 }
-.Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-5 {
+.MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-5 {
   box-shadow: inset 0 0 4px 2px #14D192;
 }
-.Concept__textarea::placeholder {
+.MentalMapper .Concept__textarea::placeholder {
   color: #9b9c9d;
 }

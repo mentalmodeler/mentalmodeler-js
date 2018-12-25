@@ -1,8 +1,8 @@
-.relationship-value-display {
+.MentalMapper .relationship-value-display {
   position: absolute;
   z-index: 1;
 }
-.relationship-value-display__collapsed {
+.MentalMapper .relationship-value-display__collapsed {
   cursor: pointer;
   color: #fff;
   outline: none;
@@ -23,7 +23,7 @@
   border-radius: 6px;
   border: 1px solid #000;
 }
-.relationship-value-display__collapsed:hover {
+.MentalMapper .relationship-value-display__collapsed:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -34,7 +34,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.relationship-value-display__collapsed:active {
+.MentalMapper .relationship-value-display__collapsed:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -45,10 +45,10 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.relationship-value-display__collapsed svg {
+.MentalMapper .relationship-value-display__collapsed svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.relationship-value-display__collapsed > div {
+.MentalMapper .relationship-value-display__collapsed > div {
   position: absolute;
   top: 0;
   left: 0;
@@ -58,25 +58,25 @@
   align-items: center;
   justify-content: center;
 }
-.relationship-value-display__collapsed--has-influence-value span {
+.MentalMapper .relationship-value-display__collapsed--has-influence-value span {
   position: relative;
   bottom: 1px;
 }
-.relationship-value-display__expanded {
+.MentalMapper .relationship-value-display__expanded {
   overflow: hidden;
   border-radius: 6px;
   width: 42px;
   display: flex;
   flex-flow: column;
   border: 1px solid #000;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
-.relationship-value-display__delete-icon {
+.MentalMapper .relationship-value-display__delete-icon {
   fill: #fff;
   height: 14px;
   width: 14px;
 }
-.relationship-value-display__delete {
+.MentalMapper .relationship-value-display__delete {
   cursor: pointer;
   color: #fff;
   outline: none;
@@ -97,7 +97,7 @@
   padding-top: 2px;
   border: 1px solid #000;
 }
-.relationship-value-display__delete:hover {
+.MentalMapper .relationship-value-display__delete:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -108,7 +108,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.relationship-value-display__delete:active {
+.MentalMapper .relationship-value-display__delete:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -119,16 +119,16 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.relationship-value-display__delete svg {
+.MentalMapper .relationship-value-display__delete svg {
   filter: drop-shadow(0 0 1px #000);
 }
-.relationship-value-display__slider-wrapper {
+.MentalMapper .relationship-value-display__slider-wrapper {
   height: 88px;
   width: 40px;
   position: relative;
   background-color: #e6e6e6;
 }
-.relationship-value-display__slider-bg {
+.MentalMapper .relationship-value-display__slider-bg {
   position: absolute;
   z-index: 0;
   top: 4px;
@@ -139,34 +139,34 @@
   display: flex;
   flex-wrap: nowrap;
 }
-.relationship-value-display__slider-bg > * {
+.MentalMapper .relationship-value-display__slider-bg > * {
   width: 50%;
   display: flex;
   flex-flow: column;
   flex-wrap: nowrap;
 }
-.relationship-value-display__slider-bg-right {
+.MentalMapper .relationship-value-display__slider-bg-right {
   width: 40%;
   justify-content: space-between;
   align-items: flex-end;
 }
-.relationship-value-display__plus-icon {
+.MentalMapper .relationship-value-display__plus-icon {
   position: relative;
   bottom: 6px;
 }
-.relationship-value-display__minus-icon {
+.MentalMapper .relationship-value-display__minus-icon {
   position: relative;
   top: 6px;
 }
-.relationship-value-display__increase-icon {
+.MentalMapper .relationship-value-display__increase-icon {
   stroke: none;
   fill: #b2c9e1;
 }
-.relationship-value-display__decrease-icon {
+.MentalMapper .relationship-value-display__decrease-icon {
   stroke: none;
   fill: #dbbca9;
 }
-.relationship-value-display__slider[type="range"][orient="vertical"] {
+.MentalMapper .relationship-value-display__slider[type="range"][orient="vertical"] {
   writing-mode: bt-lr;
   /* IE */
   -webkit-appearance: slider-vertical;
@@ -178,7 +178,7 @@
   position: relative;
   z-index: 1;
 }
-.relationship-value-display__input {
+.MentalMapper .relationship-value-display__input {
   cursor: pointer;
   text-shadow: 0 0 2px #000;
   border: 1px solid #000;
@@ -201,8 +201,9 @@
   text-align: center;
   outline: none;
   cursor: text;
+  margin: 0;
 }
-.relationship-value-display__input:hover {
+.MentalMapper .relationship-value-display__input:hover {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -213,7 +214,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   border-color: #657F14;
 }
-.relationship-value-display__input:active {
+.MentalMapper .relationship-value-display__input:active {
   background: #657F14;
   /* Old browsers */
   background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
@@ -224,6 +225,16 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
 }
-.relationship-value-display__input svg {
+.MentalMapper .relationship-value-display__input svg {
   filter: drop-shadow(0 0 1px #000);
+}
+.MentalMapper .relationship-value-display__input:focus {
+  background: #657F14;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }

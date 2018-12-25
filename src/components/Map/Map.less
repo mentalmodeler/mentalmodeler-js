@@ -1,87 +1,90 @@
 @import (reference) '../../shared.less';
 
-.map {
-    z-index: 0;
-    flex-grow: 1;
-    min-height: 100%;
-    display: flex;
-    flex-flow: column;
-    box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
+.MentalMapper {
 
-    &__controls {
-        flex-grow: 0;
-        flex-shrink: 0;
-        height: 44px;
+    .map {
+        z-index: 0;
+        flex-grow: 1;
+        min-height: 100%;
         display: flex;
-        overflow: hidden
-    }
+        flex-flow: column;
+        box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
 
-    &__content {
-        position: relative;
-        flex-grow: 1;
-        background-color: #fff;
-        overflow: auto;
-    }
-
-    textarea::placeholder,
-    input::placeholder {
-        color: #9a9b9d !important;
-    }
-}
-
-.map-controls {
-    &__add-component {
-        .mm-button();
-        flex-grow: 1;
-        font-size: 16px;
-        
-        > span {
+        &__controls {
+            flex-grow: 0;
+            flex-shrink: 0;
+            height: 44px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 0 2px #000;
+            overflow: hidden
+        }
+
+        &__content {
+            position: relative;
+            flex-grow: 1;
+            background-color: #fff;
+            overflow: auto;
+        }
+
+        textarea::placeholder,
+        input::placeholder {
+            color: #9a9b9d !important;
         }
     }
 
-    &__load {
-        .mm-button();
-        flex-grow: 0;
-        font-size: 16px;
-        height: 100%;
-        padding-right: 16px;
-        padding-left: 16px;
-        
-
-        > span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 0 2px #000;
+    .map-controls {
+        &__add-component {
+            .mm-button();
+            flex-grow: 1;
+            font-size: 16px;
+            
+            > span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 0 2px #000;
+            }
         }
-    }
-    
-    &__save {
-        .mm-button();
-        flex-grow: 0;
-        font-size: 16px;
-        height: 100%;
-        padding-right: 16px;
-        padding-left: 16px;
-        
 
-        > span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 0 2px #000;
+        &__load {
+            .mm-button();
+            flex-grow: 0;
+            font-size: 16px;
+            height: 100%;
+            padding-right: 16px;
+            padding-left: 16px;
+            
+
+            > span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 0 2px #000;
+            }
         }
-    }
+        
+        &__save {
+            .mm-button();
+            flex-grow: 0;
+            font-size: 16px;
+            height: 100%;
+            padding-right: 16px;
+            padding-left: 16px;
+            
 
-    &__add-component-icon {
-        height: 16px;
-        width: 16px;
-        fill: #fff;
-        margin-right: 8px;
-        filter: drop-shadow(0 0 1px #000);
+            > span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 0 2px #000;
+            }
+        }
+
+        &__add-component-icon {
+            height: 16px;
+            width: 16px;
+            fill: #fff;
+            margin-right: 8px;
+            filter: drop-shadow(0 0 1px #000);
+        }
     }
 }

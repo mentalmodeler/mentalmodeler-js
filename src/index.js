@@ -14,6 +14,7 @@ import simple from './data/simple.mmp'; // eslint-disable-line
 
 import './index.css';
 
+
 const params = new URLSearchParams(document.location.search.substring(1));
 const initialize = !!params.has('init') && document.location.hostname === 'localhost';
 
@@ -76,7 +77,7 @@ function render(target = '#root') {
 
 if (initialize) {
     render();
-    load(simple);
+    load(fire);
 }
 
 // Define public API

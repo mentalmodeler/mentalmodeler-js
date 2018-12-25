@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 import debounce from 'lodash.debounce';
+import ReactDOM from 'react-dom';
 
 import util from '../../utils/util';
 
 import {
     relationshipChangeInfluence,
-    relationshipDelete
+    relationshipDelete,
+    relationshipFocus
 } from '../../actions/index';
 
 import './RelationshipValueDisplay.css';
@@ -22,6 +24,8 @@ class RelationshipValueDisplay extends Component {
             influenceValue: this.props.influence || 0,
             tempInfluenceTextValue: this.props.influence || 0
         }
+
+        const menuOffset = this.props.containerOffsetRect;
     }
     
     componentDidMount() {
@@ -80,6 +84,7 @@ class RelationshipValueDisplay extends Component {
 
     setTextValue = () => {
         const {tempInfluenceTextValue, influenceValue} = this.state;
+        console.log('setTextValue\n\tinfluenceValue:', influenceValue, ', tempInfluenceTextValue:', tempInfluenceTextValue);
         const parsedValue = parseFloat(tempInfluenceTextValue);
         let value = influenceValue;
         if (!isNaN(parsedValue)) {
@@ -89,7 +94,11 @@ class RelationshipValueDisplay extends Component {
                 value = norm;
             }
         }
-        if (value !== influenceValue) {
+        if (value !== influenceValue || value !== tempInfluenceTextValue) {
+            if (value !== influenceValue) {
+                const {influencerId, influenceeId} = this.props;
+                this.props.relationshipChangeInfluence(influencerId, influenceeId, value);
+            }
             this.setState({
                 influenceValue: value,
                 tempInfluenceTextValue: value
@@ -109,6 +118,8 @@ class RelationshipValueDisplay extends Component {
     }
 
     onClickExpand = (e) => {
+        const {influencerId, influenceeId, relationshipFocus} = this.props;
+        relationshipFocus(influencerId, influenceeId);
         if (!this.state.expanded) {
             this.setState({
                 expanded: true
@@ -119,7 +130,6 @@ class RelationshipValueDisplay extends Component {
 
     setRef = (ref) => {
         this.root = ref;
-        // console.log('this.root:', this.root);
     }
 
     render() {
@@ -131,6 +141,7 @@ class RelationshipValueDisplay extends Component {
             ? {
                 left: `${x - 21}px`,
                 top: `${y - 70}px`,
+                zIndex: '3'
             }
             : {
                 left: `${x - 12}px`,
@@ -148,15 +159,20 @@ class RelationshipValueDisplay extends Component {
         });
 
         const expandedClasses = classnames('relationship-value-display__expanded', {});
-
-        return (
-            <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
-                {!expanded &&
+        const domNode = document && document.querySelector('.MentalMapper .map__content');
+        console.log('domNode:', domNode);
+        if (!expanded) {
+            return (
+                <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
                     <button className={collapsedClasses} onClick={this.onClickExpand}>
                         <div><span>{display}</span></div>
                     </button>
-                }
-                {expanded &&
+                </div>
+            )    
+        }
+        else if (domNode) {
+            return ReactDOM.createPortal(
+                <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
                     <div className={expandedClasses}>
                         <button className="relationship-value-display__delete" onClick={this.onClickDelete}>
                             <svg className="relationship-value-display__delete-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 900.5 900.5">
@@ -205,9 +221,11 @@ class RelationshipValueDisplay extends Component {
                             onKeyDown={this.onKeyDown}
                         />
                     </div>
-                }
-            </div>
-        );
+                </div>,
+                domNode
+            );
+        }
+        return <div/>;
     }
 }
 
@@ -219,6 +237,10 @@ const mapDispatchToProps = (dispatch) => {
 
         relationshipDelete: (influencerId, influenceeId) => {
             dispatch(relationshipDelete(influencerId, influenceeId))
+        },
+
+        relationshipFocus: (influencerId, influenceeId) => {
+            dispatch(relationshipFocus(influencerId, influenceeId))
         }
     };
 }

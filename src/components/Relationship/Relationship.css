@@ -1,31 +1,31 @@
-.Relationship {
+.MentalMapper .Relationship {
   position: absolute;
   cursor: pointer;
   z-index: 0;
 }
-.Relationship--temp {
+.MentalMapper .Relationship--temp {
   z-index: 2;
 }
-.Relationship__svg {
+.MentalMapper .Relationship__svg {
   overflow: visible !important;
   position: absolute;
   pointer-events: none;
 }
-.Relationship__svg--hit {
+.MentalMapper .Relationship__svg--hit {
   pointer-events: auto;
 }
-.Relationship--has-temp-relationship {
+.MentalMapper .Relationship--has-temp-relationship {
   pointer-events: none;
 }
-.Relationship--has-temp-relationship > .Relationship__svg--hit {
+.MentalMapper .Relationship--has-temp-relationship > .Relationship__svg--hit {
   pointer-events: none;
 }
-.Relationship__svg-arrow--positive {
+.MentalMapper .Relationship__svg-arrow--positive {
   fill: #0351A6;
 }
-.Relationship__svg-arrow--negative {
+.MentalMapper .Relationship__svg-arrow--negative {
   fill: #BF5513;
 }
-.Relationship__svg-arrow--neutral {
+.MentalMapper .Relationship__svg-arrow--neutral {
   fill: #333;
 }
