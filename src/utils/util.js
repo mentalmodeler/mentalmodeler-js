@@ -1,5 +1,4 @@
-const LINE_VALUE_INDICATOR_WIDTH = 20;
-
+const LINE_VALUE_INDICATOR_WIDTH = 26;
 const ELEMENT_TYPE = {
     CONCEPT: 'concept',
     RELATIONSHIP: 'relationship'
@@ -15,8 +14,31 @@ const util = {
             info,
             scenarios
         } = data;
-        const collection = [...concepts];
-        util.parsePositionData(collection);
+        
+        // initialize and format concept and relationship data
+        
+        // old way
+        // const collection = [...concepts]; util.parsePositionData(collection);
+        
+        // new way
+        const collection = concepts.map((concept) => {
+            const relationships = concept && concept.relationships ? concept.relationships : [];
+            const newRelationships = relationships.map((relationship) => {
+                if (!relationship.inDualRelationship) {
+                    const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, relationship.id);
+                    if (makesDualRelationship && otherRelationship) {
+                        relationship.inDualRelationship = true;
+                        relationship.isFirstInDualRelationship = false;
+                        otherRelationship.inDualRelationship = true;
+                        otherRelationship.isFirstInDualRelationship = true;
+                    }
+                }    
+                return {...relationship, influence: parseFloat(relationship.influence)}
+            });
+
+            return {...concept, relationships: newRelationships, x: parseInt(concept.x, 10), y: parseInt(concept.y, 10)};
+        })
+        
         return {
             concepts: {
                 collection,
@@ -47,16 +69,27 @@ const util = {
         };
     },
     
-    parsePositionData(concepts) {
-        concepts.forEach((concept) => {
-            concept.x = parseInt(concept.x, 10);
-            concept.y = parseInt(concept.y, 10);
-            const {relationships = []} = concept;
-            relationships.forEach((relationship) => {
-                relationship.influence = parseFloat(relationship.influence);
-            });
-        });
-    },
+    // parsePositionData(concepts) {
+    //     // console.log('parsePositionData')
+    //     concepts.forEach((concept) => {
+    //         concept.x = parseInt(concept.x, 10);
+    //         concept.y = parseInt(concept.y, 10);
+    //         const {relationships = []} = concept;
+    //         relationships.forEach((relationship) => {
+    //             relationship.influence = parseFloat(relationship.influence);
+    //             const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, relationship.id);
+    //             // console.log('\n\trelationship > ', concept.id, ' to ', relationship.id, '\n\tmakesDualRelationship:', makesDualRelationship, '\n\totherRelationship:', otherRelationship);
+    //             if (!relationship.makesDualRelationship && makesDualRelationship && otherRelationship) {
+    //                 relationship.inDualRelationship = true;
+    //                 relationship.isFirstInDualRelationship = false;
+    //                 otherRelationship.inDualRelationship = true;
+    //                 otherRelationship.isFirstInDualRelationship = true;
+    //                 // console.log('\trelationship:', relationship);
+    //                 // console.log('\totherRelationship:', otherRelationship);
+    //             }
+    //         });
+    //     });
+    // },
 
     getConceptsPosition(collection) {
         const positions = {};
@@ -82,22 +115,22 @@ const util = {
         return Math.sqrt(a * a + b * b);
     },
 
-    getOffset(isInDualRelationship, isFirstLineInDualRelationship) {
-        if (isInDualRelationship) {
-            return isFirstLineInDualRelationship
+    getOffset(inDualRelationship, isFirstInDualRelationship) {
+        if (inDualRelationship) {
+            return isFirstInDualRelationship
                 ? LINE_VALUE_INDICATOR_WIDTH / 2
                 : - LINE_VALUE_INDICATOR_WIDTH / 2;
         }
         return 0;
     },
 
-    determineEdgePoint({eeX, eeY, erX, erY, eeWidth, eeHeight}) {
+    determineEdgePoint({eeX, eeY, erX, erY, eeWidth, eeHeight, inDualRelationship = false, isFirstInDualRelationship = false}) {
         let pct;
         const dist = util.getDistanceBetweenPoints(eeX, eeY, erX, erY);
         const eeRadians = Math.atan2(erX - eeX, erY - eeY);
         const w = eeWidth / 2 + (erX > eeX 
-            ? - util.getOffset()
-            : util.getOffset());
+            ? - util.getOffset(inDualRelationship, isFirstInDualRelationship)
+            : util.getOffset(inDualRelationship, isFirstInDualRelationship));
         const h = eeHeight / 2;
         const cos = Math.cos(eeRadians);
         let hypo = Math.abs(h / cos);
@@ -140,23 +173,49 @@ const util = {
     },
 
     createId() {
-        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        const dashSpots = [8, 13, 18, 23];
-        return [...Array(36)].map((value, index) => (
-            dashSpots.indexOf(index) > -1
-                ? '-'
-                : chars[Math.floor(Math.random() * (index === 0 ? 26 : chars.length))]
-        )).join('');
-        // return [...Array(19)].map((value, index) => (
-        //     (index + 1) % 5 === 0
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // const dashSpots = [8, 13, 18, 23];
+        // return [...Array(36)].map((value, index) => (
+        //     dashSpots.indexOf(index) > -1
         //         ? '-'
-        //         : chars[Math.floor(Math.random() * chars.length)]
+        //         : chars[Math.floor(Math.random() * (index === 0 ? 26 : chars.length))]
         // )).join('');
+        return [...Array(19)].map((value, index) => {
+            if (index === 0) {
+                return chars[Math.floor(Math.random() * chars.length - 10)]
+            }
+            return (index + 1) % 5 === 0
+                ? '-'
+                : chars[Math.floor(Math.random() * chars.length)]
+        }).join('');
     },
 
     normalize(value, min = -1, max = 1) {
         return Math.max(Math.min(value, max), min);
+    },
+
+    makesDualRelationship(collection, influencerId, influenceeId) {
+        const ee = util.findConcept(collection, influenceeId);
+        const relationships = ee && ee.relationships ? ee.relationships : [];
+        const relationship = relationships.find((r) => (r.id === influencerId))
+        return {
+            makesDualRelationship: !!relationship,
+            otherRelationship: relationship
+        };
+        // return relationships.some((relationship) => (
+        //     relationship.id = influencerId
+        // ));
     }
+
+    // makesDualRelationship(collection, influencerId, influenceeId) {
+    //     const ee = util.findConcept(collection, influenceeId);
+    //     const relationships = ee && ee.relationships
+    //         ? ee.relationships
+    //         : [];
+    //     return relationships.some((relationship) => (
+    //         relationship.id = influencerId
+    //     ));
+    // }
 };
 
 export {

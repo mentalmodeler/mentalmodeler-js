@@ -62,6 +62,12 @@
   position: relative;
   bottom: 1px;
 }
+.MentalMapper .relationship-value-display--expanded {
+  animation-name: MentalMapper-menu-pop-in-expand;
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
 .MentalMapper .relationship-value-display__expanded {
   overflow: hidden;
   border-radius: 6px;
@@ -237,4 +243,20 @@
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+@keyframes MentalMapper-menu-pop-in-expand {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
 }

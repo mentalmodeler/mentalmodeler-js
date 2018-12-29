@@ -7,7 +7,13 @@ class Concepts extends Component {
         const {concepts} = this.props;
         const {collection, selectedConcept, selectedRelationship, tempRelationship, tempTarget} = concepts;
         const hasTempRelationship = !!tempRelationship;
-        
+        // console.log('\n\nConcepts > render'
+        //     , '\n\tselectedConcept:', selectedConcept
+        //     , '\n\tselectedRelationship:', selectedRelationship
+        //     , '\n\ttempRelationship:', tempRelationship
+        //     , '\n\ttempTarget:', tempTarget
+        //     , '\n\n'
+        // );
         return (
             <div className="map__concepts">
             {collection.map((concept, index) => {

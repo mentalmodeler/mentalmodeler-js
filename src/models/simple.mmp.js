@@ -16,12 +16,12 @@
             "units": "",
             "group": "0",
             "x": "735",
-            "y": "35",
+            "y": "95",
             "preferredState": "0",
             "relationships": [
                 {
                 "id": "2",
-                "name": "Tourism",
+                "name": "Property Damage",
                 "notes": "",
                 "confidence": "0",
                 "influence": "-0.55"
@@ -34,10 +34,9 @@
             "notes": "",
             "units": "",
             "group": "0",
-            "x": "534",
+            "x": "334",
             "y": "27",
             "preferredState": "0",
-            "relationships": []
         },
         {
             "id": "3",

@@ -38,9 +38,12 @@ class Relationship extends Component {
             selected,
             className,
             tempLine,
-            hasTempRelationship
+            hasTempRelationship,
+            inDualRelationship,
+            isFirstInDualRelationship
         } = this.props
 
+        // console.log('Relationship > render >', influencerId, '-', influenceeId, '\n\tinDualRelationship:', inDualRelationship, ', isFirstInDualRelationship:', isFirstInDualRelationship);
         const sizeData = [influenceeWidth, influenceeHeight, influencerWidth, influencerHeight];
         const missingSomeSizeData = sizeData.some((value) => (!value));
         if (missingSomeSizeData && !tempLine) {
@@ -49,9 +52,9 @@ class Relationship extends Component {
 
         const influenceAbsValue = Math.abs(influence);
         const lineThickness = Math.round(influenceAbsValue * 3 + 1);
-        let erX = influencerX + influencerWidth / 2;
+        let erX = influencerX + influencerWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
         let erY = influencerY + influencerHeight / 2;
-        let eeX = influenceeX + influenceeWidth / 2;
+        let eeX = influenceeX + influenceeWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
         let eeY = influenceeY + influenceeHeight / 2;
         if (!tempLine) {
             const edgeEE = util.determineEdgePoint({
@@ -71,7 +74,9 @@ class Relationship extends Component {
                 erX: eeX,
                 erY: eeY,
                 eeWidth: influencerWidth,
-                eeHeight: influencerHeight
+                eeHeight: influencerHeight,
+                inDualRelationship,
+                isFirstInDualRelationship
             });
             erX  = edgeEr.x;
             erY  = edgeEr.y;
@@ -100,6 +105,7 @@ class Relationship extends Component {
         const rootClassname = classnames('Relationship', {
             [className]: !!className,
             'Relationship--has-temp-relationship' : hasTempRelationship
+            // 'Relationship--temp-line' : tempLine
         });
         // console.log('rootClassname:', rootClassname);
         return (

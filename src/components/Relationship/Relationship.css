@@ -11,13 +11,13 @@
   position: absolute;
   pointer-events: none;
 }
-.MentalMapper .Relationship__svg--hit {
+.MentalMapper .Relationship__svg--hit line {
   pointer-events: auto;
 }
 .MentalMapper .Relationship--has-temp-relationship {
   pointer-events: none;
 }
-.MentalMapper .Relationship--has-temp-relationship > .Relationship__svg--hit {
+.MentalMapper .Relationship--has-temp-relationship > .Relationship__svg--hit > line {
   pointer-events: none;
 }
 .MentalMapper .Relationship__svg-arrow--positive {

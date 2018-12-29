@@ -38,7 +38,10 @@ class Concept extends Component {
 
         this.height = 0;
         this.width = 0;
+
+        // console.log('this.props:', this.props);
     }
+
 
     componentDidMount() {
         if (this.textarea) {
@@ -141,6 +144,7 @@ class Concept extends Component {
         const deltaY = e.screenY - this.screenYBeforeDrag;
         const newX = Math.max(deltaX + this.xBeforeDrag, 0);
         const newY = Math.max(deltaY + this.yBeforeDrag, 0);
+        // console.log('onMouseMove\n\tthis.xBeforeDrag:', this.xBeforeDrag, ', this.yBeforeDrag:', this.yBeforeDrag, '\n\tnewX:', newX, ', newY:', newY);
         // const newX = Math.max(0, e.movementX + x);
         // const newY = Math.max(0, e.movementY + y);
         if (lineMouseDown) {
@@ -155,8 +159,8 @@ class Concept extends Component {
         const {lineMouseDown} = this.state;
         this.toggleDragHandlers(false, e);
         if (lineMouseDown) {
-            if (tempTarget !== null) {
-                console.log('tempTarget:', tempTarget)
+            if (tempTarget !== null && id !== tempTarget) {
+                // console.log('Concept > add relationship\n\tid:', id, '\n\ttempTarget:', tempTarget); //tempTarget:', tempTarget)
                 relationshipAdd(id, tempTarget);
             }
             relationshipDrawTemp(id, false);
@@ -172,7 +176,6 @@ class Concept extends Component {
         const {id, hasTempRelationship, relationshipSetTempTarget} = this.props;
         if (hasTempRelationship) {
             relationshipSetTempTarget(id)
-            
         }
     }
 
@@ -217,7 +220,7 @@ class Concept extends Component {
             top: `${y}px`
         }
         const groupNum = group || '0';
-        console.log('groupNum:', groupNum);
+        // console.log('groupNum:', groupNum);
         const rootClassnames = classnames('Concept', `Concept--group-${groupNum}`, {
             'Concept--focused': selected,
             'Concept--line-mouse-down': lineMouseDown,
@@ -230,6 +233,8 @@ class Concept extends Component {
             'Concept__bg--focused': selected,
         });
         
+        // console.log('\t\tConcept >', this.props.id, '> render');
+
         return (
             <div
                 className={rootClassnames}

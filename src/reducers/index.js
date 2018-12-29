@@ -26,30 +26,79 @@ const removeRelationships = function (influenceeId, relationships = []) {
 };
 
 const removeRelationshipFromConcept = function(collection, influencerId, influenceeId) {
-    return collection.map((concept) => {
+    // let inDualRelationship = false;
+    const newCollection = collection.map((concept) => {
         if (concept.id === influencerId) {
+            // keep all relationships but this one
             const relationships = concept.relationships || [];
             const newRelationships = relationships.filter((relationship) => (
                 relationship.id !== influenceeId
             ));
+            // unmark other relationship in dual relationship, if exists
+            const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(collection, influencerId, influenceeId);
+            if (makesDualRelationship && otherRelationship) {
+                // inDualRelationship = true;
+                otherRelationship.inDualRelationship = false;
+                otherRelationship.isFirstInDualRelationship = false;
+            }
             return {...concept, relationships: newRelationships};
         }
         return concept;
     })
+
+    // if (inDualRelationship) {
+    //    done above in direct data manipulation
+    //    todo: find relationship that would be in dual relationship and update props
+    // }
+
+    return newCollection;
 }
 
 const addRelationshipToConcept = function (collection, influencerId, influenceeId) {
-    return collection.map((concept) => {
+    let inDualRelationship = false;
+    
+    let newCollection = collection.map((concept) => {
         if (concept.id === influencerId) {
-            const relationships =  concept.relationships.slice() || [];
+            const relationships =  concept.relationships ? [...concept.relationships] : [];
             const alreadyHasRelationship = !!(relationships.find(relationship => relationship.id === influenceeId))
             if (!alreadyHasRelationship) {
-                relationships.push(createRelationship({id: influenceeId}));
+                // check to see if would make dual relationship
+                const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(collection, influencerId, influenceeId);
+                inDualRelationship = makesDualRelationship;
+                relationships.push(createRelationship({
+                    id: influenceeId,
+                    inDualRelationship,
+                    isFirstInDualRelationship: false
+                }));
+                //  directly manipulating object. to clone data, use method below
+                if (otherRelationship) {
+                    otherRelationship.inDualRelationship = true;
+                    otherRelationship.isFirstInDualRelationship = true;
+                }
             }
             return {...concept, relationships: relationships};
         }
         return concept;
     });
+
+    // if (inDualRelationship) {
+    //     newCollection = newCollection.map((concept) => {
+    //         if (concept.id === influenceeId) {
+    //             const relationships =  concept.relationships ? concept.relationships.slice() : [];
+    //             const newRelationships = relationships.map((relationship) => {
+    //                 if (relationship.id === influencerId) {
+    //                     console.log('addRelationshipToConcept > makesDualRelationship > other side', '\n\t', influenceeId, '>', influencerId);
+    //                     return {...relationship, inDualRelationship: true, isFirstInDualRelationship: true}
+    //                 }
+    //                 return relationship;
+    //             });
+    //             return {...concept, relationships: newRelationships};
+    //         }
+    //         return concept;
+    //     });
+    // }
+    
+    return newCollection;
 };
 
 const updateCollectionRelationship = function (collection, influencerId, influenceeId, updatedProps = {}) {
@@ -98,6 +147,8 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
         case 'RELATIONSHIP_DELETE':
             return {
                 ...state,
+                selectedConcept: null,
+                selectedRelationship: null,
                 collection: removeRelationshipFromConcept(collection, action.influencerId, action.influenceeId)
             };
         case 'RELATIONSHIP_DRAW_TEMP':
@@ -123,7 +174,7 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
                 tempTarget: action.id
             };
         case 'RELATIONSHIP_ADD':
-            console.log('RELATIONSHIP_ADD, action.influencerId:', action.influencerId, ', action.influenceeId:', action.influenceeId);
+            // console.log('RELATIONSHIP_ADD, action.influencerId:', action.influencerId, ', action.influenceeId:', action.influenceeId);
             return {
                 ...state,
                 collection: addRelationshipToConcept(collection, action.influencerId, action.influenceeId),

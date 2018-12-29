@@ -22,7 +22,7 @@ let loadTimeoutId;
 let store = createStore(allReducers, {});
 
 function loadModel(state) {
-    console.log('MentalModelerConceptMap > loadModel\nstate:', state, '\n\n');
+    // console.log('MentalModelerConceptMap > loadModel\nstate:', state, '\n\n');
     store.dispatch(modelLoad(state));
 }
 
@@ -33,7 +33,7 @@ function load(json) {
             data = JSON.parse(data);
         }        
         data = util.initData(data);
-        console.log('MentalModelerConceptMap > load\ndata:', data);
+        // console.log('MentalModelerConceptMap > load\ndata:', data);
         clearTimeout(loadTimeoutId);
         loadTimeoutId = setTimeout(() => {
             loadTimeoutId = undefined;
@@ -49,7 +49,7 @@ function load(json) {
 function save() {
     try {
         const data =  util.exportData(store.getState());
-        console.log('MentalModelerConceptMap > save\ndata:', data);
+        // console.log('MentalModelerConceptMap > save\ndata:', data);
         return data;
     } catch (e) {
         console.error('ERROR - ConceptMap > save, e:', e);
@@ -79,6 +79,10 @@ if (initialize) {
     render();
     load(fire);
 }
+
+// for (let i=0; i< 10; i++) {
+//     console.log(util.createId());
+// }
 
 // Define public API
 let publicApi = {

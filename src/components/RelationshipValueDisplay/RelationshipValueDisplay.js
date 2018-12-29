@@ -24,8 +24,6 @@ class RelationshipValueDisplay extends Component {
             influenceValue: this.props.influence || 0,
             tempInfluenceTextValue: this.props.influence || 0
         }
-
-        const menuOffset = this.props.containerOffsetRect;
     }
     
     componentDidMount() {
@@ -45,7 +43,7 @@ class RelationshipValueDisplay extends Component {
     }
 
     handleWindowMouseDown = (e) => {
-        console.log('this.root:', this.root, '\ne.target:', e.target);
+        // console.log('this.root:', this.root, '\ne.target:', e.target);
         if (this.state.expanded && this.root && !this.root.contains(e.target)) {
             this.toggleWindowMouseDownListener(false);
             this.setState({
@@ -84,13 +82,13 @@ class RelationshipValueDisplay extends Component {
 
     setTextValue = () => {
         const {tempInfluenceTextValue, influenceValue} = this.state;
-        console.log('setTextValue\n\tinfluenceValue:', influenceValue, ', tempInfluenceTextValue:', tempInfluenceTextValue);
+        // console.log('setTextValue\n\tinfluenceValue:', influenceValue, ', tempInfluenceTextValue:', tempInfluenceTextValue);
         const parsedValue = parseFloat(tempInfluenceTextValue);
         let value = influenceValue;
         if (!isNaN(parsedValue)) {
             let norm = util.normalize(parsedValue);
             if (norm !== influenceValue) {
-                console.log('\tnorm:', norm);
+                // console.log('\tnorm:', norm);
                 value = norm;
             }
         }
@@ -160,7 +158,6 @@ class RelationshipValueDisplay extends Component {
 
         const expandedClasses = classnames('relationship-value-display__expanded', {});
         const domNode = document && document.querySelector('.MentalMapper .map__content');
-        console.log('domNode:', domNode);
         if (!expanded) {
             return (
                 <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
@@ -172,7 +169,7 @@ class RelationshipValueDisplay extends Component {
         }
         else if (domNode) {
             return ReactDOM.createPortal(
-                <div className="relationship-value-display" style={posStyle} ref={this.setRef}>
+                <div className="relationship-value-display relationship-value-display--expanded" style={posStyle} ref={this.setRef}>
                     <div className={expandedClasses}>
                         <button className="relationship-value-display__delete" onClick={this.onClickDelete}>
                             <svg className="relationship-value-display__delete-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 900.5 900.5">

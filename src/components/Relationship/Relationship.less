@@ -21,14 +21,17 @@
             pointer-events: none;
 
             &--hit {
-                pointer-events: auto;
+                
+                line {
+                    pointer-events: auto;
+                }
             }
         }
 
         &--has-temp-relationship {
             pointer-events: none;
             
-            > .Relationship__svg--hit {
+            > .Relationship__svg--hit > line {
                 pointer-events: none;
             }
         }

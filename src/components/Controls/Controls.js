@@ -26,6 +26,9 @@ const mapStateToProps = (state) => {
         influencer: {},
         influencee: {}
     };
+    
+    // console.log('Controls > mapStateToProps\n\tselectedConcept:', selectedConcept, '\n\tselectedRelationship:', selectedRelationship);
+    
     if (selectedConcept !== null || selectedRelationship  !== null) {
         selectedType = selectedRelationship !== null
             ? ELEMENT_TYPE.RELATIONSHIP
@@ -48,6 +51,7 @@ const mapStateToProps = (state) => {
     }
 
     // console.log('Controls, \n\tselectedConcept:', selectedConcept, ', selectedRelationship:', selectedRelationship, '\n\tselectedType:', selectedType, '\n\tselectedData:', selectedData);
+    
     return {
         selectedType,
         selectedData,
@@ -95,7 +99,7 @@ class Controls extends Component {
     }
 
     onGroupNameChange = ({event, groupIndex, value}) => {
-        console.log('onGroupNameChange, groupIndex:', groupIndex, '\n\tvalue:', value, '\n\tevent:', event);
+        console.log('TODO onGroupNameChange, groupIndex:', groupIndex, '\n\tvalue:', value, '\n\tevent:', event);
     }
 
     onGroupSelectionChange = ({event, groupIndex}) => {

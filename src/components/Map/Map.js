@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 
 import Concepts from '../Concepts/Concepts';
@@ -11,6 +11,8 @@ import {
 } from '../../actions/index';
 
 import './Map.css';
+
+const showSaveLoad = false;
 
 class Map extends Component {
     onClickMap = (e) => {
@@ -57,7 +59,7 @@ class Map extends Component {
     }
 
     onClickSave = (e) => {
-        console.log('onClickSave');
+        // console.log('onClickSave');
         if (window.MentalModelerConceptMap) {
             window.MentalModelerConceptMap.save();
         }
@@ -78,27 +80,29 @@ class Map extends Component {
                             {'ADD COMPONENT'}
                         </span>
                     </button>
-                    {/*
-                    <div>
-                        <input
-                            type="file"
-                            id="fileElem"
-                            ref={this.setInputRef}
-                            accept=".js,.xml,.mmp"
-                            style={{display: 'none'}}
-                            onChange={this.handleInputChange}
-                        />
-                        <button className="map-controls__load" onClick={this.onClickLoad}>
-                            <span>{'LOAD'}</span>
+                    {showSaveLoad &&
+                    <Fragment>
+                        <div>
+                            <input
+                                type="file"
+                                id="fileElem"
+                                ref={this.setInputRef}
+                                accept=".js,.xml,.mmp"
+                                style={{display: 'none'}}
+                                onChange={this.handleInputChange}
+                            />
+                            <button className="map-controls__load" onClick={this.onClickLoad}>
+                                <span>{'LOAD'}</span>
+                            </button>
+                        </div>
+                        <button
+                            className="map-controls__save"  
+                            onClick={this.onClickSave}
+                        >
+                            <span>{'SAVE'}</span>
                         </button>
-                    </div>
-                    <button
-                        className="map-controls__save"  
-                        onClick={this.onClickSave}
-                    >
-                        <span>{'SAVE'}</span>
-                    </button>
-                    */}
+                    </Fragment>
+                    }
                 </div>
                 <div
                     className="map__content"

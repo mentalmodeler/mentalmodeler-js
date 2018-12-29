@@ -119,6 +119,7 @@ const relationshipChangeInfluence = (influencerId, influenceeId, value) => {
 }
 
 const relationshipDelete = (influencerId, influenceeId) => {
+    console.log('relationshipDelete\n\tinfluencerId:', influencerId, '\n\tinfluenceeId:', influenceeId);
     return {
         type: 'RELATIONSHIP_DELETE',
         influencerId,

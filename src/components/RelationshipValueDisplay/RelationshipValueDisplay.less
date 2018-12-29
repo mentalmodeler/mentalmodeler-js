@@ -1,5 +1,8 @@
 @import (reference) '../../shared.less';
 
+@easeInBack: cubic-bezier(.6, -.28, .735, .045);
+@easeOutBack: cubic-bezier(.175, .885, .32, 1.275);
+
 .MentalMapper {
 
     .relationship-value-display {
@@ -31,6 +34,13 @@
                 bottom: 1px;
                 // right: 1px;
             }
+        }
+
+        &--expanded {
+            animation-name: MentalMapper-menu-pop-in-expand;
+            animation-duration: 500ms;
+            animation-timing-function: ease;
+            animation-fill-mode: forwards;
         }
 
         &__expanded {
@@ -134,7 +144,6 @@
             font-size: 14px;
             line-height: 22px;
             text-align: center;
-            // .mixin-concept-bg(@button-grad-light, @button-grad-dark);
             outline: none;
             cursor: text;
             margin: 0;
@@ -143,5 +152,25 @@
                 .mixin-button-bg(@button-grad-hover-light, @button-grad-hover-dark);
             }
         }
+    }
+}
+
+@keyframes MentalMapper-menu-pop-in-expand {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    25% {
+        transform: scale(1.1);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
     }
 }
