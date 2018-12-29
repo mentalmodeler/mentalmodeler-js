@@ -45,7 +45,8 @@ const util = {
                 selectedConcept: null,
                 selectedRelationship: null,
                 tempRelationship: null,
-                tempTarget: null
+                tempTarget: null,
+                viewFilter: -1
             },
             groupNames,
             info,
@@ -68,28 +69,6 @@ const util = {
             json: JSON.stringify(js)
         };
     },
-    
-    // parsePositionData(concepts) {
-    //     // console.log('parsePositionData')
-    //     concepts.forEach((concept) => {
-    //         concept.x = parseInt(concept.x, 10);
-    //         concept.y = parseInt(concept.y, 10);
-    //         const {relationships = []} = concept;
-    //         relationships.forEach((relationship) => {
-    //             relationship.influence = parseFloat(relationship.influence);
-    //             const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, relationship.id);
-    //             // console.log('\n\trelationship > ', concept.id, ' to ', relationship.id, '\n\tmakesDualRelationship:', makesDualRelationship, '\n\totherRelationship:', otherRelationship);
-    //             if (!relationship.makesDualRelationship && makesDualRelationship && otherRelationship) {
-    //                 relationship.inDualRelationship = true;
-    //                 relationship.isFirstInDualRelationship = false;
-    //                 otherRelationship.inDualRelationship = true;
-    //                 otherRelationship.isFirstInDualRelationship = true;
-    //                 // console.log('\trelationship:', relationship);
-    //                 // console.log('\totherRelationship:', otherRelationship);
-    //             }
-    //         });
-    //     });
-    // },
 
     getConceptsPosition(collection) {
         const positions = {};
@@ -205,7 +184,7 @@ const util = {
         // return relationships.some((relationship) => (
         //     relationship.id = influencerId
         // ));
-    }
+    },
 
     // makesDualRelationship(collection, influencerId, influenceeId) {
     //     const ee = util.findConcept(collection, influenceeId);
@@ -216,6 +195,21 @@ const util = {
     //         relationship.id = influencerId
     //     ));
     // }
+
+    isExcludedByFilter({viewFilter, conceptId}) {
+        switch (viewFilter) {
+            case 0:
+                // lines from
+                break;
+            case 1:
+                // lines to
+                break;
+            default:
+                return false
+        }
+    },
+
+    
 };
 
 export {

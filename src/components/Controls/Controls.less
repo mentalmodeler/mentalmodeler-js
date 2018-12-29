@@ -14,10 +14,10 @@
         position: relative;
 
         &__bg {
-            transform: rotateZ(270deg) scale(10);
+            transform: rotateZ(270deg) scale(9);
             position: absolute;
             bottom: 0;
-            left: 40px;
+            left: 50px;
             transform-origin: top left;
             color: #ececec;
             z-index: 0;
@@ -59,7 +59,29 @@
 
     .control-panel {
         flex-shrink: 0;
+        position: relative;
+        
+        &--notes {
+            display: flex;
+            flex-flow: column;
+
+            &.control-panel--open {
+                flex-grow: 1;
+
+                .control-panel__body {
+                    flex-grow: 1;
+                }
+
+                textarea {
+                    box-shadow: none !important;
+                    position: absolute;
+                    height: 100%;
+                }
+            }           
+        }
     }
+
+    
 
     .control-panel__header {
         background-color: @control-panel-header-bg;
@@ -91,16 +113,16 @@
 
         &-icon-svg {
             fill: #fff;
-            transition: transform @controls-transition-duration ease;
+            transition: transform 100ms ease;
         }
     }
 
     .control-panel__body {
         background-color: #f2f2f2;
+        position: relative;
         // &--in {
         //     transition: max-height @controls-transition-duration ease-in;
         // }
-
         // &--out {
         //     transition: max-height @controls-transition-duration ease-out;
         // }
@@ -144,6 +166,7 @@
 
         input[type="radio"] {
             margin: 0 8px 0 0;
+            cursor: pointer;
         }
 
         input[type="text"] {
@@ -258,6 +281,37 @@
             position: relative;
             z-index: 1;
 
+        }
+    }
+
+    .filter-view-control {
+        ul {
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+        }
+
+        input[type="radio"] {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        label {
+            margin: 0;
+            padding: 0 8px;
+            flex-grow: 1;
+        }
+        &__reset {
+            .mm-button();
+            width: 100%;
+            padding: 4px;
+            border-radius: 6px;
+            margin-top: 0px;
+            margin-bottom: 4px;
         }
     }
 }

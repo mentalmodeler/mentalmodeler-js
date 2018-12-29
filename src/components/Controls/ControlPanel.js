@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 import './Controls.css';
 
@@ -14,21 +15,21 @@ class Control extends Component {
         });
     }
 
-    getStyle() {
-        const style = {};
-        ['flexGrow', 'flexShrink', 'minHeight', 'maxHeight'].forEach((key) => {
-            if (typeof this.props[key] !== 'undefined') {
-                style[key] = this.props[key];
-            }
-        });
-        return style;
-    }
+    // getStyle() {
+    //     const style = {};
+    //     ['flexGrow', 'flexShrink', 'minHeight', 'maxHeight'].forEach((key) => {
+    //         if (typeof this.props[key] !== 'undefined') {
+    //             style[key] = this.props[key];
+    //         }
+    //     });
+    //     return style;
+    // }
 
     getBodyStyle() {
         const {isOpen} = this.state;
         const style = {
-            maxHeight: isOpen ? '100vh' : '0'
-        }
+            maxHeight: isOpen ? '100vh' : '0', // isOpen ? '100vh' : '0'
+        };
 
         if (!isOpen) {
             style.overflow = 'hidden';
@@ -55,12 +56,14 @@ class Control extends Component {
     }
 
     render() {
-        const {isOpen} = this.state
-
+        const {isOpen} = this.state;
+        const rootClasses = classnames('control-panel', {
+            [this.props.className]: !!this.props.className,
+            'control-panel--open': isOpen,
+            'control-panel--closed': !isOpen
+        });
         return (
-            <div
-                className="control-panel"
-            >
+            <div className={rootClasses} >
                 <div className="control-panel__header"
                     onClick={this.onHeaderClick}
                 >

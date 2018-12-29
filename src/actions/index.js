@@ -134,6 +134,13 @@ const modelLoad = (state) => {
     }
 }
 
+const viewFilterChange = (index) => {
+    return {
+        type: 'VIEW_FILTER_CHANGE',
+        index
+    }
+}
+
 export {
     conceptMove,
     conceptFocus,
@@ -150,5 +157,6 @@ export {
     relationshipAdd,
     relationshipChangeInfluence,
     relationshipDelete,
-    modelLoad
+    modelLoad,
+    viewFilterChange
 };

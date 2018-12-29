@@ -7,19 +7,21 @@ import TextAreaControl from './TextAreaControl';
 import SelectedControl from './SelectedControl';
 import GroupControl from './GroupControl';
 import ConfidenceControl from './ConfidenceControl';
+import FilterViewControl from './FilterViewControl';
 
 import {
     conceptChangeNotes,
     conceptChangeUnits,
     conceptChangeGroup,
-    relationshipChangeConfidence
+    relationshipChangeConfidence,
+    viewFilterChange
 } from '../../actions/index';
 
 import './Controls.css';
 
 const mapStateToProps = (state) => {
     const {concepts, groupNames} = state;
-    const {collection, selectedConcept, selectedRelationship} = concepts;
+    const {collection, selectedConcept, selectedRelationship, viewFilter} = concepts;
     let selectedType;
     let selectedData;
     const associatedData = {
@@ -56,7 +58,8 @@ const mapStateToProps = (state) => {
         selectedType,
         selectedData,
         associatedData,
-        groupNames
+        groupNames,
+        viewFilter
     }
 }
 
@@ -76,8 +79,11 @@ const mapDispatchToProps = (dispatch) => {
 
         relationshipChangeConfidence: (influencerId, influenceeId, value) => {
             dispatch(relationshipChangeConfidence(influencerId, influenceeId, value))
-        }
+        },
 
+        viewFilterChange: (index) => {
+            dispatch(viewFilterChange(index))
+        }
     };
 }
 
@@ -116,15 +122,22 @@ class Controls extends Component {
         }
     }
 
+    onViewFilterChange = (index) => {
+        const {viewFilter, viewFilterChange} = this.props;
+        if (index !== viewFilter) {
+            viewFilterChange(index);
+        }
+    }
+
     render() {
-        const {selectedType, selectedData, associatedData, groupNames} = this.props;
+        const {selectedType, selectedData, associatedData, groupNames, viewFilter} = this.props;
         // console.log('Controls > render\nthis.props:', this.props, '\n\n');
         // const dataSource = selectedType === ELEMENT_TYPE.CONCEPT ? 'influencer' : 'relationship';
 
         return (
             <div className="controls">
                 {!(selectedType || selectedData) &&
-                    <div className="controls__bg">{'mentalmodeler'}</div>
+                    <div className="controls__bg">{'MentalModeler'}</div>
                 }
                 {selectedType && selectedData &&
                     <Fragment>
@@ -133,10 +146,9 @@ class Controls extends Component {
                             selectedData={selectedData}
                             associatedData={associatedData}
                         />
-                        <ControlPanel title="Notes">
+                        <ControlPanel title="Notes" className="control-panel--notes">
                             <TextAreaControl
                                 className="control-panel__body-content"
-                                maxHeight={200}
                                 value={selectedData && selectedData.notes ? selectedData.notes : ''}
                                 onChange={this.onNotesChange}
                                 onBlur={this.onNotesBlur}
@@ -148,7 +160,8 @@ class Controls extends Component {
                                 <ControlPanel title="Unit of measurement">
                                     <TextAreaControl
                                         className="control-panel__body-content"
-                                        maxHeight={200}
+                                        maxHeight={80}
+                                        autoExpand
                                         value={selectedData && selectedData.units ? selectedData.units : ''}
                                         onChange={this.onUnitsChange}
                                         onBlur={this.onUnitsBlur}
@@ -164,7 +177,6 @@ class Controls extends Component {
                                         onSelectionChange={this.onGroupSelectionChange}
                                     />
                                 </ControlPanel>
-                                <ControlPanel title="View Filter"></ControlPanel>
                             </Fragment>
                         }
                         {selectedType === ELEMENT_TYPE.RELATIONSHIP &&
@@ -176,6 +188,15 @@ class Controls extends Component {
                                         value={selectedData && selectedData.confidence ? selectedData.confidence : '0'}
                                     />  
                                 </ControlPanel>
+                        }
+                        {(selectedType === ELEMENT_TYPE.CONCEPT || (selectedType === ELEMENT_TYPE.RELATIONSHIP && viewFilter > -1)) &&
+                            <ControlPanel title="Filter View">
+                                <FilterViewControl
+                                    selectedType={selectedType}
+                                    viewFilter={this.props.viewFilter}
+                                    onFilterChange={this.onViewFilterChange}
+                                />
+                            </ControlPanel>
                         }
                     </Fragment>
                 }

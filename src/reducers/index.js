@@ -114,8 +114,20 @@ const updateCollectionRelationship = function (collection, influencerId, influen
     });
 };
 
-const concepts = (state = {collection:[], selectedConcept: null, selectedRelationship: null, tempRelationship: null, tempTarget: null}, action) => {
+const concepts = (
+    state = {
+        collection:[],
+        selectedConcept: null,
+        selectedRelationship: null,
+        tempRelationship: null,
+        tempTarget: null,
+        viewFilter: -1
+    },
+    action) => {
     // console.log('concepts REDUCER, action:', action);
+    if (typeof state.viewFilter === 'undefined' || state.viewFilter === null) {
+        state.viewFilter = -1
+    }
     const {collection} = state;
     switch (action.type) {
         case 'CONCEPT_MOVE':
@@ -221,6 +233,12 @@ const concepts = (state = {collection:[], selectedConcept: null, selectedRelatio
                 collection: updateCollectionConcept(collection, action.id, {
                     group: action.groupIndex
                 })
+            };
+        case 'VIEW_FILTER_CHANGE':
+        console.log('VIEW_FILTER_CHANGE, action:', action);
+            return {
+                ...state,
+                viewFilter: action.index
             };
         default:
             return state;

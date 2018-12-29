@@ -10,10 +10,10 @@
   position: relative;
 }
 .MentalMapper .controls__bg {
-  transform: rotateZ(270deg) scale(10);
+  transform: rotateZ(270deg) scale(9);
   position: absolute;
   bottom: 0;
-  left: 40px;
+  left: 50px;
   transform-origin: top left;
   color: #ececec;
   z-index: 0;
@@ -101,6 +101,22 @@
 }
 .MentalMapper .control-panel {
   flex-shrink: 0;
+  position: relative;
+}
+.MentalMapper .control-panel--notes {
+  display: flex;
+  flex-flow: column;
+}
+.MentalMapper .control-panel--notes.control-panel--open {
+  flex-grow: 1;
+}
+.MentalMapper .control-panel--notes.control-panel--open .control-panel__body {
+  flex-grow: 1;
+}
+.MentalMapper .control-panel--notes.control-panel--open textarea {
+  box-shadow: none !important;
+  position: absolute;
+  height: 100%;
 }
 .MentalMapper .control-panel__header {
   background-color: #4a4b4d;
@@ -129,10 +145,11 @@
 }
 .MentalMapper .control-panel__header-icon-svg {
   fill: #fff;
-  transition: transform 250ms ease;
+  transition: transform 100ms ease;
 }
 .MentalMapper .control-panel__body {
   background-color: #f2f2f2;
+  position: relative;
 }
 .MentalMapper .control__text-area {
   width: 100%;
@@ -167,6 +184,7 @@
 }
 .MentalMapper .group-control input[type="radio"] {
   margin: 0 8px 0 0;
+  cursor: pointer;
 }
 .MentalMapper .group-control input[type="text"] {
   width: 140px;
@@ -256,4 +274,68 @@
   background-color: transparent;
   position: relative;
   z-index: 1;
+}
+.MentalMapper .filter-view-control ul {
+  margin: 0;
+}
+.MentalMapper .filter-view-control li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+}
+.MentalMapper .filter-view-control input[type="radio"] {
+  margin: 0;
+  cursor: pointer;
+}
+.MentalMapper .filter-view-control label {
+  margin: 0;
+  padding: 0 8px;
+  flex-grow: 1;
+}
+.MentalMapper .filter-view-control__reset {
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+  text-shadow: 0 0 2px #000;
+  border: 1px solid #000;
+  padding: 0;
+  box-shadow: none;
+  background: #000;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #000 0%, #000 15%, #333 85%, #333 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #000 0%, #000 15%, #333 85%, #333 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #333 0%, #333 15%, #000 85%, #000 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  width: 100%;
+  padding: 4px;
+  border-radius: 6px;
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+.MentalMapper .filter-view-control__reset:hover {
+  background: #657F14;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  border-color: #657F14;
+}
+.MentalMapper .filter-view-control__reset:active {
+  background: #657F14;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #657F14 0%, #657F14 15%, #A0CA24 85%, #A0CA24 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #A0CA24 0%, #A0CA24 15%, #657F14 85%, #657F14 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
+}
+.MentalMapper .filter-view-control__reset svg {
+  filter: drop-shadow(0 0 1px #000);
 }

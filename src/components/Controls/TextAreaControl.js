@@ -13,7 +13,9 @@ class TextAreaControl extends Component {
     }
 
     componentDidMount() {
-        this.autoExpand();
+        if (this.props.autoExpand) {
+            this.autoExpand();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,7 +27,7 @@ class TextAreaControl extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.value !== prevState.value) {
+        if (this.state.value !== prevState.value && this.props.autoExpand) {
             this.autoExpand();
         }
     }
