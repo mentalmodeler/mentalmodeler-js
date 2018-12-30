@@ -3,6 +3,9 @@
   cursor: pointer;
   z-index: 0;
 }
+.MentalMapper .Relationship--excluded-by-filter {
+  opacity: 0.05;
+}
 .MentalMapper .Relationship--temp {
   z-index: 2;
 }

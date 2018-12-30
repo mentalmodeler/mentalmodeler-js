@@ -213,7 +213,7 @@ class Concept extends Component {
     }
 
     render() {
-        const { id, name, selected, x, y, group = '0', hasTempRelationship, isTempRelationship} = this.props // eslint-disable-line
+        const { id, name, selected, x, y, group = '0', hasTempRelationship, isTempRelationship, isExcludedByFilter} = this.props // eslint-disable-line
         const { value, lineMouseDown } = this.state
         const rootStyle = {
             left: `${x}px`,
@@ -221,11 +221,13 @@ class Concept extends Component {
         }
         const groupNum = group || '0';
         // console.log('groupNum:', groupNum);
+        // console.log(id, '> isExcludedByFilter:', isExcludedByFilter);
         const rootClassnames = classnames('Concept', `Concept--group-${groupNum}`, {
             'Concept--focused': selected,
             'Concept--line-mouse-down': lineMouseDown,
             'Concept--temp-relationship-exists': hasTempRelationship,
-            'Concept--is-temp-relationship': isTempRelationship
+            'Concept--is-temp-relationship': isTempRelationship,
+            'Concept--excluded-by-filter': isExcludedByFilter
         });
 
 

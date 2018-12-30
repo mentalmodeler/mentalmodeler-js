@@ -190,7 +190,7 @@ class Controls extends Component {
                                 </ControlPanel>
                         }
                         {(selectedType === ELEMENT_TYPE.CONCEPT || (selectedType === ELEMENT_TYPE.RELATIONSHIP && viewFilter > -1)) &&
-                            <ControlPanel title="Filter View">
+                            <ControlPanel title="View Filter ">
                                 <FilterViewControl
                                     selectedType={selectedType}
                                     viewFilter={this.props.viewFilter}

@@ -5,6 +5,9 @@
   z-index: 1;
   cursor: pointer;
 }
+.MentalMapper .Concept--excluded-by-filter {
+  opacity: 0.15;
+}
 .MentalMapper .Concept--focused {
   z-index: 3;
 }

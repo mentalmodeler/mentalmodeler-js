@@ -9,17 +9,36 @@ class Concepts extends Component {
         const {concepts} = this.props;
         const {collection, selectedConcept, selectedRelationship, tempRelationship, tempTarget, viewFilter} = concepts;
         const hasTempRelationship = !!tempRelationship;
-        console.log('\n\nConcepts > render'
-            , '\n\tselectedConcept:', selectedConcept
-            , '\n\tselectedRelationship:', selectedRelationship
-            , '\n\tviewFilter:', viewFilter
-            // , '\n\ttempRelationship:', tempRelationship
-            // , '\n\ttempTarget:', tempTarget
-            , '\n\n'
-        );
+        let sConcept = {};
+        let selectedRelationships = [];
+        if (selectedConcept !== null || selectedRelationship!== null) {
+            sConcept = util.findConcept(collection, selectedConcept);
+            selectedRelationships = sConcept && sConcept.relationships
+                ? sConcept.relationships
+                : [];
+        } 
+        
+        // console.log('\n\nConcepts > render'
+        //     , '\n\tselectedConcept:', selectedConcept
+        //     , '\n\tsConcept:', sConcept
+        //     , '\n\tselectedRelationships:', selectedRelationships
+        //     , '\n\tselectedRelationships:', selectedRelationships
+        //     , '\n\tviewFilter:', viewFilter
+        //     // , '\n\ttempRelationship:', tempRelationship
+        //     // , '\n\ttempTarget:', tempTarget
+        //     , '\n\n'
+        // );
         return (
             <div className="map__concepts">
             {collection.map((concept, index) => {
+                const isExcludedByFilter = util.isConceptExcludedByFilter({
+                    viewFilter,
+                    selectedConcept,
+                    selectedRelationships,
+                    concept,
+                    collection
+                });
+                // console.log(`id:${concept.id}, isExcludedByFilter: ${isExcludedByFilter}\n`);
                 return (
                     <Concept
                         key={`concept_${concept.id}`}
@@ -28,10 +47,7 @@ class Concepts extends Component {
                         isTempRelationship={hasTempRelationship && concept.id === tempRelationship.id}
                         tempTarget={tempTarget}
                         selected={concept.id === selectedConcept && selectedRelationship === null}
-                        isExcludedByFilter={util.isExcludedByFilter({
-                            viewFilter,
-                            conceptId: concept.id
-                        })}
+                        isExcludedByFilter={isExcludedByFilter}
                     />
                 );
             })}

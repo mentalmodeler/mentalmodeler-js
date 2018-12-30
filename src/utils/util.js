@@ -1,3 +1,5 @@
+import { compose } from "redux";
+
 const LINE_VALUE_INDICATOR_WIDTH = 26;
 const ELEMENT_TYPE = {
     CONCEPT: 'concept',
@@ -196,20 +198,35 @@ const util = {
     //     ));
     // }
 
-    isExcludedByFilter({viewFilter, conceptId}) {
+    isConceptExcludedByFilter({viewFilter, selectedConcept, selectedRelationships, concept, collection}) {
         switch (viewFilter) {
-            case 0:
-                // lines from
-                break;
-            case 1:
-                // lines to
-                break;
+            case 0: // lines from
+                return !(
+                    concept.id === selectedConcept
+                        || selectedRelationships.some((relationship) => (concept.id === relationship.id))
+                );
+            case 1: // lines to
+                    return concept.id === selectedConcept
+                        ? false
+                        : !concept.relationships.some((relationship) => (relationship.id === selectedConcept));
             default:
                 return false
         }
     },
 
-    
+    isRelationshipExcludedByFilter({viewFilter, selectedConcept, concept, influencerId, influenceeId, collection}) {
+        switch (viewFilter) {
+            case 0: // lines from
+                return concept.id !== selectedConcept;
+            case 1: // lines to
+                return influenceeId !== selectedConcept;
+                // return concept.id === selectedConcept
+                //     ? false
+                //     : !concept.relationships.some((relationship) => (relationship.id === selectedConcept));
+            default:
+                return false
+        }
+    }
 };
 
 export {

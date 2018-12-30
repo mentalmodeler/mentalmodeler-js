@@ -7,7 +7,7 @@ import util from '../../utils/util';
 class Relationships extends Component {
     render() {
         const {positions, concepts} = this.props;
-        let {collection, selectedConcept, selectedRelationship, tempRelationship} = concepts;
+        let {collection, selectedConcept, selectedRelationship, tempRelationship, viewFilter} = concepts;
         if (false) {
             tempRelationship = {
                 startX: 400,
@@ -47,7 +47,14 @@ class Relationships extends Component {
                         const comboId = `relationship_${influencerId}-${influenceeId}`;                        
                         const selected = selectedConcept === influencerId
                             && selectedRelationship === influenceeId;
-                        
+                        const isExcludedByFilter = util.isRelationshipExcludedByFilter({
+                                viewFilter,
+                                selectedConcept,
+                                concept,
+                                influencerId,
+                                influenceeId,
+                                collection
+                            });
                         return (
                             <Relationship
                                 key={comboId}
@@ -64,6 +71,7 @@ class Relationships extends Component {
                                 influencerWidth={influencerWidth}
                                 influencerHeight={influencerHeight}
                                 selected={selected}
+                                isExcludedByFilter={isExcludedByFilter}
                                 {...rest}
                             />
                         );

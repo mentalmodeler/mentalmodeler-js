@@ -7,13 +7,12 @@ class FilterViewControl extends Component {
     constructor(props) {
         super(props);
 
-        const {viewFilter, selectedType} = this.props;
+        const {viewFilter} = this.props;
         this.state = {
             selectedIndex: typeof viewFilter !== 'undefined' && viewFilter !== null
                 ? this.props.viewFilter
                 : -1
         };
-        console.log('this.props.selectedType:', this.props.selectedType)
         this.filters = [
             'Only lines from',
             'Only lines to'

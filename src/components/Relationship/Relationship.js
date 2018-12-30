@@ -40,7 +40,8 @@ class Relationship extends Component {
             tempLine,
             hasTempRelationship,
             inDualRelationship,
-            isFirstInDualRelationship
+            isFirstInDualRelationship,
+            isExcludedByFilter
         } = this.props
 
         // console.log('Relationship > render >', influencerId, '-', influenceeId, '\n\tinDualRelationship:', inDualRelationship, ', isFirstInDualRelationship:', isFirstInDualRelationship);
@@ -104,10 +105,15 @@ class Relationship extends Component {
 
         const rootClassname = classnames('Relationship', {
             [className]: !!className,
-            'Relationship--has-temp-relationship' : hasTempRelationship
+            'Relationship--has-temp-relationship': hasTempRelationship,
+            'Relationship--excluded-by-filter': isExcludedByFilter
             // 'Relationship--temp-line' : tempLine
         });
         // console.log('rootClassname:', rootClassname);
+        // if ([isNaN(erX), isNaN(erY), isNaN(eeX), isNaN(eeY)].some((value) => (!!value))) {
+        if (isNaN(erX)) {
+            return  <span className={rootClassname}></span>
+        }
         return (
             <span className={rootClassname}>
                 {lineThickness > 1 &&
