@@ -33,13 +33,16 @@ function load(json) {
             data = JSON.parse(data);
         }        
         data = util.initData(data);
-        // console.log('MentalModelerConceptMap > load\ndata:', data);
-        clearTimeout(loadTimeoutId);
-        loadTimeoutId = setTimeout(() => {
-            loadTimeoutId = undefined;
-            loadModel(data);
-        }, 250);
+        // console.log('\n\n---- MentalModelerConceptMap > load\ndata:', data, '\n\n');
+        // clearTimeout(loadTimeoutId);
+        // loadTimeoutId = setTimeout(() => {
+        //     loadTimeoutId = undefined;
+        //     loadModel(data);
+        // }, 0);
+        // loadModel({});
+        
         loadModel({});
+        loadModel(data);
             
     } catch (e) {
         console.error('ERROR - ConceptMap > load, e:', e);
@@ -49,7 +52,7 @@ function load(json) {
 function save() {
     try {
         const data =  util.exportData(store.getState());
-        // console.log('MentalModelerConceptMap > save\ndata:', data);
+        // console.log('\n\n---- MentalModelerConceptMap > save\ndata:', data, '\n\n');
         return data;
     } catch (e) {
         console.error('ERROR - ConceptMap > save, e:', e);
@@ -79,10 +82,6 @@ if (initialize) {
     render();
     load(fire);
 }
-
-// for (let i=0; i< 10; i++) {
-//     console.log(util.createId());
-// }
 
 // Define public API
 let publicApi = {

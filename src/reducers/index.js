@@ -235,7 +235,6 @@ const concepts = (
                 })
             };
         case 'VIEW_FILTER_CHANGE':
-        console.log('VIEW_FILTER_CHANGE, action:', action);
             return {
                 ...state,
                 viewFilter: action.index

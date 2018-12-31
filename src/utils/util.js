@@ -1,5 +1,3 @@
-import { compose } from "redux";
-
 const LINE_VALUE_INDICATOR_WIDTH = 26;
 const ELEMENT_TYPE = {
     CONCEPT: 'concept',

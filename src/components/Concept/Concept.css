@@ -4,6 +4,9 @@
   padding-bottom: 0px;
   z-index: 1;
   cursor: pointer;
+  transform: translateZ(0);
+  transform-origin: center;
+  transition: transform 300ms ease;
 }
 .MentalMapper .Concept--excluded-by-filter {
   opacity: 0.15;
@@ -233,6 +236,7 @@
 .MentalMapper .Concept:hover,
 .MentalMapper .Concept:focus {
   z-index: 3;
+  transform: scale(1.1) translateZ(0);
 }
 .MentalMapper .Concept:hover .Concept__button--top,
 .MentalMapper .Concept:focus .Concept__button--top {

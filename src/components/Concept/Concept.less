@@ -8,9 +8,9 @@
         padding-bottom: 0px;
         z-index: 1;
         cursor: pointer;
-        // transform: translateZ(0);
-        // transform-origin: center;
-        // transition: transform 300ms ease;
+        transform: translateZ(0);
+        transform-origin: center;
+        transition: transform 300ms ease;
         
         &--excluded-by-filter {
             opacity: @excluded-opacity;
@@ -172,7 +172,7 @@
     .Concept:hover,
     .Concept:focus {
         z-index: 3;
-        // transform: scale(1.1);
+        transform: scale(1.1) translateZ(0);
         // box-shadow: 0 24px 32px rgba(0, 0, 0, 0.3);
         
         .Concept__button--top {
