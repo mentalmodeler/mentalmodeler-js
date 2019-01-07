@@ -11,12 +11,12 @@ export default {
     "concepts": [
         {
             "id": "1",
-            "name": "Natural Beauty",
+            "name": "Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty Natural Beauty",
             "notes": "",
             "units": "",
             "group": "0",
-            "x": "635",
-            "y": "235",
+            "x": "735",
+            "y": "135",
             "preferredState": "0",
             "relationships": [
                 {
@@ -30,16 +30,16 @@ export default {
         },
         {
             "id": "2",
-            "name": "Property Damage",
+            "name": "Property Damage Property Damage Property Damage Property Damage Property Damage Property Damage Property Damage Property Damage Property Damage Property Damage",
             "notes": "",
             "units": "",
             "group": "0",
-            "x": "334",
-            "y": "27",
+            "x": "514",
+            "y": "482",
             "preferredState": "0",
             "relationships": [
                 {
-                "id": "1",
+                "id": "3",
                 "name": "Natural Beauty",
                 "notes": "",
                 "confidence": "0",
@@ -49,7 +49,7 @@ export default {
         },
         {
             "id": "3",
-            "name": "Other value",
+            "name": "Other value Other value Other value Other value Other value Other value Other value Other value Other value Other value Other value",
             "notes": "",
             "units": "",
             "group": "0",

@@ -18,7 +18,7 @@ import './index.css';
 const params = new URLSearchParams(document.location.search.substring(1));
 const initialize = !!params.has('init') && document.location.hostname === 'localhost';
 
-let loadTimeoutId;
+// let loadTimeoutId;
 let store = createStore(allReducers, {});
 
 function loadModel(state) {
@@ -80,7 +80,7 @@ function render(target = '#root') {
 
 if (initialize) {
     render();
-    load(fire);
+    load(simple);
 }
 
 // Define public API

@@ -2,6 +2,8 @@
 
 .MentalMapper {
 
+    @concept-transform: scale(1.1) translateZ(0);
+
     .Concept {
         position: absolute;
         padding: 2px;
@@ -18,11 +20,40 @@
 
         &--focused {
             z-index: 3;
+            // transform: @concept-transform;
+            
+            // .Concept__button--top {
+            //     transform: translateY(0 - @concept-button-height);
+            // }
+        
+            // .Concept__button--bottom {
+            //     transform: translateY(@concept-button-height);
+            // }
+        }
+
+        &:focus {
+            z-index: 3;
+            transform: @concept-transform;
+            // box-shadow: 0 24px 32px rgba(0, 0, 0, 0.3);
             
             .Concept__button--top {
                 transform: translateY(0 - @concept-button-height);
             }
-        
+
+            .Concept__button--bottom {
+                transform: translateY(@concept-button-height);
+            }
+        }
+
+        &:hover {
+            z-index: 3;
+            transform: @concept-transform;
+            // box-shadow: 0 24px 32px rgba(0, 0, 0, 0.3);
+            
+            .Concept__button--top {
+                transform: translateY(0 - @concept-button-height);
+            }
+
             .Concept__button--bottom {
                 transform: translateY(@concept-button-height);
             }
@@ -107,19 +138,18 @@
                 top: @concept-button-height / 2; 
                 border-radius: @concept-button-border-radius @concept-button-border-radius 0 0;
                 
-                &:focus {
-                    transform: translateY(0 - @concept-button-height);
-                }
+                // &:focus {
+                //     transform: translateY(0 - @concept-button-height);
+                // }
             }
 
             &--bottom {
                 align-self: flex-end;
                 bottom: @concept-button-height / 2;
                 border-radius: 0 0 @concept-button-border-radius @concept-button-border-radius;
-                
-                &:focus {
-                    transform: translateY(@concept-button-height);
-                }
+                // &:focus {
+                //     transform: translateY(@concept-button-height);
+                // }
             }
 
             &:hover {
@@ -169,25 +199,25 @@
         }
     }
 
-    .Concept:hover,
-    .Concept:focus {
-        z-index: 3;
-        transform: scale(1.1) translateZ(0);
-        // box-shadow: 0 24px 32px rgba(0, 0, 0, 0.3);
+    // .Concept:hover,
+    // .Concept:focus {
+    //     z-index: 3;
+    //     transform: scale(1.1) translateZ(0);
+    //     // box-shadow: 0 24px 32px rgba(0, 0, 0, 0.3);
         
-        .Concept__button--top {
-            transform: translateY(0 - @concept-button-height);
-        }
+    //     .Concept__button--top {
+    //         transform: translateY(0 - @concept-button-height);
+    //     }
 
-        .Concept__button--bottom {
-            transform: translateY(@concept-button-height);
-        }
-    }
+    //     .Concept__button--bottom {
+    //         transform: translateY(@concept-button-height);
+    //     }
+    // }
 
     .Concept--line-mouse-down {
-        .Concept__button--bottom {
-            transform: translateY(@concept-button-height);
-        }
+        // .Concept__button--bottom {
+        //     transform: translateY(@concept-button-height);
+        // }
     }
 
     .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship) {

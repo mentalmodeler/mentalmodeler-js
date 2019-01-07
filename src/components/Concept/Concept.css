@@ -14,10 +14,24 @@
 .MentalMapper .Concept--focused {
   z-index: 3;
 }
-.MentalMapper .Concept--focused .Concept__button--top {
+.MentalMapper .Concept:focus {
+  z-index: 3;
+  transform: scale(1.1) translateZ(0);
+}
+.MentalMapper .Concept:focus .Concept__button--top {
   transform: translateY(-28px);
 }
-.MentalMapper .Concept--focused .Concept__button--bottom {
+.MentalMapper .Concept:focus .Concept__button--bottom {
+  transform: translateY(28px);
+}
+.MentalMapper .Concept:hover {
+  z-index: 3;
+  transform: scale(1.1) translateZ(0);
+}
+.MentalMapper .Concept:hover .Concept__button--top {
+  transform: translateY(-28px);
+}
+.MentalMapper .Concept:hover .Concept__button--bottom {
   transform: translateY(28px);
 }
 .MentalMapper .Concept__bg {
@@ -182,16 +196,10 @@
   top: 14px;
   border-radius: 6px 6px 0 0;
 }
-.MentalMapper .Concept__button--top:focus {
-  transform: translateY(-28px);
-}
 .MentalMapper .Concept__button--bottom {
   align-self: flex-end;
   bottom: 14px;
   border-radius: 0 0 6px 6px;
-}
-.MentalMapper .Concept__button--bottom:focus {
-  transform: translateY(28px);
 }
 .MentalMapper .Concept__button:hover {
   background: #657F14;
@@ -232,22 +240,6 @@
 }
 .MentalMapper .Concept__textarea:focus {
   outline: none;
-}
-.MentalMapper .Concept:hover,
-.MentalMapper .Concept:focus {
-  z-index: 3;
-  transform: scale(1.1) translateZ(0);
-}
-.MentalMapper .Concept:hover .Concept__button--top,
-.MentalMapper .Concept:focus .Concept__button--top {
-  transform: translateY(-28px);
-}
-.MentalMapper .Concept:hover .Concept__button--bottom,
-.MentalMapper .Concept:focus .Concept__button--bottom {
-  transform: translateY(28px);
-}
-.MentalMapper .Concept--line-mouse-down .Concept__button--bottom {
-  transform: translateY(28px);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship) > * {
   pointer-events: none;

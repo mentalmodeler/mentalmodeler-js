@@ -1,13 +1,13 @@
 
 import {combineReducers} from 'redux';
-import util from '../utils/util';
+import {util, SETTINGS} from '../utils/util';
 
 const createRelationship = function(props = {}) {
-    return {...{id: '', name: '', notes:  '', confidence: 0, influence: 0}, ...props};
+    return {...{id: '-1', name: '', notes:  '', confidence: 0, influence: 0}, ...props};
 }
 
 const createConcept = function(props = {}) {
-    return {...{id: util.createId(), name: '', notes:  '', units: '', group: 0, x: 20, y: 20, preferredState: 0, relationships: []}, ...props};
+    return {...{id: util.createId(), name: '', notes:  '', units: '', group: 0, x: SETTINGS.START_X, y: SETTINGS.START_X, preferredState: 0, relationships: []}, ...props};
 }
 
 const updateCollectionConcept = function (collection, id, updatedProps = {}) {
@@ -37,19 +37,13 @@ const removeRelationshipFromConcept = function(collection, influencerId, influen
             // unmark other relationship in dual relationship, if exists
             const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(collection, influencerId, influenceeId);
             if (makesDualRelationship && otherRelationship) {
-                // inDualRelationship = true;
                 otherRelationship.inDualRelationship = false;
                 otherRelationship.isFirstInDualRelationship = false;
             }
             return {...concept, relationships: newRelationships};
         }
         return concept;
-    })
-
-    // if (inDualRelationship) {
-    //    done above in direct data manipulation
-    //    todo: find relationship that would be in dual relationship and update props
-    // }
+    });
 
     return newCollection;
 }
@@ -70,7 +64,7 @@ const addRelationshipToConcept = function (collection, influencerId, influenceeI
                     inDualRelationship,
                     isFirstInDualRelationship: false
                 }));
-                //  directly manipulating object. to clone data, use method below
+                //  directly manipulating object.
                 if (otherRelationship) {
                     otherRelationship.inDualRelationship = true;
                     otherRelationship.isFirstInDualRelationship = true;
@@ -80,23 +74,6 @@ const addRelationshipToConcept = function (collection, influencerId, influenceeI
         }
         return concept;
     });
-
-    // if (inDualRelationship) {
-    //     newCollection = newCollection.map((concept) => {
-    //         if (concept.id === influenceeId) {
-    //             const relationships =  concept.relationships ? concept.relationships.slice() : [];
-    //             const newRelationships = relationships.map((relationship) => {
-    //                 if (relationship.id === influencerId) {
-    //                     console.log('addRelationshipToConcept > makesDualRelationship > other side', '\n\t', influenceeId, '>', influencerId);
-    //                     return {...relationship, inDualRelationship: true, isFirstInDualRelationship: true}
-    //                 }
-    //                 return relationship;
-    //             });
-    //             return {...concept, relationships: newRelationships};
-    //         }
-    //         return concept;
-    //     });
-    // }
     
     return newCollection;
 };
@@ -174,6 +151,8 @@ const concepts = (
                     endY: action.endY,
                     width: action.width,
                     height: action.height,
+                    centerClickDiffX: action.centerClickDiffX,
+                    centerClickDiffY: action.centerClickDiffY
                 };
             }
             return {
@@ -190,11 +169,14 @@ const concepts = (
             return {
                 ...state,
                 collection: addRelationshipToConcept(collection, action.influencerId, action.influenceeId),
+                selectedConcept: action.influencerId,
+                selectedRelationship: action.influenceeId,
                 tempTarget: null
             };
         case 'CONCEPT_ADD':
-            const newCollection = collection.slice();
-            newCollection.push(createConcept());
+            const newCollection = [...collection];
+            const {x, y} = util.getStartPosition(newCollection)
+            newCollection.push(createConcept({x, y}));
             return {
                 ...state,
                 collection: newCollection

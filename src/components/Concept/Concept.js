@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 import classnames from 'classnames';
 // import PropTypes from 'prop-types';
 
+import {SETTINGS} from '../../utils/util';
 import {
     conceptMove,
     conceptFocus,
@@ -11,7 +12,8 @@ import {
     conceptDelete,
     relationshipDrawTemp,
     relationshipSetTempTarget,
-    relationshipAdd
+    relationshipAdd,
+    relationshipFocus
 } from '../../actions/index';
 
 import './Concept.css';
@@ -38,6 +40,8 @@ class Concept extends Component {
 
         this.height = 0;
         this.width = 0;
+        this.centerClickDiffX = 0;
+        this.centerClickDiffY = 0;
 
         // console.log('this.props:', this.props);
     }
@@ -117,12 +121,20 @@ class Concept extends Component {
         const {id, selected, conceptFocus, x, y} = this.props;
         const lineButtonMouseDown = e.target === this.lineButtonRef;
         
+        
+        if (lineButtonMouseDown) {
+            const middleX = x + this.width / 2;
+            const middleY = y + this.height / 2;
+            this.centerClickDiffX = e.clientX - SETTINGS.CONTROLS_WIDTH - middleX;
+            this.centerClickDiffY = e.clientY - SETTINGS.CONTROLS_HEIGHT - middleY;
+        }
+
         // store positions
         this.screenXBeforeDrag = e.screenX;
         this.screenYBeforeDrag = e.screenY;
         this.xBeforeDrag = parseInt(x, 10);
         this.yBeforeDrag = parseInt(y, 10);
-        
+
         if (!selected) {
             conceptFocus(id);
         }
@@ -137,18 +149,23 @@ class Concept extends Component {
     }
 
     onMouseMove = (e) => {
-        const {id, conceptMove, relationshipDrawTemp, x, y} = this.props; // eslint-disable-line
+        const {id, conceptMove, relationshipDrawTemp, x, y, width} = this.props; // eslint-disable-line
         const {lineMouseDown} = this.state;
 
+        const minX = lineMouseDown
+            ? 0 - this.centerClickDiffX - width / 2
+            : 0;
+        const minY = lineMouseDown
+            ? 0 - this.centerClickDiffY - this.height / 2
+            : 0;
         const deltaX = e.screenX - this.screenXBeforeDrag;
         const deltaY = e.screenY - this.screenYBeforeDrag;
-        const newX = Math.max(deltaX + this.xBeforeDrag, 0);
-        const newY = Math.max(deltaY + this.yBeforeDrag, 0);
-        // console.log('onMouseMove\n\tthis.xBeforeDrag:', this.xBeforeDrag, ', this.yBeforeDrag:', this.yBeforeDrag, '\n\tnewX:', newX, ', newY:', newY);
+        const newX = Math.max(deltaX + this.xBeforeDrag, minX);
+        const newY = Math.max(deltaY + this.yBeforeDrag, minY);
         // const newX = Math.max(0, e.movementX + x);
         // const newY = Math.max(0, e.movementY + y);
         if (lineMouseDown) {
-            relationshipDrawTemp(id, true, this.xBeforeDrag, this.yBeforeDrag, newX, newY, this.width, this.height);
+            relationshipDrawTemp(id, true, this.xBeforeDrag, this.yBeforeDrag, newX, newY, this.width, this.height, this.centerClickDiffX, this.centerClickDiffY);
         } else {
             conceptMove(id, newX, newY);
         }
@@ -162,7 +179,10 @@ class Concept extends Component {
             if (tempTarget !== null && id !== tempTarget) {
                 // console.log('Concept > add relationship\n\tid:', id, '\n\ttempTarget:', tempTarget); //tempTarget:', tempTarget)
                 relationshipAdd(id, tempTarget);
+                // relationshipFocus(id, tempTarget);
             }
+            this.centerClickDiffX = 0;
+            this.centerClickDiffY = 0;
             relationshipDrawTemp(id, false);
             this.setState({
                 lineMouseDown: false
@@ -278,7 +298,6 @@ class Concept extends Component {
                         className="Concept__button Concept__button--bottom"
                         ref={this.setLineButtonRef}
                         tabIndex={-1}
-                        // onMouseDown={this.onLineMouseDown}
                     >
                         <svg className="Concept__icon--line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 612 612" style={{enableBackground: 'new 0 0 612 612'}} xmlSpace="preserve">
                             <g>
@@ -315,8 +334,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(conceptDelete(id))
         },
 
-        relationshipDrawTemp: (id, drawing, startX, startY, endX, endY, width, height) => {
-            dispatch(relationshipDrawTemp(id, drawing, startX, startY, endX, endY, width, height))
+        relationshipDrawTemp: (id, drawing, startX, startY, endX, endY, width, height, centerClickDiffX, centerClickDiffY) => {
+            dispatch(relationshipDrawTemp(id, drawing, startX, startY, endX, endY, width, height, centerClickDiffX, centerClickDiffY))
         },
 
         relationshipSetTempTarget: (id) => {
@@ -325,7 +344,11 @@ const mapDispatchToProps = (dispatch) => {
 
         relationshipAdd: (influencerId, influenceeId) => {
             dispatch(relationshipAdd(influencerId, influenceeId));
-        }
+        },
+
+        relationshipFocus: (influencerId, influenceeId) => {
+            dispatch(relationshipFocus(influencerId, influenceeId));
+        },
     };
 }
 

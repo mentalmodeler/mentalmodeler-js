@@ -26,6 +26,12 @@ class RelationshipValueDisplay extends Component {
         }
     }
     
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.expanded && !this.props.expanded) {
+            this.expandMenu();
+        }
+    }
+
     componentDidMount() {
         if (this.state.expanded) {
             this.toggleWindowMouseDownListener(true);
@@ -43,7 +49,6 @@ class RelationshipValueDisplay extends Component {
     }
 
     handleWindowMouseDown = (e) => {
-        // console.log('this.root:', this.root, '\ne.target:', e.target);
         if (this.state.expanded && this.root && !this.root.contains(e.target)) {
             this.toggleWindowMouseDownListener(false);
             this.setState({
@@ -82,13 +87,11 @@ class RelationshipValueDisplay extends Component {
 
     setTextValue = () => {
         const {tempInfluenceTextValue, influenceValue} = this.state;
-        // console.log('setTextValue\n\tinfluenceValue:', influenceValue, ', tempInfluenceTextValue:', tempInfluenceTextValue);
         const parsedValue = parseFloat(tempInfluenceTextValue);
         let value = influenceValue;
         if (!isNaN(parsedValue)) {
             let norm = util.normalize(parsedValue);
             if (norm !== influenceValue) {
-                // console.log('\tnorm:', norm);
                 value = norm;
             }
         }
@@ -118,6 +121,11 @@ class RelationshipValueDisplay extends Component {
     onClickExpand = (e) => {
         const {influencerId, influenceeId, relationshipFocus} = this.props;
         relationshipFocus(influencerId, influenceeId);
+        this.expandMenu();
+        
+    }
+
+    expandMenu() {
         if (!this.state.expanded) {
             this.setState({
                 expanded: true

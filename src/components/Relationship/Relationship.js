@@ -12,7 +12,52 @@ import './Relationship.css';
 const arrowheadHeight = 16; // 6
 const arrowheadWidth = 16; // 9
 
-class Relationship extends Component {
+class Relationship extends Component {    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            justMounted: false
+        };        
+    }
+
+    componentDidMount() {
+        if (this.props.selected) {
+            this.setState({
+                justMounted: true
+            });
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.justMounted) {
+            this.setState({
+                justMounted: false
+            });
+        }
+    }
+    
+    shouldComponentUpdate(nextProps, nextState) {
+        const shouldUpdate = [
+            nextProps.influenceeX !== this.props.influenceeX,
+            nextProps.influenceeY !== this.props.influenceeY,
+            nextProps.influenceeWidth !== this.props.influenceeWidth,
+            nextProps.influenceeHeight !== this.props.influenceeHeight,
+            nextProps.influencerX !== this.props.influencerX,
+            nextProps.influencerY !== this.props.influencerY,
+            nextProps.influencerWidth !== this.props.influencerWidth,
+            nextProps.influencerHeight !== this.props.influencerHeight,
+            nextProps.selected !== this.props.selected,
+            nextProps.tempLine !== this.props.tempLine,
+            nextProps.hasTempRelationship !== this.props.hasTempRelationship,
+            nextProps.inDualRelationship !== this.props.inDualRelationship,
+            nextProps.isExcludedByFilter !== this.props.isExcludedByFilter,
+            nextProps.influence !== this.props.influence,
+            nextState.justMounted === true && this.state.justMounted === false
+        ].some((cond) => (!!cond));
+        return shouldUpdate;
+    }
+
     setRef = (ref) => {
         this.root = ref;
     }
@@ -35,6 +80,8 @@ class Relationship extends Component {
             influencerY,
             influencerWidth,
             influencerHeight,
+            centerClickDiffX,
+            centerClickDiffY,
             selected,
             className,
             tempLine,
@@ -82,10 +129,10 @@ class Relationship extends Component {
             erX  = edgeEr.x;
             erY  = edgeEr.y;
         } else {
-            erX = influencerX + influencerWidth;
-            erY = influencerY + influencerHeight;
-            eeX = influenceeX + influencerWidth;
-            eeY = influenceeY + influencerHeight;
+            erX = influencerX + influencerWidth / 2;
+            erY = influencerY + influencerHeight / 2;
+            eeX = influenceeX + influencerWidth / 2 + centerClickDiffX;
+            eeY = influenceeY + influencerHeight / 2 + centerClickDiffY;
         }
         
         // const svgClasses = classnames('Relationship__svg', {
@@ -230,6 +277,7 @@ class Relationship extends Component {
                         influencerId={influencerId}
                         influenceeId={influenceeId}
                         influence={influence}
+                        expanded={this.state.justMounted}
                     />
                 }
             </span>

@@ -70,8 +70,9 @@ const relationshipFocus = (influencerId, influenceeId) => {
     }
 };
 
-const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, height) => {
-    // console.log('relationshipDrawTemp\n\tdrawing:', drawing, ', startX:', startX, ', startY:', startY, ', endX:', endX, ', endY:', endY, ' width:', width,  ', height:', height);
+const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, height, centerClickDiffX, centerClickDiffY) => {
+    // console.log('relationshipDrawTemp\n\tdrawing:', drawing, ', startX:', startX, ', startY:', startY, ', endX:', endX, ', endY:', endY, ' width:', width,  ', height:', height, ', centerClickDiffX:', centerClickDiffX, ', centerClickDiffY:', centerClickDiffY);
+    // console.log('relationshipDrawTemp\n\tdrawing:', drawing, '\n\t centerClickDiffX:', centerClickDiffX, ', centerClickDiffY:', centerClickDiffY);
     return {
         type: 'RELATIONSHIP_DRAW_TEMP',
         id,
@@ -81,7 +82,9 @@ const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, he
         endX,
         endY,
         width,
-        height
+        height,
+        centerClickDiffX,
+        centerClickDiffY
     }
 };
 

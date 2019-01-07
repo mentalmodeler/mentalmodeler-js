@@ -21,6 +21,9 @@ class Relationships extends Component {
         }
         const hasTempRelationship = !!tempRelationship;
         // console.log('hasTempRelationship:', hasTempRelationship);
+        if (tempRelationship) {
+            // console.log('tempRelationship\n\tcenterClickDiffX:', tempRelationship.centerClickDiffX, '\n\tcenterClickDiffY:', tempRelationship.centerClickDiffY, '\n');
+        }
         return (
             <div className="map__relationships">
             {
@@ -84,12 +87,18 @@ class Relationships extends Component {
                     key="tempRelationship"
                     influenceeX={tempRelationship.endX}
                     influenceeY={tempRelationship.endY}
-                    influenceeWidth={tempRelationship.width / 2}
-                    influenceeHeight={tempRelationship.height + 15}
+                    // influenceeWidth={tempRelationship.width / 2}
+                    // influenceeHeight={tempRelationship.height + 15}
+                    influenceeWidth={tempRelationship.width}
+                    influenceeHeight={tempRelationship.height}
                     influencerX={tempRelationship.startX}
                     influencerY={tempRelationship.startY}
-                    influencerWidth={tempRelationship.width / 2}
-                    influencerHeight={tempRelationship.height + 15}
+                    // influencerWidth={tempRelationship.width / 2}
+                    // influencerHeight={tempRelationship.height + 15}
+                    influencerWidth={tempRelationship.width}
+                    influencerHeight={tempRelationship.height}
+                    centerClickDiffX={tempRelationship.centerClickDiffX}
+                    centerClickDiffY={tempRelationship.centerClickDiffY}
                     selected={false}
                     influence={0}
                     tempLine={true}

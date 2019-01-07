@@ -3,6 +3,13 @@ const ELEMENT_TYPE = {
     CONCEPT: 'concept',
     RELATIONSHIP: 'relationship'
 };
+const SETTINGS = {
+    START_X: 20,
+    START_Y: 20,
+    CONCEPT_START_INCR: 10,
+    CONTROLS_WIDTH: 180,
+    CONTROLS_HEIGHT: 44
+};
 
 const CONFIDENCE__VALUES = [3, 2, 1, 0, -1, -2, -3];
 
@@ -181,20 +188,7 @@ const util = {
             makesDualRelationship: !!relationship,
             otherRelationship: relationship
         };
-        // return relationships.some((relationship) => (
-        //     relationship.id = influencerId
-        // ));
     },
-
-    // makesDualRelationship(collection, influencerId, influenceeId) {
-    //     const ee = util.findConcept(collection, influenceeId);
-    //     const relationships = ee && ee.relationships
-    //         ? ee.relationships
-    //         : [];
-    //     return relationships.some((relationship) => (
-    //         relationship.id = influencerId
-    //     ));
-    // }
 
     isConceptExcludedByFilter({viewFilter, selectedConcept, selectedRelationships, concept, collection}) {
         switch (viewFilter) {
@@ -218,19 +212,38 @@ const util = {
                 return concept.id !== selectedConcept;
             case 1: // lines to
                 return influenceeId !== selectedConcept;
-                // return concept.id === selectedConcept
-                //     ? false
-                //     : !concept.relationships.some((relationship) => (relationship.id === selectedConcept));
             default:
-                return false
+                return false;
         }
+    },
+
+    isConceptAtPosition(collection = [], x = SETTINGS.START_X, y = SETTINGS.START_X) {
+        return collection.some((concept) => (concept.x === x && concept.y === y))
+    },
+
+    getStartPosition(collection) {
+        let x = SETTINGS.START_X;
+        let y = SETTINGS.START_Y;
+        let startX = -1;
+        let startY = -1;
+        while (startX < 0 && startY < 0) {
+            if (!util.isConceptAtPosition(collection, x, y)) {
+                startX = x;
+                startY = y;
+            } else {
+                x += SETTINGS.CONCEPT_START_INCR;
+                y += SETTINGS.CONCEPT_START_INCR;
+            }
+        }
+        return {x: startX, y: startY};
     }
 };
 
 export {
     util,
     ELEMENT_TYPE,
-    CONFIDENCE__VALUES
+    CONFIDENCE__VALUES,
+    SETTINGS
 };
 
 export default util;
