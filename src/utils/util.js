@@ -1,4 +1,4 @@
-const LINE_VALUE_INDICATOR_WIDTH = 40;
+const LINE_VALUE_INDICATOR_WIDTH = 60;
 const ELEMENT_TYPE = {
     CONCEPT: 'concept',
     RELATIONSHIP: 'relationship'

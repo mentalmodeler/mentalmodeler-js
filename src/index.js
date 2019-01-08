@@ -14,6 +14,12 @@ import simple from './data/simple.mmp'; // eslint-disable-line
 
 import './index.css';
 
+//--------------
+// polyfills
+//--------------
+if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
 
 const params = new URLSearchParams(document.location.search.substring(1));
 const initialize = !!params.has('init') && document.location.hostname === 'localhost';

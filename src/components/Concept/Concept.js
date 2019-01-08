@@ -59,13 +59,16 @@ class Concept extends Component {
             const {id, conceptChange} = this.props;
             const {value} = this.state;
             const {width, height} = this.root.getBoundingClientRect();
-            const roundedWidth = Math.round(width);
-            const roundedHeight = Math.round(height);
+            const isHovered = this.root.matches(':hover');
+            const mult = isHovered ? (1 / 1.1) : 1;
+            const roundedWidth = Math.round(width * mult);
+            const roundedHeight = Math.round(height * mult);
+            // console.log('mult:', mult, ', height:', height, ', roundedHeight:', roundedHeight);
             this.width = roundedWidth;
             this.height = roundedHeight;
             conceptChange(id, value, roundedWidth, roundedHeight);
         }
-    }, 300)
+    }, 150)
 
     componentDidUpdate(prevProps, prevState) {
         const valueChanged = this.state.value !== prevState.value;
