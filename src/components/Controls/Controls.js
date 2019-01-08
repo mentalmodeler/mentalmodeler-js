@@ -14,7 +14,8 @@ import {
     conceptChangeUnits,
     conceptChangeGroup,
     relationshipChangeConfidence,
-    viewFilterChange
+    viewFilterChange,
+    groupNameChange
 } from '../../actions/index';
 
 import './Controls.css';
@@ -83,6 +84,10 @@ const mapDispatchToProps = (dispatch) => {
 
         viewFilterChange: (index) => {
             dispatch(viewFilterChange(index))
+        },
+
+        groupNameChange:(index, name) => {
+            dispatch(groupNameChange(index, name));
         }
     };
 }
@@ -105,7 +110,7 @@ class Controls extends Component {
     }
 
     onGroupNameChange = ({event, groupIndex, value}) => {
-        console.log('TODO onGroupNameChange, groupIndex:', groupIndex, '\n\tvalue:', value, '\n\tevent:', event);
+        this.props.groupNameChange(groupIndex, value);
     }
 
     onGroupSelectionChange = ({event, groupIndex}) => {

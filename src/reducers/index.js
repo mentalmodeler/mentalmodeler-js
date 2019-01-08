@@ -227,11 +227,10 @@ const concepts = (
 }
 
 const groupNames = (state = {0: '', 1: '', 2: '', 3: '', 4: '', 5: ''}, action) => {
-    // console.log('concepts\naction:', action, ', \nstate:', state);
-
+    // console.log('groupName\naction:', action, ', \nstate:', state);
     switch (action.type) {
-        case 'CHANGE_NAME':
-            return state;
+        case 'GROUP_NAME_CHANGE':
+            return {...state, [action.index]: action.name};
         default:
             return state;
     }

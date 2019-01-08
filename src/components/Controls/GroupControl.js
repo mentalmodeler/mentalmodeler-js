@@ -13,14 +13,6 @@ class GroupControl extends Component {
         };
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.value !== this.state.value) {
-    //         this.setState({
-    //             value: nextProps.value
-    //         });
-    //     }
-    // }
-
     getGroupNames() {
         const {groupNames} = this.props;
         const names = {};
@@ -45,7 +37,7 @@ class GroupControl extends Component {
     onTextChange = (e) => {
         const index = e.target.dataset.index;
         const value = e.target.value;
-        console.log('onTextChange, index:',index, ', value:', value);
+        // console.log('onTextChange, index:',index, ', value:', value);
         if (this.state[`value-${index}`] !== value) {
             this.setState({
                 [`value-${index}`]: value,
@@ -62,7 +54,7 @@ class GroupControl extends Component {
             onNameChange({
                 event: e,
                 groupIndex: index,
-                value: [`value-${index}`]
+                value: this.state[`value-${index}`]
             });
 
             this.setState({

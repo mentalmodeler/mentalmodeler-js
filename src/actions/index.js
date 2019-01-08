@@ -144,6 +144,14 @@ const viewFilterChange = (index) => {
     }
 }
 
+const groupNameChange = (index, name) => {
+    return {
+        type: 'GROUP_NAME_CHANGE',
+        index,
+        name
+    }
+};
+
 export {
     conceptMove,
     conceptFocus,
@@ -161,5 +169,6 @@ export {
     relationshipChangeInfluence,
     relationshipDelete,
     modelLoad,
-    viewFilterChange
+    viewFilterChange,
+    groupNameChange
 };
