@@ -1,4 +1,4 @@
-const LINE_VALUE_INDICATOR_WIDTH = 26;
+const LINE_VALUE_INDICATOR_WIDTH = 40;
 const ELEMENT_TYPE = {
     CONCEPT: 'concept',
     RELATIONSHIP: 'relationship'
@@ -6,9 +6,7 @@ const ELEMENT_TYPE = {
 const SETTINGS = {
     START_X: 20,
     START_Y: 20,
-    CONCEPT_START_INCR: 10,
-    CONTROLS_WIDTH: 180,
-    CONTROLS_HEIGHT: 44
+    CONCEPT_START_INCR: 10
 };
 
 const CONFIDENCE__VALUES = [3, 2, 1, 0, -1, -2, -3];

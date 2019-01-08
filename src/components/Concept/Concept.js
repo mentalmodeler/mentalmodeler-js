@@ -4,7 +4,6 @@ import debounce from 'lodash.debounce';
 import classnames from 'classnames';
 // import PropTypes from 'prop-types';
 
-import {SETTINGS} from '../../utils/util';
 import {
     conceptMove,
     conceptFocus,
@@ -121,19 +120,21 @@ class Concept extends Component {
         const {id, selected, conceptFocus, x, y} = this.props;
         const lineButtonMouseDown = e.target === this.lineButtonRef;
         
-        
-        if (lineButtonMouseDown) {
-            const middleX = x + this.width / 2;
-            const middleY = y + this.height / 2;
-            this.centerClickDiffX = e.clientX - SETTINGS.CONTROLS_WIDTH - middleX;
-            this.centerClickDiffY = e.clientY - SETTINGS.CONTROLS_HEIGHT - middleY;
-        }
-
         // store positions
         this.screenXBeforeDrag = e.screenX;
         this.screenYBeforeDrag = e.screenY;
         this.xBeforeDrag = parseInt(x, 10);
         this.yBeforeDrag = parseInt(y, 10);
+
+        if (lineButtonMouseDown) {
+            const rect = this.root.getBoundingClientRect();
+            const middleX = rect.x + rect.width / 2;
+            const middleY = rect.y + rect.height / 2;
+            this.centerClickDiffX = e.clientX - middleX;
+            this.centerClickDiffY = e.clientY - middleY;
+            this.xBeforeDrag = middleX;
+            this.yBeforeDrag = middleY;
+        }
 
         if (!selected) {
             conceptFocus(id);
@@ -152,16 +153,10 @@ class Concept extends Component {
         const {id, conceptMove, relationshipDrawTemp, x, y, width} = this.props; // eslint-disable-line
         const {lineMouseDown} = this.state;
 
-        const minX = lineMouseDown
-            ? 0 - this.centerClickDiffX - width / 2
-            : 0;
-        const minY = lineMouseDown
-            ? 0 - this.centerClickDiffY - this.height / 2
-            : 0;
         const deltaX = e.screenX - this.screenXBeforeDrag;
         const deltaY = e.screenY - this.screenYBeforeDrag;
-        const newX = Math.max(deltaX + this.xBeforeDrag, minX);
-        const newY = Math.max(deltaY + this.yBeforeDrag, minY);
+        const newX = Math.max(deltaX + this.xBeforeDrag, 0);
+        const newY = Math.max(deltaY + this.yBeforeDrag, 0);
         // const newX = Math.max(0, e.movementX + x);
         // const newY = Math.max(0, e.movementY + y);
         if (lineMouseDown) {
@@ -177,9 +172,7 @@ class Concept extends Component {
         this.toggleDragHandlers(false, e);
         if (lineMouseDown) {
             if (tempTarget !== null && id !== tempTarget) {
-                // console.log('Concept > add relationship\n\tid:', id, '\n\ttempTarget:', tempTarget); //tempTarget:', tempTarget)
                 relationshipAdd(id, tempTarget);
-                // relationshipFocus(id, tempTarget);
             }
             this.centerClickDiffX = 0;
             this.centerClickDiffY = 0;

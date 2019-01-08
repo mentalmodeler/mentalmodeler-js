@@ -17,6 +17,11 @@
 .MentalMapper .Relationship__svg--hit line {
   pointer-events: auto;
 }
+.MentalMapper .Relationship--temp-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 .MentalMapper .Relationship--has-temp-relationship {
   pointer-events: none;
 }

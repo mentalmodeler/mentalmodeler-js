@@ -111,7 +111,9 @@ class Relationship extends Component {
                 erX,
                 erY,
                 eeWidth: influenceeWidth,
-                eeHeight: influenceeHeight
+                eeHeight: influenceeHeight,
+                inDualRelationship,
+                isFirstInDualRelationship
             });
             eeX = edgeEE.x;
             eeY = edgeEE.y;
@@ -129,10 +131,10 @@ class Relationship extends Component {
             erX  = edgeEr.x;
             erY  = edgeEr.y;
         } else {
-            erX = influencerX + influencerWidth / 2;
-            erY = influencerY + influencerHeight / 2;
-            eeX = influenceeX + influencerWidth / 2 + centerClickDiffX;
-            eeY = influenceeY + influencerHeight / 2 + centerClickDiffY;
+            erX = influencerX;
+            erY = influencerY;
+            eeX = influenceeX + centerClickDiffX;
+            eeY = influenceeY + centerClickDiffY;
         }
         
         // const svgClasses = classnames('Relationship__svg', {
@@ -153,11 +155,11 @@ class Relationship extends Component {
         const rootClassname = classnames('Relationship', {
             [className]: !!className,
             'Relationship--has-temp-relationship': hasTempRelationship,
-            'Relationship--excluded-by-filter': isExcludedByFilter
-            // 'Relationship--temp-line' : tempLine
+            'Relationship--excluded-by-filter': isExcludedByFilter,
+            'Relationship--temp-line' : tempLine
         });
         // console.log('rootClassname:', rootClassname);
-        // if ([isNaN(erX), isNaN(erY), isNaN(eeX), isNaN(eeY)].some((value) => (!!value))) {
+        // if ([isNaN(erX), isNaN(erY), isNaN(eeX), isNaN(eeY)].some((conditon) => (!!conditon))) {
         if (isNaN(erX)) {
             return  <span className={rootClassname}></span>
         }

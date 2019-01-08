@@ -16,7 +16,9 @@ class Relationships extends Component {
                 endY: 700,
                 id: 14,
                 width: 100,
-                height: 100
+                height: 100,
+                centerClickDiffX: 0,
+                centerClickDiffY: 0
             };
         }
         const hasTempRelationship = !!tempRelationship;
