@@ -26,7 +26,6 @@ const removeRelationships = function (influenceeId, relationships = []) {
 };
 
 const removeRelationshipFromConcept = function(collection, influencerId, influenceeId) {
-    // let inDualRelationship = false;
     const newCollection = collection.map((concept) => {
         if (concept.id === influencerId) {
             // keep all relationships but this one

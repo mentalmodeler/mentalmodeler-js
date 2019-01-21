@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
+import html2canvas from 'html2canvas';
 
 import Concepts from '../Concepts/Concepts';
 import Relationships from '../Relationships/Relationships';
@@ -27,6 +28,10 @@ class Map extends Component {
 
     setMapContentRef = (ref) => {
         this.mapContent = ref;
+    }
+
+    onTakeScreenshot() {
+
     }
 
     onFileReaderLoadEnd = (e) => {

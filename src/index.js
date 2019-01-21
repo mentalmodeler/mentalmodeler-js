@@ -39,14 +39,12 @@ function load(json) {
             data = JSON.parse(data);
         }        
         data = util.initData(data);
-        // console.log('\n\n---- MentalModelerConceptMap > load\ndata:', data, '\n\n');
         // clearTimeout(loadTimeoutId);
         // loadTimeoutId = setTimeout(() => {
         //     loadTimeoutId = undefined;
         //     loadModel(data);
         // }, 0);
         // loadModel({});
-        
         loadModel({});
         loadModel(data);
             

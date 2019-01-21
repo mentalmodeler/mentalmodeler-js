@@ -2,9 +2,10 @@
   "name": "mentalmodeler-js",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://jonnybomb.com/mentalmodeler", 
+  "homepage": "http://jonnybomb.com/mentalmodeler",
   "dependencies": {
     "classnames": "^2.2.6",
+    "html2canvas": "^1.0.0-alpha.12",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "prop-types": "^15.6.2",

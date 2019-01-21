@@ -236,6 +236,7 @@
   cursor: pointer;
   resize: none;
   z-index: 2;
+  text-align: center;
   box-shadow: none !important;
 }
 .MentalMapper .Concept__textarea:focus {

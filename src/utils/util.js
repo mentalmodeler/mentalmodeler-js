@@ -40,7 +40,6 @@ const util = {
                 }    
                 return {...relationship, influence: parseFloat(relationship.influence)}
             });
-
             return {...concept, relationships: newRelationships, x: parseInt(concept.x, 10), y: parseInt(concept.y, 10)};
         })
         
@@ -66,8 +65,31 @@ const util = {
             groupNames = {...groupNames, ...state.groupNames};
         }
         if (state.concepts && state.concepts.collection) {
-            concepts = [...state.concepts.collection];
+            // concepts = [...state.concepts.collection];
+            concepts = state.concepts.collection.map((concept) => {
+                const relationships = concept && concept.relationships ? concept.relationships : [];
+                const newRelationships = relationships.map((relationship) => (
+                    {
+                        id: relationship.id,
+                        notes: relationship.notes,
+                        confidence: relationship.confidence,
+                        influence: relationship.influence
+                    } 
+                ));
+                const newConcept = {
+                    id: concept.id,
+                    name: concept.name,
+                    notes: concept.notes,
+                    units: concept.units,
+                    group: concept.group,
+                    x: concept.x,
+                    y: concept.y,
+                    preferredState: concept.preferredState,
+                }
+                return {...newConcept, relationships: newRelationships};
+            })
         }
+
         const js = {concepts, groupNames};
         return {
             js,
@@ -158,15 +180,9 @@ const util = {
 
     createId() {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        // const dashSpots = [8, 13, 18, 23];
-        // return [...Array(36)].map((value, index) => (
-        //     dashSpots.indexOf(index) > -1
-        //         ? '-'
-        //         : chars[Math.floor(Math.random() * (index === 0 ? 26 : chars.length))]
-        // )).join('');
         return [...Array(19)].map((value, index) => {
             if (index === 0) {
-                return chars[Math.floor(Math.random() * chars.length - 10)]
+                return chars[Math.floor(Math.random() * (chars.length - 10))]
             }
             return (index + 1) % 5 === 0
                 ? '-'
