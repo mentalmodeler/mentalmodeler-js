@@ -30,8 +30,29 @@ class Map extends Component {
         this.mapContent = ref;
     }
 
-    onTakeScreenshot() {
-
+    onTakeScreenshot = () => {
+        // https://github.com/niklasvh/html2canvas/issues/95
+        const width = this.mapContent.scrollWidth;
+        const height = this.mapContent.scrollHeight;
+        console.log('onTakeScreenshot'
+            , '\n\twidth:', width
+            , '\n\theight:', height
+            , '\n\tthis.mapContent:', this.mapContent
+        );
+        const options = {
+            width,
+            height,
+            allowTaint: true
+        };
+        html2canvas(this.mapContent, options).then(function(canvas) {
+            // const base64image = canvas.toDataURL();
+            // window.open(base64image , "_self");
+            canvas.style.position = 'fixed';
+            canvas.style.zIndex = '4';
+            // canvas.style.top = '0';
+            // canvas.style.left = '0';
+            document.body.prepend(canvas);
+        });
     }
 
     onFileReaderLoadEnd = (e) => {
@@ -85,6 +106,14 @@ class Map extends Component {
                             {'ADD COMPONENT'}
                         </span>
                     </button>
+                    <button
+                            className="map-controls__screenshot"  
+                            onClick={this.onTakeScreenshot}
+                        >
+                            <span>
+                            <svg  viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" className="map-controls__screenshot-icon" ><path d="M896 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"/></svg>
+                            </span>
+                        </button>
                     {showSaveLoad &&
                     <Fragment>
                         <div>

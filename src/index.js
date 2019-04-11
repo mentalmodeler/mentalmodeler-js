@@ -97,7 +97,7 @@ let publicApi = {
 // registerServiceWorker();
 // console.log('store.getState():', store.getState());
 
-// Expose to global scope to interact with LiveLab
+// Expose to global scope
 if (typeof window !== 'undefined') {
     window.MentalModelerConceptMap = publicApi;
 }

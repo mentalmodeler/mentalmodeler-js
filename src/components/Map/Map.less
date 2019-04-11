@@ -45,6 +45,23 @@
             }
         }
 
+        &__screenshot {
+            .mm-button();
+            flex-grow: 0;
+            font-size: 16px;
+            height: 100%;
+            padding-right: 16px;
+            padding-left: 16px;
+            
+
+            > span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 0 2px #000;
+            }
+        }
+
         &__load {
             .mm-button();
             flex-grow: 0;
@@ -84,6 +101,13 @@
             width: 16px;
             fill: #fff;
             margin-right: 8px;
+            filter: drop-shadow(0 0 1px #000);
+        }
+
+        &__screenshot-icon {
+            height: 20px;
+            width: 20px;
+            fill: #fff;
             filter: drop-shadow(0 0 1px #000);
         }
     }
