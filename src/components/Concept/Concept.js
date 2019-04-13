@@ -233,7 +233,9 @@ class Concept extends Component {
         const { value, lineMouseDown } = this.state
         const rootStyle = {
             left: `${x}px`,
-            top: `${y}px`
+            top: `${y}px`,
+            padding: '2px',
+            paddingBottom: '0px'
         }
         const groupNum = group || '0';
         // console.log('groupNum:', groupNum);
@@ -253,6 +255,20 @@ class Concept extends Component {
         
         // console.log('\t\tConcept >', this.props.id, '> render');
 
+        const bgStyle = {
+            borderRadius: '6px',
+            border: '1px solid #000',
+            boxShadow: 'inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15)'
+        };
+
+        const textAreaStyle = {
+            lineHeight: '18px',
+            fontSize: '14px',
+            padding: '6px',
+            fontFamily: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            color: '#333'
+        };
+
         return (
             <div
                 className={rootClassnames}
@@ -271,6 +287,7 @@ class Concept extends Component {
                     onChange={this.onChange}
                     ref={this.setTextareaRef}
                     placeholder="Enter name"
+                    style={textAreaStyle}
                 />
                 <div className="Concept__button-wrapper Concept__button-wrapper--top">
                     <button 
@@ -306,7 +323,7 @@ class Concept extends Component {
                         </svg>
                     </button>
                 </div>
-                <div  className={bgClassnames}></div>
+                <div  className={bgClassnames} style={bgStyle}></div>
             </div>
         );
     }

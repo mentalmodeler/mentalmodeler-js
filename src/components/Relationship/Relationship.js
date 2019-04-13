@@ -170,15 +170,19 @@ class Relationship extends Component {
                         className="Relationship__svg Relationship__svg--bg"
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"
+                        style={{
+                            stroke: `${color}`,
+                            opacity: '0.3'
+                        }}
                     >
                         <line
                             x1={erX}
                             x2={eeX}
                             y1={erY}
                             y2={eeY}
-                            stroke={color}
                             strokeWidth={lineThickness * 3}
-                            opacity={0.3}
+                            // opacity={0.3}
+                            // stroke={color}
                         />
                     </svg>
                 }

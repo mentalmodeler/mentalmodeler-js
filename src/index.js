@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
+import html2canvas from 'html2canvas';
 
 // import registerServiceWorker from './registerServiceWorker'; 
 import allReducers from './reducers';
@@ -82,16 +83,49 @@ function render(target = '#root') {
     }
 }
 
+// screenshot api call that returns canvas element of map from html2canvas
+function screenshot () {
+    const mapContent = document.querySelector('.map__content');
+    if (mapContent) {
+        const width = mapContent.scrollWidth;
+        const height = mapContent.scrollHeight; 
+        const svgs = mapContent.querySelectorAll('svg');
+        svgs.forEach((svg) => {
+            svg.setAttributeNS(null, 'width', width);
+            svg.setAttributeNS(null, 'height', height);
+        });
+        mapContent.style.overflow = 'visible';
+
+        const promise = (html2canvas(mapContent, {width, height, allowTaint: true}));
+
+        promise.then((canvas) => {
+            try {
+                svgs.forEach((svg) => {
+                    svg.removeAttributeNS(null, 'width');
+                    svg.removeAttributeNS(null, 'height');
+                });
+                mapContent.style.overflow = 'auto';
+            } catch (e) {
+                console.log(e);
+            }
+        });
+
+        return promise;
+    }
+}
+
 if (initialize) {
     render();
-    load(simple);
+    // load(simple);
+    load(fire);
 }
 
 // Define public API
 let publicApi = {
     render,
     load,
-    save
+    save,
+    screenshot
 };
 
 // registerServiceWorker();
@@ -102,5 +136,6 @@ if (typeof window !== 'undefined') {
     window.MentalModelerConceptMap = publicApi;
 }
 
-// Export API
-// module.exports = publicApi;
+// document.body.addEventListener('click', () => {
+//     console.log('screenshot:', screenshot());
+// });

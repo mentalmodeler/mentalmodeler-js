@@ -32,27 +32,69 @@ class Map extends Component {
 
     onTakeScreenshot = () => {
         // https://github.com/niklasvh/html2canvas/issues/95
+        const overlay = document.createElement('div');
+        overlay.innerHTML = `<div class="screenshot__message">Preparing Screenshot</div>`;
+        overlay.classList.add('MentalMapper__screenshot-overlay');
+        document.body.append(overlay);
+
+        const {name, author} = this.props;
         const width = this.mapContent.scrollWidth;
-        const height = this.mapContent.scrollHeight;
-        console.log('onTakeScreenshot'
-            , '\n\twidth:', width
-            , '\n\theight:', height
-            , '\n\tthis.mapContent:', this.mapContent
-        );
-        const options = {
-            width,
-            height,
-            allowTaint: true
-        };
-        html2canvas(this.mapContent, options).then(function(canvas) {
-            // const base64image = canvas.toDataURL();
-            // window.open(base64image , "_self");
-            canvas.style.position = 'fixed';
-            canvas.style.zIndex = '4';
-            // canvas.style.top = '0';
-            // canvas.style.left = '0';
-            document.body.prepend(canvas);
+        const height = this.mapContent.scrollHeight; 
+        let date = new Date();
+        date = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}-${date.getFullYear()}`;
+        
+        const svgs = this.mapContent.querySelectorAll('svg');
+        svgs.forEach((svg) => {
+            svg.setAttributeNS(null, 'width', width);
+            svg.setAttributeNS(null, 'height', height);
         });
+
+        this.mapContent.style.overflow = 'visible';
+
+        const options = {width, height, allowTaint: true};
+        html2canvas(this.mapContent, options).then((canvas) => {
+            // reset styles
+            svgs.forEach((svg) => {
+                svg.removeAttributeNS(null, 'width');
+                svg.removeAttributeNS(null, 'height');
+            });
+            this.mapContent.style.overflow = 'auto';
+            
+            if (true) {
+                const canvasContainer = document.createElement('div');
+                canvasContainer.style.overflow = 'auto';
+                canvasContainer.style.width = '100vw';
+                canvasContainer.style.height = '100vh';
+                canvasContainer.style.position = 'fixed';
+                canvasContainer.style.zIndex = 4;
+                canvasContainer.appendChild(canvas);
+                const clickHandler = (e) => {
+                    e.currentTarget.removeEventListener('click', clickHandler);
+                    document.body.removeChild(canvasContainer);
+                }
+                canvasContainer.addEventListener('click', clickHandler);
+                document.body.prepend(canvasContainer);
+            } else {
+                this.saveScreenshot(canvas.toDataURL(), `MentalModeler-${name}_${author}_${date}`);
+                document.body.removeChild(overlay);
+            }
+        });
+    }
+
+    saveScreenshot(uri, filename) {
+        const link = document.createElement('a');
+        if (typeof link.download === 'string') {
+            link.href = uri;
+            link.download = filename;
+            //Firefox requires the link to be in the body
+            document.body.appendChild(link);
+            //simulate click
+            link.click();
+            //remove the link when done
+            document.body.removeChild(link);
+        } else {
+            window.open(uri);
+        }
     }
 
     onFileReaderLoadEnd = (e) => {
@@ -85,7 +127,6 @@ class Map extends Component {
     }
 
     onClickSave = (e) => {
-        // console.log('onClickSave');
         if (window.MentalModelerConceptMap) {
             window.MentalModelerConceptMap.save();
         }
@@ -167,4 +208,12 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(null, mapDispatchToProps)(Map);
+const mapStateToProps = (state) => {
+    const {info} = state;
+    return {
+        name: info.name,
+        author: info.author
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
