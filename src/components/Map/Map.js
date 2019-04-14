@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
-import html2canvas from 'html2canvas';
 
 import Concepts from '../Concepts/Concepts';
 import Relationships from '../Relationships/Relationships';
@@ -31,6 +30,11 @@ class Map extends Component {
     }
 
     onTakeScreenshot = () => {
+        if (typeof window.html2canvas === 'undefined') {
+            console.error('ERROR: html2canvas is not defined (onTakeScreenshot)');
+            return
+        }
+        
         // https://github.com/niklasvh/html2canvas/issues/95
         const overlay = document.createElement('div');
         overlay.innerHTML = `<div class="screenshot__message">Preparing Screenshot</div>`;
@@ -41,7 +45,10 @@ class Map extends Component {
         const width = this.mapContent.scrollWidth;
         const height = this.mapContent.scrollHeight; 
         let date = new Date();
-        date = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}-${date.getFullYear()}`;
+        const hour = date.getHours().toString().padStart(2, '0');
+        const minute = date.getMinutes().toString().padStart(2, '0');
+        const second = date.getSeconds().toString().padStart(2, '0');
+        date = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}_${hour}:${minute}:${second}`;
         
         const svgs = this.mapContent.querySelectorAll('svg');
         svgs.forEach((svg) => {
@@ -52,7 +59,7 @@ class Map extends Component {
         this.mapContent.style.overflow = 'visible';
 
         const options = {width, height, allowTaint: true};
-        html2canvas(this.mapContent, options).then((canvas) => {
+        window.html2canvas(this.mapContent, options).then((canvas) => {
             // reset styles
             svgs.forEach((svg) => {
                 svg.removeAttributeNS(null, 'width');
@@ -60,7 +67,7 @@ class Map extends Component {
             });
             this.mapContent.style.overflow = 'auto';
             
-            if (true) {
+            if (false) {
                 const canvasContainer = document.createElement('div');
                 canvasContainer.style.overflow = 'auto';
                 canvasContainer.style.width = '100vw';
@@ -75,7 +82,7 @@ class Map extends Component {
                 canvasContainer.addEventListener('click', clickHandler);
                 document.body.prepend(canvasContainer);
             } else {
-                this.saveScreenshot(canvas.toDataURL(), `MentalModeler-${name}_${author}_${date}`);
+                this.saveScreenshot(canvas.toDataURL(), `MentalModeler-${name || '[name]'}_${author || '[author]'}_${date}`);
                 document.body.removeChild(overlay);
             }
         });

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import html2canvas from 'html2canvas';
 
 // import registerServiceWorker from './registerServiceWorker'; 
 import allReducers from './reducers';
@@ -85,6 +84,11 @@ function render(target = '#root') {
 
 // screenshot api call that returns canvas element of map from html2canvas
 function screenshot () {
+    if (typeof window.html2canvas === 'undefined') {
+        console.error('ERROR: html2canvas is not defined (screenshot)');
+        return
+    }
+
     const mapContent = document.querySelector('.map__content');
     if (mapContent) {
         const width = mapContent.scrollWidth;
@@ -96,7 +100,7 @@ function screenshot () {
         });
         mapContent.style.overflow = 'visible';
 
-        const promise = (html2canvas(mapContent, {width, height, allowTaint: true}));
+        const promise = (window.html2canvas(mapContent, {width, height, allowTaint: true}));
 
         promise.then((canvas) => {
             try {
