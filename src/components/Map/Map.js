@@ -82,7 +82,7 @@ class Map extends Component {
                 canvasContainer.addEventListener('click', clickHandler);
                 document.body.prepend(canvasContainer);
             } else {
-                this.saveScreenshot(canvas.toDataURL(), `MentalModeler-${name || '[name]'}_${author || '[author]'}_${date}`);
+                this.saveScreenshot(canvas.toDataURL(), `MentalModeler__${name || '[name]'}__${author || '[author]'}__${date}`);
                 document.body.removeChild(overlay);
             }
         });
