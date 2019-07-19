@@ -65,7 +65,6 @@ const util = {
             groupNames = {...groupNames, ...state.groupNames};
         }
         if (state.concepts && state.concepts.collection) {
-            // concepts = [...state.concepts.collection];
             concepts = state.concepts.collection.map((concept) => {
                 const relationships = concept && concept.relationships ? concept.relationships : [];
                 const newRelationships = relationships.map((relationship) => (
@@ -73,7 +72,8 @@ const util = {
                         id: relationship.id,
                         notes: relationship.notes,
                         confidence: relationship.confidence,
-                        influence: relationship.influence
+                        influence: relationship.influence,
+                        name: relationship.name
                     } 
                 ));
                 const newConcept = {

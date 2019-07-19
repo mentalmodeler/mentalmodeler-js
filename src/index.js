@@ -100,7 +100,7 @@ function screenshot () {
         });
         mapContent.style.overflow = 'visible';
 
-        const promise = (window.html2canvas(mapContent, {width, height, allowTaint: true}));
+        const promise = (window.html2canvas(mapContent, {width, height, allowTaint: true, logging: false}));
 
         promise.then((canvas) => {
             try {

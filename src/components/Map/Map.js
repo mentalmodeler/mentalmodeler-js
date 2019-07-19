@@ -58,7 +58,7 @@ class Map extends Component {
 
         this.mapContent.style.overflow = 'visible';
 
-        const options = {width, height, allowTaint: true};
+        const options = {width, height, allowTaint: true, logging: false};
         window.html2canvas(this.mapContent, options).then((canvas) => {
             // reset styles
             svgs.forEach((svg) => {
