@@ -179,16 +179,23 @@ const util = {
     },
 
     createId() {
-        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        return [...Array(19)].map((value, index) => {
-            if (index === 0) {
-                return chars[Math.floor(Math.random() * (chars.length - 10))]
-            }
-            return (index + 1) % 5 === 0
-                ? '-'
-                : chars[Math.floor(Math.random() * chars.length)]
-        }).join('');
+        const chars = '0123456789';
+        return [...Array(12)].map((value, index) => (
+            index === 0 ? '1' : chars[Math.floor(Math.random() * chars.length)]
+        )).join('');
     },
+
+    // createId() {
+    //     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    //     return [...Array(19)].map((value, index) => {
+    //         if (index === 0) {
+    //             return chars[Math.floor(Math.random() * (chars.length - 10))]
+    //         }
+    //         return (index + 1) % 5 === 0
+    //             ? '-'
+    //             : chars[Math.floor(Math.random() * chars.length)]
+    //     }).join('');
+    // },
 
     normalize(value, min = -1, max = 1) {
         return Math.max(Math.min(value, max), min);

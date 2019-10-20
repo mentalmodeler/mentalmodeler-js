@@ -57,11 +57,13 @@ const addRelationshipToConcept = function (collection, influencerId, influenceeI
             if (!alreadyHasRelationship) {
                 // check to see if would make dual relationship
                 const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(collection, influencerId, influenceeId);
+                // const influenceeConcept = util.findConcept(collection, influenceeId)
                 inDualRelationship = makesDualRelationship;
                 relationships.push(createRelationship({
                     id: influenceeId,
                     inDualRelationship,
                     isFirstInDualRelationship: false
+                    // ...(influenceeConcept && {name: influenceeConcept.name}) 
                 }));
                 //  directly manipulating object.
                 if (otherRelationship) {
