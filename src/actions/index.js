@@ -152,6 +152,15 @@ const groupNameChange = (index, name) => {
     }
 };
 
+const autoLayoutChange = (nodesep, edgesep, ranksep) => {
+    return {
+        type: 'AUTO_LAYOUT_CHANGE',
+        nodesep,
+        edgesep,
+        ranksep
+    }
+};
+
 export {
     conceptMove,
     conceptFocus,
@@ -170,5 +179,6 @@ export {
     relationshipDelete,
     modelLoad,
     viewFilterChange,
-    groupNameChange
+    groupNameChange,
+    autoLayoutChange
 };

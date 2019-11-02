@@ -163,6 +163,7 @@
   align-items: center;
   outline: none;
 }
+.MentalMapper .Concept__button.selected,
 .MentalMapper .Concept__button:hover {
   background: #657F14;
   /* Old browsers */

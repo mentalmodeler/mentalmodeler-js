@@ -23,6 +23,7 @@
   border-radius: 6px;
   border: 1px solid #000;
 }
+.MentalMapper .relationship-value-display__collapsed.selected,
 .MentalMapper .relationship-value-display__collapsed:hover {
   background: #657F14;
   /* Old browsers */
@@ -103,6 +104,7 @@
   padding-top: 2px;
   border: 1px solid #000;
 }
+.MentalMapper .relationship-value-display__delete.selected,
 .MentalMapper .relationship-value-display__delete:hover {
   background: #657F14;
   /* Old browsers */
@@ -209,6 +211,7 @@
   cursor: text;
   margin: 0;
 }
+.MentalMapper .relationship-value-display__input.selected,
 .MentalMapper .relationship-value-display__input:hover {
   background: #657F14;
   /* Old browsers */

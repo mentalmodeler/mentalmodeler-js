@@ -1,20 +1,65 @@
 import React, { Component, Fragment } from 'react';
+import classnames from 'classnames';
+import debounce from 'lodash.debounce';
 import {connect} from 'react-redux';
 
 import Concepts from '../Concepts/Concepts';
 import Relationships from '../Relationships/Relationships';
-
+import util from '../../utils/util';
 import {
     conceptFocus,
     conceptAdd,
-    modelLoad
+    modelLoad,
+    autoLayoutChange
 } from '../../actions/index';
 
 import './Map.css';
 
 const showSaveLoad = false;
+const showLayout = false;
 
 class Map extends Component {
+    constructor(props) {
+        super(props);
+
+        this.layoutOptions = [
+            {
+                type: 'nodesep',
+                range: [0, 100],
+                display: 'Node separation',
+                value: 20
+            },
+            {
+                type: 'edgesep',
+                range: [0, 100],
+                display: 'Edge separation',
+                value: 5
+            },
+            {
+                type: 'ranksep',
+                range: [0, 100],
+                display: 'Rank separation',
+                value: 0
+            }
+        ];
+        
+        const stateData = {};
+        this.layoutOptions.forEach((data) => {
+            // populate state
+            stateData[data.type] = data.value;
+            stateData[`${data.type}Temp`] = data.value;
+            // bind handlers
+            this[`${data.type}LayoutInputChange`] = this.handleLayoutInputChange.bind(this, data.type);
+            this[`${data.type}LayoutRangeChange`] = this.handleLayoutRangeChange.bind(this, data.type);
+            this[`${data.type}DebounceSetLayoutValue`] = debounce(this.setLayoutValue, 750);
+        });
+
+        this.state = {
+            layoutOpen: false,
+            ...stateData
+        };
+    }
+
     onClickMap = (e) => {
         if (e.target === this.mapContent) {
             this.props.conceptFocus(null);
@@ -139,7 +184,73 @@ class Map extends Component {
         }
     }
 
+    handleLayoutClick = (e) => {
+        this.toggleLayout();
+    }
+    
+    handleLayoutInputChange = (type, e) => {
+        let value = e.target.value;
+        if (value !== this.state[`${type}Temp`]) {
+            this.setState({
+                [`${type}Temp`]: value
+            });
+        }
+        this[`${type}DebounceSetLayoutValue`](type);
+    }
+
+    handleLayoutRangeChange(type, e) {
+        let value = e.target.value;
+        if (value !== this.state[type]) {
+            this.setState({
+                [type]: value,
+                [`${type}Temp`]: value
+            });
+            this.debounceApplyLayoutValue(type);
+        }
+    }
+
+    setLayoutValue = (type) => {
+        const range = this.layoutOptions.find((data) => (type === data.type)).range;
+        const tempValue = this.state[`${type}Temp`]
+        const permValue = this.state[type];
+        let value = permValue;
+        const parsedValue = parseInt(tempValue, 10);
+        if (!isNaN(parsedValue)) {
+            let norm = util.normalize(parsedValue, range[0], range[1]);
+            if (norm !== permValue) {
+                value = norm;
+            }
+        }
+        if (value !== permValue || value !== tempValue) {
+            this.setState({
+                [type]: value,
+                [`${type}Temp`]: value
+            }, () => {
+                if (value !== permValue) {
+                    this.debounceApplyLayoutValue();
+                }
+            });
+        }
+    }
+
+    debounceApplyLayoutValue = debounce(() => {
+        this.props.autoLayoutChange(this.state.nodesep, this.state.edgesep, this.state.ranksep);
+    }, 750);
+
+    toggleLayout(open) {
+        const {layoutOpen} = this.state;
+        open = typeof open !== 'undefined'
+            ? open
+            : !layoutOpen
+        if (open !== layoutOpen) {
+            this.setState({
+                layoutOpen: open
+            });
+        }
+    }
+
     render() {
+        const{ layoutOpen} = this.state;
         return (
             <div className="map">
                 <div className="map__controls">
@@ -155,35 +266,71 @@ class Map extends Component {
                         </span>
                     </button>
                     <button
-                            className="map-controls__screenshot"  
-                            onClick={this.onTakeScreenshot}
-                        >
-                            <span>
-                            <svg  viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" className="map-controls__screenshot-icon" ><path d="M896 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"/></svg>
-                            </span>
-                        </button>
-                    {showSaveLoad &&
-                    <Fragment>
-                        <div>
-                            <input
-                                type="file"
-                                id="fileElem"
-                                ref={this.setInputRef}
-                                accept=".js,.xml,.mmp"
-                                style={{display: 'none'}}
-                                onChange={this.handleInputChange}
-                            />
-                            <button className="map-controls__load" onClick={this.onClickLoad}>
-                                <span>{'LOAD'}</span>
+                        className="map-controls__screenshot"  
+                        onClick={this.onTakeScreenshot}
+                    >
+                        <span>
+                        <svg  viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" className="map-controls__screenshot-icon" ><path d="M896 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"/></svg>
+                        </span>
+                    </button>
+                    {showLayout &&
+                        <div className="map-controls__layout">
+                            <button
+                                className={classnames('map-controls__layout-button', {'selected': layoutOpen})}
+                                onClick={this.handleLayoutClick}
+                            >
+                                {'LAYOUT'}
                             </button>
+                            <ul
+                                className={classnames('map-controls__layout-controls', {'map-controls__layout-controls--open': layoutOpen})}
+                            >
+                                {this.layoutOptions.map((data) => (
+                                    <li key={data.type}>
+                                        <input
+                                            type="text"
+                                            id={`${data.type}-text`}
+                                            name={data.type}
+                                            maxLength="3"
+                                            value={this.state[`${data.type}Temp`]}
+                                            onChange={this[`${data.type}LayoutInputChange`]}
+                                        />
+                                        <input
+                                            type="range"
+                                            id={data.type}
+                                            name={data.type}
+                                            min={data.range[0]}
+                                            max={data.range[1]}
+                                            value={this.state[`${data.type}Temp`]}
+                                            onChange={this[`${data.type}LayoutRangeChange`]}
+                                        />
+                                        <label htmlFor={data.type}>{data.display}</label>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <button
-                            className="map-controls__save"  
-                            onClick={this.onClickSave}
-                        >
-                            <span>{'SAVE'}</span>
-                        </button>
-                    </Fragment>
+                    }
+                    {showSaveLoad &&
+                        <Fragment>
+                            <div>
+                                <input
+                                    type="file"
+                                    id="fileElem"
+                                    ref={this.setInputRef}
+                                    accept=".js,.xml,.mmp"
+                                    style={{display: 'none'}}
+                                    onChange={this.handleInputChange}
+                                />
+                                <button className="map-controls__load" onClick={this.onClickLoad}>
+                                    <span>{'LOAD'}</span>
+                                </button>
+                            </div>
+                            <button
+                                className="map-controls__save"  
+                                onClick={this.onClickSave}
+                            >
+                                <span>{'SAVE'}</span>
+                            </button>
+                        </Fragment>
                     }
                 </div>
                 <div
@@ -211,6 +358,10 @@ const mapDispatchToProps = (dispatch) => {
 
         modelLoad: (state) => {
             dispatch(modelLoad(state))
+        },
+
+        autoLayoutChange: (nodesep, edgesep, ranksep) => {
+            dispatch(autoLayoutChange(nodesep, edgesep, ranksep))
         }
     };
 }

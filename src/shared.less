@@ -53,6 +53,9 @@
 
 @excluded-opacity: 0.15;
 
+@easeInBack: cubic-bezier(.6, -.28, .735, .045);
+@easeOutBack: cubic-bezier(.175, .885, .32, 1.275);
+
 .mixin-selected-control(@grad-light; @grad-dark) {
     background: @grad-light; /* Old browsers */
     background: -moz-linear-gradient(top, @grad-dark 0%, @grad-light 100%); /* FF3.6-15 */
@@ -80,6 +83,10 @@
     box-shadow: inset 0 0 4px 2px @color;
 }
 
+.fontfamily() {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .mm-button() {
     cursor: pointer;
     color: #fff;
@@ -93,6 +100,7 @@
     
     .mixin-button-bg(@button-grad-light, @button-grad-dark);
 
+    &.selected,
     &:hover {
         .mixin-button-bg(@button-grad-hover-light, @button-grad-hover-dark);
         border-color: @button-grad-hover-dark;

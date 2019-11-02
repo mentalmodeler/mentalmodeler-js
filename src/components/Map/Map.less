@@ -15,7 +15,8 @@
             flex-shrink: 0;
             height: 44px;
             display: flex;
-            overflow: hidden
+            z-index: 4;
+            // overflow: hidden
         }
 
         &__content {
@@ -53,6 +54,75 @@
             padding-right: 16px;
             padding-left: 16px;
             
+            > span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 0 0 2px #000;
+            }
+        }
+
+        &__layout {
+            position: relative;
+        }
+
+        &__layout-controls {
+            position: absolute;
+            margin: 0;
+            padding: 8px 16px;
+            list-style-type: none;
+            background-color: rgba(0, 0, 0, .8);
+            border-radius: 8px;
+            border: 2px solid #000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .4);
+            display: none;
+            transform-origin: 100% 0%;
+            right: calc(~'100% - 90px');
+            top: 50px;
+
+            &--open {
+                display: block;
+                animation: panel-in 200ms @easeOutBack forwards;
+            }
+
+            > li {
+                display: flex;
+                align-items: center;
+
+                > input[type="text"] {
+                    .fontfamily();
+                    margin: 0;
+                    margin-right: 8px;
+                    height: 18px;
+                    line-height: 18px;
+                    font-size: 14px;
+                    width: 32px;
+                    border-radius: 4px;
+                    padding: 0 4px;
+                    text-align: right;
+                }
+
+                > input[type="range"] {
+                    .fontfamily();
+                    margin-right: 8px;
+                }
+
+                > label {
+                    .fontfamily();
+                    flex-shrink: 0;
+                    white-space: nowrap;
+                    color: #fff;
+                }
+            }
+        }
+
+        &__layout-button {
+            .mm-button();
+            flex-grow: 0;
+            font-size: 16px;
+            height: 100%;
+            padding-right: 16px;
+            padding-left: 16px;
 
             > span {
                 display: flex;
@@ -110,5 +180,17 @@
             fill: #fff;
             filter: drop-shadow(0 0 1px #000);
         }
+    }
+}
+
+@keyframes panel-in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }

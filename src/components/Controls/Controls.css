@@ -314,6 +314,7 @@
   margin-top: 0px;
   margin-bottom: 4px;
 }
+.MentalMapper .filter-view-control__reset.selected,
 .MentalMapper .filter-view-control__reset:hover {
   background: #657F14;
   /* Old browsers */
