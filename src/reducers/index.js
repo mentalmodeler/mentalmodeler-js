@@ -1,4 +1,3 @@
-
 import {combineReducers} from 'redux';
 import {util, SETTINGS} from '../utils/util';
 
@@ -125,6 +124,14 @@ const concepts = (
                 ...state,
                 collection: updateCollectionRelationship(collection, action.influencerId, action.influenceeId, {
                     confidence: action.value
+                })
+            };
+        case 'RELATIONSHIP_CHANGE_NOTES':
+            console.log('RELATIONSHIP_CHANGE_NOTES, action.notes:', action.notes);
+            return {
+                ...state,
+                collection: updateCollectionRelationship(collection, action.influencerId, action.influenceeId, {
+                    notes: action.notes
                 })
             };
         case 'RELATIONSHIP_CHANGE_INFLUENCE':
