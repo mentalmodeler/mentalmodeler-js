@@ -70,6 +70,15 @@ const relationshipFocus = (influencerId, influenceeId) => {
     }
 };
 
+const relationshipChangeNotes = (influencerId, influenceeId, notes) => {
+    return {
+        type: 'RELATIONSHIP_CHANGE_NOTES',
+        influencerId,
+        influenceeId,
+        notes
+    }
+};
+
 const relationshipDrawTemp = (id, drawing, startX, startY, endX, endY, width, height, centerClickDiffX, centerClickDiffY) => {
     // console.log('relationshipDrawTemp\n\tdrawing:', drawing, ', startX:', startX, ', startY:', startY, ', endX:', endX, ', endY:', endY, ' width:', width,  ', height:', height, ', centerClickDiffX:', centerClickDiffX, ', centerClickDiffY:', centerClickDiffY);
     // console.log('relationshipDrawTemp\n\tdrawing:', drawing, '\n\t centerClickDiffX:', centerClickDiffX, ', centerClickDiffY:', centerClickDiffY);
@@ -171,6 +180,7 @@ export {
     conceptChangeGroup,
     conceptAdd,
     relationshipFocus,
+    relationshipChangeNotes,
     relationshipChangeConfidence,
     relationshipDrawTemp,
     relationshipSetTempTarget,
