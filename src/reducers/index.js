@@ -127,7 +127,6 @@ const concepts = (
                 })
             };
         case 'RELATIONSHIP_CHANGE_NOTES':
-            console.log('RELATIONSHIP_CHANGE_NOTES, action.notes:', action.notes);
             return {
                 ...state,
                 collection: updateCollectionRelationship(collection, action.influencerId, action.influenceeId, {

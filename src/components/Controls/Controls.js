@@ -166,7 +166,7 @@ class Controls extends Component {
                             <TextAreaControl
                                 className="control-panel__body-content"
                                 value={selectedData && selectedData.notes ? selectedData.notes : ''}
-                                onChange={this.onNotesChange}
+                                onChange={this.onNotesBlur} // tihis.onNotesChange}
                                 onBlur={this.onNotesBlur}
                                 placeholder="Enter notes"
                             />
@@ -179,7 +179,7 @@ class Controls extends Component {
                                         maxHeight={80}
                                         autoExpand
                                         value={selectedData && selectedData.units ? selectedData.units : ''}
-                                        onChange={this.onUnitsChange}
+                                        onChange={this.onUnitsBlur} // this.onUnitsChange}
                                         onBlur={this.onUnitsBlur}
                                         placeholder="Enter units"
                                     />  
@@ -199,7 +199,7 @@ class Controls extends Component {
                             <ControlPanel title="Confidence Rating">
                                     <ConfidenceControl
                                         maxHeight={200}
-                                        onChange={this.onConfidenceChange}
+                                        onChange={this.onConfidenceBlur} // this.onConfidenceChange}
                                         onBlur={this.onConfidenceBlur}
                                         value={selectedData && selectedData.confidence ? selectedData.confidence : '0'}
                                     />  

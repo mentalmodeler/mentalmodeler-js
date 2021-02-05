@@ -120,8 +120,8 @@ function screenshot () {
 
 if (initialize) {
     render();
-    // load(simple);
-    load(fire);
+    load(simple);
+    // load(fire);
 }
 
 // Define public API

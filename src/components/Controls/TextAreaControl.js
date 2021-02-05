@@ -53,7 +53,11 @@ class TextAreaControl extends Component {
                 isDirty: true
             });
             if (this.props.onChange) {
-                this.props.onChange(value);
+                this.props.onChange({
+                    event: e,
+                    value,
+                    isDirty: true
+                });
             }
         }
     }
