@@ -229,7 +229,7 @@ const concepts = (
                 viewFilter: action.index
             };
         case 'AUTO_LAYOUT_CHANGE':
-                console.log('AUTO_LAYOUT_CHANGE, action.nodesep:', action.nodesep, ', action.edgesep:', action.edgesep, ', action.ranksep:', action.ranksep);
+                // console.log('AUTO_LAYOUT_CHANGE, action.nodesep:', action.nodesep, ', action.edgesep:', action.edgesep, ', action.ranksep:', action.ranksep);
                 return {
                     ...state,
                 };
