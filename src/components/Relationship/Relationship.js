@@ -88,17 +88,18 @@ class Relationship extends Component {
             hasTempRelationship,
             inDualRelationship,
             isFirstInDualRelationship,
-            isExcludedByFilter
+            isExcludedByFilter,
+            tempTarget,
+            tempInfluencerId
         } = this.props
 
         // console.log('Relationship > render >', influencerId, '-', influenceeId, '\n\tinDualRelationship:', inDualRelationship, ', isFirstInDualRelationship:', isFirstInDualRelationship);
         const sizeData = [influenceeWidth, influenceeHeight, influencerWidth, influencerHeight];
         const missingSomeSizeData = sizeData.some((value) => (!value));
-        const selfRelationship = !tempLine && influencerId === influenceeId;
+        const selfRelationship = (!tempLine && influencerId === influenceeId) || (tempLine && tempInfluencerId === tempTarget);
         if (missingSomeSizeData && !tempLine) {
             return null;
         }
-
         const influenceAbsValue = Math.abs(influence);
         const lineThickness = Math.round(influenceAbsValue * 3 + 1);
         let erX = influencerX + influencerWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
@@ -106,14 +107,21 @@ class Relationship extends Component {
         let eeX = influenceeX + influenceeWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
         let eeY = influenceeY + influenceeHeight / 2;
         let path = '';
-        const selfRelationshipAdj = 16;
-        const radiusX = 22;
-        const radiusY = 22;
-        const startX = influencerX + influencerWidth - selfRelationshipAdj;
-        const startY = influencerY + influencerHeight;
-        const endX = influencerX + influencerWidth;
-        const endY = influencerY + influencerHeight - selfRelationshipAdj;
         if (selfRelationship) {
+            const selfRelationshipAdj = 16;
+            const radiusX = 22;
+            const radiusY = 22;
+            let startX = influencerX + influencerWidth - selfRelationshipAdj;
+            let startY = influencerY + influencerHeight;
+            let endX = influencerX + influencerWidth;
+            let endY = influencerY + influencerHeight - selfRelationshipAdj;
+            if (tempLine) {
+                const xAdj = 10;
+                startX = influencerX + influencerWidth / 2 - selfRelationshipAdj + xAdj;
+                startY = influencerY + influencerHeight / 2;
+                endX = influencerX + influencerWidth / 2 + xAdj;
+                endY = influencerY + influencerHeight / 2 - selfRelationshipAdj;
+            }
             path = `M${startX},${startY} A ${radiusX} ${radiusY} 0 1 0 ${endX + 16},${endY} L${endX},${endY}`;
         }
         if (!tempLine && !selfRelationship) {
@@ -148,13 +156,6 @@ class Relationship extends Component {
             eeX = influenceeX + centerClickDiffX;
             eeY = influenceeY + centerClickDiffY;
         }
-        
-        // const svgClasses = classnames('Relationship__svg', {
-        //     'Relationship__svg--negative': influence < 0,
-        //     'Relationship__svg--positive': influence > 0,
-        //     'Relationship__svg--neutral': influence === 0,
-        //     'Relationship__svg--selected': selected 
-        // });
         
         const negative = influence < 0;
         let influenceModifier = selected ? 'selected' : 'neutral';
