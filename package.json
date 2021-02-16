@@ -18,7 +18,7 @@
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
     "start-js": "react-scripts start",
-    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin master",
+    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin self-feedback-relationship",
     "build": "run-s -n build-css build-js && rm -rf docs && mv build docs",
     "build-js": "react-scripts build",
     "test": "run-s -n build-css test-js",
