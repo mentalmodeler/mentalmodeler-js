@@ -10,7 +10,7 @@ import util from './utils/util';
 import {modelLoad} from './actions/index';
 
 import fire from './data/fire.mmp'; // eslint-disable-line
-import simple from './data/simple.mmp'; // eslint-disable-line
+import simple from './models/simple.mmp.json'; // eslint-disable-line
 
 import './index.css';
 

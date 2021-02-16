@@ -14,6 +14,7 @@
   position: absolute;
   pointer-events: none;
 }
+.MentalMapper .Relationship__svg--hit path,
 .MentalMapper .Relationship__svg--hit line {
   pointer-events: auto;
 }

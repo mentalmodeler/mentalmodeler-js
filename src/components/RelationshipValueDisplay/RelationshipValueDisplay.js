@@ -140,10 +140,17 @@ class RelationshipValueDisplay extends Component {
 
     render() {
         const {expanded, positionPct, influenceValue, tempInfluenceTextValue} = this.state;
-        const {erX, erY, eeX, eeY} = this.props;
-        const x = eeX + (erX - eeX) * positionPct;
-        const y = eeY + (erY - eeY) * positionPct;
-        const posStyle = expanded
+        const {erX, erY, eeX, eeY, selfRelationship, selfRelationshipX, selfRelationshipY} = this.props;
+        const x = !selfRelationship
+            ? eeX + (erX - eeX) * positionPct
+            : selfRelationshipX + 8;
+        const y = !selfRelationship
+            ? eeY + (erY - eeY) * positionPct
+            : selfRelationshipY + 24;
+        if (selfRelationship) {
+            console.log('selfRelationship:', selfRelationship);
+        }
+        let posStyle = expanded
             ? {
                 left: `${x - 21}px`,
                 top: `${y - 70}px`,
