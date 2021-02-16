@@ -22,7 +22,7 @@ if (!Element.prototype.matches) {
 }
 
 const params = new URLSearchParams(document.location.search.substring(1));
-const initialize = !!params.has('init') && document.location.hostname === 'localhost';
+const initialize = !!params.has('init') && (document.location.hostname === 'localhost' || document.location.hostname === 'mentalmodeler.github.io');
 
 // let loadTimeoutId;
 let store = createStore(allReducers, {});
