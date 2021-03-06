@@ -159,7 +159,6 @@ class Map extends Component {
 
     handleInputChange = (e) => {
         const file = e.target.files[0];
-        console.log('file:', file);
         if (file) {
             const fileReader = new FileReader();
             fileReader.onloadend = this.onFileReaderLoadEnd;
