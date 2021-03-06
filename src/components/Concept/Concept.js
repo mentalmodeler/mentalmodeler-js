@@ -174,7 +174,8 @@ class Concept extends Component {
         const {lineMouseDown} = this.state;
         this.toggleDragHandlers(false, e);
         if (lineMouseDown) {
-            if (tempTarget !== null && id !== tempTarget) {
+            // uncomment this second condition to prevent self feedback relationships
+            if (tempTarget !== null) { // && id !== tempTarget) {
                 relationshipAdd(id, tempTarget);
             }
             this.centerClickDiffX = 0;

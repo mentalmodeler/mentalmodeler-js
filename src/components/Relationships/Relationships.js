@@ -7,7 +7,7 @@ import util from '../../utils/util';
 class Relationships extends Component {
     render() {
         const {positions, concepts} = this.props;
-        let {collection, selectedConcept, selectedRelationship, tempRelationship, viewFilter} = concepts;
+        let {collection, selectedConcept, selectedRelationship, tempRelationship, viewFilter, tempTarget} = concepts;
         if (false) {
             tempRelationship = {
                 startX: 400,
@@ -23,9 +23,9 @@ class Relationships extends Component {
         }
         const hasTempRelationship = !!tempRelationship;
         // console.log('hasTempRelationship:', hasTempRelationship);
-        if (tempRelationship) {
-            // console.log('tempRelationship\n\tcenterClickDiffX:', tempRelationship.centerClickDiffX, '\n\tcenterClickDiffY:', tempRelationship.centerClickDiffY, '\n');
-        }
+        // if (tempRelationship) {
+        //     // console.log('tempRelationship\n\tcenterClickDiffX:', tempRelationship.centerClickDiffX, '\n\tcenterClickDiffY:', tempRelationship.centerClickDiffY, '\n');
+        // }
         return (
             <div className="map__relationships">
             {
@@ -104,6 +104,8 @@ class Relationships extends Component {
                     selected={false}
                     influence={0}
                     tempLine={true}
+                    tempInfluencerId={tempRelationship.id}
+                    tempTarget={tempTarget}
                     hasTempRelationship={hasTempRelationship}                            
                 />
             }

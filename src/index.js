@@ -10,7 +10,7 @@ import util from './utils/util';
 import {modelLoad} from './actions/index';
 
 import fire from './data/fire.mmp'; // eslint-disable-line
-import simple from './data/simple.mmp'; // eslint-disable-line
+import simple from './models/simple.mmp.json'; // eslint-disable-line
 
 import './index.css';
 
@@ -22,7 +22,7 @@ if (!Element.prototype.matches) {
 }
 
 const params = new URLSearchParams(document.location.search.substring(1));
-const initialize = !!params.has('init') && document.location.hostname === 'localhost';
+const initialize = !!params.has('init') && (document.location.hostname === 'localhost' || document.location.hostname === 'mentalmodeler.github.io');
 
 // let loadTimeoutId;
 let store = createStore(allReducers, {});

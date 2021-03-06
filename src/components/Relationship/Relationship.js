@@ -88,23 +88,43 @@ class Relationship extends Component {
             hasTempRelationship,
             inDualRelationship,
             isFirstInDualRelationship,
-            isExcludedByFilter
+            isExcludedByFilter,
+            tempTarget,
+            tempInfluencerId
         } = this.props
 
         // console.log('Relationship > render >', influencerId, '-', influenceeId, '\n\tinDualRelationship:', inDualRelationship, ', isFirstInDualRelationship:', isFirstInDualRelationship);
         const sizeData = [influenceeWidth, influenceeHeight, influencerWidth, influencerHeight];
         const missingSomeSizeData = sizeData.some((value) => (!value));
+        const selfRelationship = (!tempLine && influencerId === influenceeId) || (tempLine && tempInfluencerId === tempTarget);
         if (missingSomeSizeData && !tempLine) {
             return null;
         }
-
         const influenceAbsValue = Math.abs(influence);
         const lineThickness = Math.round(influenceAbsValue * 3 + 1);
         let erX = influencerX + influencerWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
         let erY = influencerY + influencerHeight / 2;
         let eeX = influenceeX + influenceeWidth / 2 + util.getOffset(inDualRelationship, isFirstInDualRelationship);
         let eeY = influenceeY + influenceeHeight / 2;
-        if (!tempLine) {
+        let path = '';
+        if (selfRelationship) {
+            const selfRelationshipAdj = 16;
+            const radiusX = 22;
+            const radiusY = 22;
+            let startX = influencerX + influencerWidth - selfRelationshipAdj;
+            let startY = influencerY + influencerHeight;
+            let endX = influencerX + influencerWidth;
+            let endY = influencerY + influencerHeight - selfRelationshipAdj;
+            if (tempLine) {
+                const xAdj = 10;
+                startX = influencerX + influencerWidth / 2 - selfRelationshipAdj + xAdj;
+                startY = influencerY + influencerHeight / 2;
+                endX = influencerX + influencerWidth / 2 + xAdj;
+                endY = influencerY + influencerHeight / 2 - selfRelationshipAdj;
+            }
+            path = `M${startX},${startY} A ${radiusX} ${radiusY} 0 1 0 ${endX + 16},${endY} L${endX},${endY}`;
+        }
+        if (!tempLine && !selfRelationship) {
             const edgeEE = util.determineEdgePoint({
                 eeX,
                 eeY,
@@ -137,13 +157,6 @@ class Relationship extends Component {
             eeY = influenceeY + centerClickDiffY;
         }
         
-        // const svgClasses = classnames('Relationship__svg', {
-        //     'Relationship__svg--negative': influence < 0,
-        //     'Relationship__svg--positive': influence > 0,
-        //     'Relationship__svg--neutral': influence === 0,
-        //     'Relationship__svg--selected': selected 
-        // });
-        
         const negative = influence < 0;
         let influenceModifier = selected ? 'selected' : 'neutral';
         let color = selected ? '#83A603' : '#333';
@@ -175,15 +188,22 @@ class Relationship extends Component {
                             opacity: '0.3'
                         }}
                     >
-                        <line
-                            x1={erX}
-                            x2={eeX}
-                            y1={erY}
-                            y2={eeY}
-                            strokeWidth={lineThickness * 3}
-                            // opacity={0.3}
-                            // stroke={color}
-                        />
+                        {!selfRelationship && (
+                            <line
+                                x1={erX}
+                                x2={eeX}
+                                y1={erY}
+                                y2={eeY}
+                                strokeWidth={lineThickness * 3}
+                            />
+                        )}
+                        {selfRelationship && (
+                            <path
+                                fill="none"
+                                strokeWidth={lineThickness * 3}
+                                d={path}
+                            />
+                        )}
                     </svg>
                 }
                 <svg
@@ -191,14 +211,24 @@ class Relationship extends Component {
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <line
-                        x1={erX}
-                        x2={eeX}
-                        y1={erY}
-                        y2={eeY}
-                        stroke={color}
-                        strokeWidth={tempLine ? 2 : lineThickness}
-                    />
+                    {!selfRelationship && (
+                        <line
+                            x1={erX}
+                            x2={eeX}
+                            y1={erY}
+                            y2={eeY}
+                            stroke={color}
+                            strokeWidth={tempLine ? 2 : lineThickness}
+                        />
+                    )}
+                    {selfRelationship && (
+                        <path
+                            fill="none"
+                            stroke={color}
+                            strokeWidth={tempLine ? 2 : lineThickness}
+                            d={path}
+                        />
+                    )}
                 </svg>
                 <svg
                     className="Relationship__svg Relationship__svg--hit"
@@ -264,15 +294,26 @@ class Relationship extends Component {
                             />
                         </marker>
                     </defs>
-                    <line
-                        x1={erX}
-                        x2={eeX}
-                        y1={erY}
-                        y2={eeY}
-                        stroke="transparent"
-                        strokeWidth="10"
-                        markerEnd={`url(#arrow-${influenceModifier})`}
-                    />
+                    {!selfRelationship && (
+                        <line
+                            x1={erX}
+                            x2={eeX}
+                            y1={erY}
+                            y2={eeY}
+                            stroke="transparent"
+                            strokeWidth="10"
+                            markerEnd={`url(#arrow-${influenceModifier})`}
+                        />
+                    )}
+                    {selfRelationship && (
+                        <path
+                            fill="none"
+                            stroke="transparent"
+                            strokeWidth="10"
+                            markerEnd={`url(#arrow-${influenceModifier})`}
+                            d={path}
+                        />
+                    )}
                 </svg>
                 {!tempLine && 
                     <RelationshipValueDisplay
@@ -280,6 +321,9 @@ class Relationship extends Component {
                         eeX={eeX}
                         erY={erY}
                         eeY={eeY}
+                        selfRelationship={selfRelationship}
+                        selfRelationshipX={influencerX + influencerWidth}
+                        selfRelationshipY={influencerY + influencerHeight}
                         influencerId={influencerId}
                         influenceeId={influenceeId}
                         influence={influence}

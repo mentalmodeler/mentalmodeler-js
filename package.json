@@ -2,7 +2,7 @@
   "name": "mentalmodeler-js",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://jonnybomb.com/mentalmodeler",
+  "homepage": ".",
   "dependencies": {
     "classnames": "^2.2.6",
     "html2canvas": "^1.0.0-alpha.12",
@@ -18,7 +18,8 @@
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
     "start-js": "react-scripts start",
-    "build": "run-s -n build-css build-js",
+    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin self-feedback-relationship",
+    "build": "run-s -n build-css build-js && rm -rf docs && mv build docs",
     "build-js": "react-scripts build",
     "test": "run-s -n build-css test-js",
     "test-js": "react-scripts test --env=jsdom",
