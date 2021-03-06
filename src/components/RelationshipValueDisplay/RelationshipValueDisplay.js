@@ -147,9 +147,6 @@ class RelationshipValueDisplay extends Component {
         const y = !selfRelationship
             ? eeY + (erY - eeY) * positionPct
             : selfRelationshipY + 24;
-        if (selfRelationship) {
-            console.log('selfRelationship:', selfRelationship);
-        }
         let posStyle = expanded
             ? {
                 left: `${x - 21}px`,

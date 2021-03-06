@@ -230,7 +230,7 @@ class Concept extends Component {
     }
 
     render() {
-        const { id, name, selected, x, y, group = '0', hasTempRelationship, isTempRelationship, isExcludedByFilter} = this.props // eslint-disable-line
+        const { id, name, selected, x, y, group = '0', hasTempRelationship, isTempRelationship, isExcludedByFilter, selectedRelationship} = this.props // eslint-disable-line
         const { value, lineMouseDown } = this.state
         const rootStyle = {
             left: `${x}px`,
@@ -239,8 +239,6 @@ class Concept extends Component {
             paddingBottom: '0px'
         }
         const groupNum = group || '0';
-        // console.log('groupNum:', groupNum);
-        // console.log(id, '> isExcludedByFilter:', isExcludedByFilter);
         const rootClassnames = classnames('Concept', `Concept--group-${groupNum}`, {
             'Concept--focused': selected,
             'Concept--line-mouse-down': lineMouseDown,
@@ -252,23 +250,24 @@ class Concept extends Component {
 
         const bgClassnames = classnames('Concept__bg', `Concept__bg--group-${groupNum}`, {
             'Concept__bg--focused': selected,
+            'Concept__bg--relationship-focused': selectedRelationship,
         });
         
         // console.log('\t\tConcept >', this.props.id, '> render');
 
-        const bgStyle = {
-            borderRadius: '6px',
-            border: '1px solid #000',
-            boxShadow: 'inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15)'
-        };
+        // const bgStyle = {
+        //     borderRadius: '6px',
+        //     border: '1px solid #000',
+        //     boxShadow: 'inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15)'
+        // };
 
-        const textAreaStyle = {
-            lineHeight: '18px',
-            fontSize: '14px',
-            padding: '6px',
-            fontFamily: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-            color: '#333'
-        };
+        // const textAreaStyle = {
+        //     lineHeight: '18px',
+        //     fontSize: '14px',
+        //     padding: '6px',
+        //     fontFamily: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+        //     color: '#333'
+        // };
 
         return (
             <div
@@ -288,7 +287,7 @@ class Concept extends Component {
                     onChange={this.onChange}
                     ref={this.setTextareaRef}
                     placeholder="Enter name"
-                    style={textAreaStyle}
+                    // style={textAreaStyle}
                 />
                 <div className="Concept__button-wrapper Concept__button-wrapper--top">
                     <button 
@@ -324,7 +323,10 @@ class Concept extends Component {
                         </svg>
                     </button>
                 </div>
-                <div  className={bgClassnames} style={bgStyle}></div>
+                <div
+                    className={bgClassnames}
+                    // style={bgStyle}
+                />
             </div>
         );
     }

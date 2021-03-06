@@ -17,17 +17,6 @@ class Concepts extends Component {
                 ? sConcept.relationships
                 : [];
         } 
-        
-        // console.log('\n\nConcepts > render'
-        //     , '\n\tselectedConcept:', selectedConcept
-        //     , '\n\tsConcept:', sConcept
-        //     , '\n\tselectedRelationships:', selectedRelationships
-        //     , '\n\tselectedRelationships:', selectedRelationships
-        //     , '\n\tviewFilter:', viewFilter
-        //     // , '\n\ttempRelationship:', tempRelationship
-        //     // , '\n\ttempTarget:', tempTarget
-        //     , '\n\n'
-        // );
         return (
             <div className="map__concepts">
             {collection.map((concept, index) => {
@@ -38,8 +27,7 @@ class Concepts extends Component {
                     concept,
                     collection
                 });
-                // console.log(`id:${concept.id}, isExcludedByFilter: ${isExcludedByFilter}\n`);
-                return (
+               return (
                     <Concept
                         key={`concept_${concept.id}`}
                         {...concept}
@@ -47,6 +35,7 @@ class Concepts extends Component {
                         isTempRelationship={hasTempRelationship && concept.id === tempRelationship.id}
                         tempTarget={tempTarget}
                         selected={concept.id === selectedConcept && selectedRelationship === null}
+                        selectedRelationship={!!selectedRelationship && (concept.id === selectedConcept || concept.id === selectedRelationship)}
                         isExcludedByFilter={isExcludedByFilter}
                     />
                 );

@@ -10,7 +10,7 @@ class App extends Component {
         return (
             <div className="MentalMapper">
                 <Controls />  
-                <Map />
+                <Map standalone={this.props.standalone}/>
             </div>
         );
     }

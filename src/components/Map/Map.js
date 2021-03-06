@@ -15,7 +15,6 @@ import {
 
 import './Map.css';
 
-const showSaveLoad = false;
 const showLayout = false;
 
 class Map extends Component {
@@ -309,14 +308,14 @@ class Map extends Component {
                             </ul>
                         </div>
                     }
-                    {showSaveLoad &&
+                    {this.props.standalone &&
                         <Fragment>
                             <div>
                                 <input
                                     type="file"
                                     id="fileElem"
                                     ref={this.setInputRef}
-                                    accept=".js,.xml,.mmp"
+                                    accept=".json,.mmp,.xml,.js"
                                     style={{display: 'none'}}
                                     onChange={this.handleInputChange}
                                 />

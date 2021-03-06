@@ -45,22 +45,46 @@
   box-shadow: inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-0 {
-  box-shadow: inset 0 0 4px 2px #83A603;
+  box-shadow: inset 0 0 0 3px #83A603, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-1 {
-  box-shadow: inset 0 0 4px 2px #E57429;
+  box-shadow: inset 0 0 0 3px #E57429, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-2 {
-  box-shadow: inset 0 0 4px 2px #2971E5;
+  box-shadow: inset 0 0 0 3px #2971E5, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-3 {
-  box-shadow: inset 0 0 4px 2px #E5E529;
+  box-shadow: inset 0 0 0 3px #E5E529, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-4 {
-  box-shadow: inset 0 0 4px 2px #E529E5;
+  box-shadow: inset 0 0 0 3px #E529E5, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__bg--focused.Concept__bg--group-5 {
-  box-shadow: inset 0 0 4px 2px #14D192;
+  box-shadow: inset 0 0 0 3px #14D192, 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-0 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #83A603;
+  border-color: #83A603;
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-1 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #E57429;
+  border-color: #E57429;
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-2 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #2971E5;
+  border-color: #2971E5;
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-3 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #E5E529;
+  border-color: #E5E529;
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-4 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #E529E5;
+  border-color: #E529E5;
+}
+.MentalMapper .Concept__bg--relationship-focused.Concept__bg--group-5 {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px #14D192;
+  border-color: #14D192;
 }
 .MentalMapper .Concept__bg--group-0 {
   background: #e6e6e6;
@@ -238,6 +262,7 @@
   resize: none;
   z-index: 2;
   text-align: center;
+  color: #333;
   box-shadow: none !important;
 }
 .MentalMapper .Concept__textarea:focus {
@@ -254,22 +279,22 @@
   transform: none;
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-0 {
-  box-shadow: inset 0 0 4px 2px #83A603;
+  box-shadow: inset 0 0 0 3px #83A603, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-1 {
-  box-shadow: inset 0 0 4px 2px #E57429;
+  box-shadow: inset 0 0 0 3px #E57429, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-2 {
-  box-shadow: inset 0 0 4px 2px #2971E5;
+  box-shadow: inset 0 0 0 3px #2971E5, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-3 {
-  box-shadow: inset 0 0 4px 2px #E5E529;
+  box-shadow: inset 0 0 0 3px #E5E529, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-4 {
-  box-shadow: inset 0 0 4px 2px #E529E5;
+  box-shadow: inset 0 0 0 3px #E529E5, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept--temp-relationship-exists:not(.Concept--is-temp-relationship):hover > .Concept__bg--group-5 {
-  box-shadow: inset 0 0 4px 2px #14D192;
+  box-shadow: inset 0 0 0 3px #14D192, 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .MentalMapper .Concept__textarea::placeholder {
   color: #9b9c9d;

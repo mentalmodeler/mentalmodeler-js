@@ -5,6 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "classnames": "^2.2.6",
+    "file-saver": "^2.0.5",
     "html2canvas": "^1.0.0-alpha.12",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
@@ -18,7 +19,7 @@
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
     "start-js": "react-scripts start",
-    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin self-feedback-relationship",
+    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin master",
     "build": "run-s -n build-css build-js && rm -rf docs && mv build docs",
     "build-js": "react-scripts build",
     "test": "run-s -n build-css test-js",

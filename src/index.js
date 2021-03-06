@@ -8,6 +8,8 @@ import allReducers from './reducers';
 import App from './App';
 import util from './utils/util';
 import {modelLoad} from './actions/index';
+import { saveAs } from 'file-saver';
+
 
 import fire from './data/fire.mmp'; // eslint-disable-line
 import simple from './models/simple.mmp.json'; // eslint-disable-line
@@ -22,13 +24,12 @@ if (!Element.prototype.matches) {
 }
 
 const params = new URLSearchParams(document.location.search.substring(1));
-const initialize = !!params.has('init') && (document.location.hostname === 'localhost' || document.location.hostname === 'mentalmodeler.github.io');
-
-// let loadTimeoutId;
+const dev = process.env.NODE_ENV === 'development';
+const standalone = !!params.has('standalone') || dev || document.location.hostname === 'mentalmodeler.github.io';
+const loadTestFile = dev && !!params.has('init');
 let store = createStore(allReducers, {});
 
 function loadModel(state) {
-    // console.log('MentalModelerConceptMap > loadModel\nstate:', state, '\n\n');
     store.dispatch(modelLoad(state));
 }
 
@@ -39,12 +40,6 @@ function load(json) {
             data = JSON.parse(data);
         }        
         data = util.initData(data);
-        // clearTimeout(loadTimeoutId);
-        // loadTimeoutId = setTimeout(() => {
-        //     loadTimeoutId = undefined;
-        //     loadModel(data);
-        // }, 0);
-        // loadModel({});
         loadModel({});
         loadModel(data);
             
@@ -53,11 +48,39 @@ function load(json) {
     }
 }
 
+function writeLocalFile({content, name, type}) {
+    try {
+        let isFileSaverSupported = !!new Blob; // eslint-disable-line
+        let url = content;
+        if (type === 'json') {
+            var bb = new Blob([content], { type: 'application/json'});
+            url = window.URL.createObjectURL(bb);
+        } else if (type === 'canvas') {
+            url = content.toDataURL();
+        }
+        const link = document.createElement('a');
+        if (typeof link.download === 'string') {
+            saveAs(url, name);
+        } else {
+            if (type === 'json') {
+                window.open(url);
+            } else {
+                alert('Image download not supported in your current browser. Please use a modern browser.');
+            }
+        }
+        link.remove();
+        type === 'json' && url && window.URL.revokeObjectURL(url);
+    } catch (e) {
+        console.log('ERROR - save\ne:', e, '\ntype:', type, ', name:', name, '\ncontent:', content);
+    }
+}
+
 function save() {
     try {
         const data =  util.exportData(store.getState());
-        // console.log('\n\n---- MentalModelerConceptMap > save\ndata:', data, '\n\n');
-        return data;
+        return standalone
+            ? writeLocalFile({content: data.json, name: 'mmp.json', type: 'json'})
+            : data;        
     } catch (e) {
         console.error('ERROR - ConceptMap > save, e:', e);
     }
@@ -73,7 +96,7 @@ function render(target = '#root') {
         }
         ReactDOM.render(
             <Provider store={store}>
-                <App />
+                <App standalone={standalone}/>
             </Provider>,
             elem
         );
@@ -118,10 +141,12 @@ function screenshot () {
     }
 }
 
-if (initialize) {
+if (standalone) {
     render();
-    load(simple);
-    // load(fire);
+    if (loadTestFile) {
+        load(simple);
+        // load(fire);
+    }
 }
 
 // Define public API

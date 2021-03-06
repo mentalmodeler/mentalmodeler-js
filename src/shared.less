@@ -52,7 +52,7 @@
 @concept-button-border-radius: 6px;
 
 @excluded-opacity: 0.15;
-
+@shadow-core: 0 3px 8px rgba(0, 0, 0, 0.15);
 @easeInBack: cubic-bezier(.6, -.28, .735, .045);
 @easeOutBack: cubic-bezier(.175, .885, .32, 1.275);
 
@@ -80,7 +80,12 @@
 }
 
 .mixin-selected-control-bg(@color) {
-    box-shadow: inset 0 0 4px 2px @color;
+    box-shadow: inset 0 0 0 3px @color, @shadow-core; // box-shadow: inset 0 0 4px 2px @color, @shadow-core;
+}
+
+.mixin-relationship-selected-control-bg(@color) {
+    box-shadow: @shadow-core, inset 0 0 0 1px @color;
+    border-color: @color;
 }
 
 .fontfamily() {

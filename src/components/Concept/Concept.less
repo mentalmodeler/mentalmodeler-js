@@ -67,7 +67,7 @@
             left: 0;
             border-radius: 6px;
             border: 1px solid #000;
-            box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.15);
+            box-shadow:inset 0 0 0 2px #fff, @shadow-core;
 
             &--focused {
                 &.Concept__bg--group-0 { .mixin-selected-control-bg(@concept-0-outline); }
@@ -77,7 +77,16 @@
                 &.Concept__bg--group-4 { .mixin-selected-control-bg(@concept-4-outline); }
                 &.Concept__bg--group-5 { .mixin-selected-control-bg(@concept-5-outline); }
             }
-        
+            
+            &--relationship-focused {
+                &.Concept__bg--group-0 { .mixin-relationship-selected-control-bg(@concept-0-outline); }
+                &.Concept__bg--group-1 { .mixin-relationship-selected-control-bg(@concept-1-outline); }
+                &.Concept__bg--group-2 { .mixin-relationship-selected-control-bg(@concept-2-outline); }
+                &.Concept__bg--group-3 { .mixin-relationship-selected-control-bg(@concept-3-outline); }
+                &.Concept__bg--group-4 { .mixin-relationship-selected-control-bg(@concept-4-outline); }
+                &.Concept__bg--group-5 { .mixin-relationship-selected-control-bg(@concept-5-outline); }
+            }
+
             &--group-0 { .mixin-concept-bg(@concept-0-grad-light, @concept-0-grad-dark); }
             &--group-1 { .mixin-concept-bg(@concept-1-grad-light, @concept-1-grad-dark); }
             &--group-2 { .mixin-concept-bg(@concept-2-grad-light, @concept-2-grad-dark); }
@@ -190,6 +199,7 @@
             resize: none;
             z-index: 2;
             text-align: center;
+            color: #333;
             
             // foundation.css overrides
             box-shadow: none !important;
