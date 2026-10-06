@@ -26,7 +26,7 @@ if (!Element.prototype.matches) {
 const params = new URLSearchParams(document.location.search.substring(1));
 const dev = process.env.NODE_ENV === 'development';
 const standalone = !!params.has('standalone') || dev || document.location.hostname === 'mentalmodeler.github.io';
-const loadTestFile = dev && !!params.has('init');
+const loadTestFile = !!params.has('demo');
 let store = createStore(allReducers, {});
 
 function loadModel(state) {
@@ -144,8 +144,7 @@ function screenshot () {
 if (standalone) {
     render();
     if (loadTestFile) {
-        load(simple);
-        // load(fire);
+        load(fire);
     }
 }
 

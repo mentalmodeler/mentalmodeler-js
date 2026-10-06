@@ -25,24 +25,74 @@ const util = {
         // old way
         // const collection = [...concepts]; util.parsePositionData(collection);
         
-        // new way
-        const collection = concepts.map((concept) => {
+        // not extensible fix for dual other relationship
+        const otherRelationshipsToUpdate = [];
+        
+        let collection = concepts.map((concept) => { 
             const relationships = concept && concept.relationships ? concept.relationships : [];
             const newRelationships = relationships.map((relationship) => {
-                if (!relationship.inDualRelationship) {
-                    const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, relationship.id);
+                // not extensible fix for dual other relationship
+                let _relationship = {...relationship};
+                
+                // not extensible fix for dual other relationship
+                const inOtherRelationshipsToUpdate = otherRelationshipsToUpdate.some(({conceptId, relationshipId}) => conceptId === concept.id && relationshipId ===_relationship.id);
+                
+                if (!_relationship.inDualRelationship && !inOtherRelationshipsToUpdate) {
+                    const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, _relationship.id);
                     if (makesDualRelationship && otherRelationship) {
-                        relationship.inDualRelationship = true;
-                        relationship.isFirstInDualRelationship = false;
-                        otherRelationship.inDualRelationship = true;
-                        otherRelationship.isFirstInDualRelationship = true;
+                        _relationship.inDualRelationship = true;
+                        _relationship.isFirstInDualRelationship = false;
+                        otherRelationshipsToUpdate.push({
+                            conceptId: _relationship.id,
+                            relationshipId: otherRelationship.id,
+                            relationship: {
+                                ...otherRelationship,
+                                inDualRelationship: true,
+                                isFirstInDualRelationship: true
+                            }
+                        });
+                        // otherRelationship.inDualRelationship = true;
+                        // otherRelationship.isFirstInDualRelationship = true;
                     }
                 }    
-                return {...relationship, influence: parseFloat(relationship.influence)}
+                return {..._relationship, influence: parseFloat(_relationship.influence)}
             });
             return {...concept, relationships: newRelationships, x: parseInt(concept.x, 10), y: parseInt(concept.y, 10)};
-        })
+        });
         
+        // needed to update other relationships in dual relations in an extensible manner
+        if (otherRelationshipsToUpdate.length > 0) {
+            collection = collection.map((concept) => {
+                let relationships = concept && concept.relationships ? [...concept.relationships] : [];
+                const matches = otherRelationshipsToUpdate.filter(({conceptId}) => conceptId === concept.id);
+                if (matches.length > 0) {
+                    relationships = relationships.map((relationship) => {
+                        const match = matches.find((_match) => _match.relationshipId === relationship.id);
+                        return match ? match.relationship : relationship;
+                    })
+                }
+                return {...concept, relationships};
+            });
+        }
+
+        // new way
+        // const collection = concepts.map((concept) => {
+        //     const relationships = concept && concept.relationships ? concept.relationships : [];
+        //     const newRelationships = relationships.map((relationship) => {
+        //         if (!relationship.inDualRelationship) {
+        //             const {makesDualRelationship, otherRelationship} = util.makesDualRelationship(concepts, concept.id, relationship.id);
+        //             if (makesDualRelationship && otherRelationship) {
+        //                 relationship.inDualRelationship = true;
+        //                 relationship.isFirstInDualRelationship = false;
+        //                 otherRelationship.inDualRelationship = true;
+        //                 otherRelationship.isFirstInDualRelationship = true;
+        //             }
+        //         }    
+        //         return {...relationship, influence: parseFloat(relationship.influence)}
+        //     });
+        //     return {...concept, relationships: newRelationships, x: parseInt(concept.x, 10), y: parseInt(concept.y, 10)};
+        // })
+
         return {
             concepts: {
                 collection,
@@ -207,7 +257,7 @@ const util = {
         const relationship = relationships.find((r) => (r.id === influencerId))
         return {
             makesDualRelationship: !!relationship,
-            otherRelationship: relationship
+            otherRelationship: relationship,
         };
     },
 

@@ -19,8 +19,9 @@
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
     "start-js": "react-scripts start",
-    "deploy": "run-s -n build-css build-js && rm -rf docs && mv build docs && git add docs && git commit -m \"task: deploy site\" && git push origin master",
-    "build": "run-s -n build-css build-js && rm -rf docs && mv build docs",
+    "predeploy": "run-s -n build-css build-js",
+    "deploy": "gh-pages -d build",
+    "build": "run-s -n build-css build-js",
     "build-js": "react-scripts build",
     "test": "run-s -n build-css test-js",
     "test-js": "react-scripts test --env=jsdom",
@@ -29,6 +30,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "node-less-chokidar": "^0.3.1",
     "npm-run-all": "^4.1.3"
   }
