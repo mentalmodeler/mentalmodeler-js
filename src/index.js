@@ -25,7 +25,15 @@ if (!Element.prototype.matches) {
 
 const params = new URLSearchParams(document.location.search.substring(1));
 const dev = process.env.NODE_ENV === 'development';
-const standalone = !!params.has('standalone') || dev || document.location.hostname === 'mentalmodeler.github.io';
+// The hostname-only check used to be enough to detect "this is -js's own GitHub Pages
+// site" -- now that mentalmodeler-suite is *also* deployed under mentalmodeler.github.io
+// (a different path), hostname alone false-positives for -suite too, making this bundle
+// think it's running standalone when it's actually embedded. Require the path as well.
+const standalone =
+    !!params.has('standalone') ||
+    dev ||
+    (document.location.hostname === 'mentalmodeler.github.io' &&
+        document.location.pathname.startsWith('/mentalmodeler-js'));
 const loadTestFile = !!params.has('demo');
 let store = createStore(allReducers, {});
 
