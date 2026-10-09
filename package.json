@@ -23,15 +23,17 @@
     "build": "run-s -n build-css build-js",
     "build-js": "vite build",
     "test": "run-s -n build-css test-js",
-    "test-js": "react-scripts test --env=jsdom",
+    "test-js": "vitest",
     "build-css": "node-less-chokidar src",
     "watch-css": "node-less-chokidar src --watch"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.2",
     "gh-pages": "^6.3.0",
+    "jsdom": "^30.1.2",
     "node-less-chokidar": "^0.3.1",
     "npm-run-all": "^4.1.3",
-    "vite": "^8.3.3"
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
   }
 }
