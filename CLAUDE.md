@@ -44,7 +44,7 @@ Both bundle React 16 inside (not externalized). `save()` **always returns** `{js
 
 - `util.initData(data)` converts a raw `.mmp.json`-style model (`{concepts, groupNames, info, scenarios}`) into the Redux `concepts` slice shape, coercing `x`/`y`/`influence` to numbers and computing dual-relationship flags.
 - `util.exportData(state)` does the inverse, stripping transient UI fields back down to the serializable `{concepts, groupNames}` shape used by `save()`/file export.
-- Example models live in `src/data/*.mmp.js` and `src/models/*.mmp.json`. Only `src/models/fire.mmp.json` is used (by `dev/index.html` and `scripts/build-site.mjs` for `?demo`); `src/data/*.mmp.js` is unreferenced.
+- Example models live in `src/models/*.mmp.json`. Only `fire.mmp.json` is used (by `dev/index.html` and `scripts/build-site.mjs` for `?demo`).
 
 ### Component tree
 
