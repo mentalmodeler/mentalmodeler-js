@@ -9,8 +9,6 @@
 }
 .MentalMapper {
   color: #333;
-  font-family: sans-serif;
-  line-height: 16px;
   cursor: default;
 }
 :where(.MentalMapper) :where(button, input, select, textarea) {

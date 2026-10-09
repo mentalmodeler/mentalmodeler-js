@@ -11,13 +11,12 @@
 }
 
 // Base styles the widget previously inherited from the host page's shared CSS
-// (normalize + foundation). Scoped here so embeds look right without loading
+// (normalize + foundation). Font and line-height are deliberately NOT set: the widget
+// inherits them from the host page. Scoped here so embeds look right without loading
 // shared/*.css. :where() keeps specificity at type-selector level (as normalize
 // had), so the widget's own class rules still win.
 .MentalMapper {
     color: #333;
-    font-family: sans-serif;
-    line-height: 16px;
     cursor: default;
 }
 
