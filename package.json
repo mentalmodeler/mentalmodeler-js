@@ -22,10 +22,11 @@
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
     "start-js": "vite --open /dev/index.html",
-    "predeploy": "run-s -n build-css build-js",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "build": "run-s -n build-css build-js",
+    "build": "run-s -n build-css build-js build-site",
     "build-js": "vite build --mode lib && vite build --mode embed",
+    "build-site": "node scripts/build-site.mjs",
     "test": "run-s -n build-css test-js",
     "test-js": "vitest",
     "build-css": "node-less-chokidar src",
