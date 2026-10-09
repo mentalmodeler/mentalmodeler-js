@@ -10,6 +10,29 @@
     display: flex;
 }
 
+// Base styles the widget previously inherited from the host page's shared CSS
+// (normalize + foundation). Scoped here so embeds look right without loading
+// shared/*.css. :where() keeps specificity at type-selector level (as normalize
+// had), so the widget's own class rules still win.
+.MentalMapper {
+    color: #333;
+    font-family: sans-serif;
+    line-height: 16px;
+    cursor: default;
+}
+
+:where(.MentalMapper) :where(button, input, select, textarea) {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+
+:where(.MentalMapper) :where(textarea) {
+    display: block;
+    overflow: auto;
+    vertical-align: top;
+}
+
 .MentalMapper__screenshot-overlay {
     width: 100vw;
     height: 100vh;
