@@ -30,7 +30,8 @@ Both bundle React 16 inside (not externalized). `save()` **always returns** `{js
 - `npm run build` = `build-css` + `build-js` (both outputs) + `build-site` (`scripts/build-site.mjs` assembles `build/` for GH Pages from `site/index.html`, `dist/embed`, `public/`, and `src/models/fire.mmp.json`). `site/index.html` is a thin consumer of the embed build; `?demo` fetches the Fire model and calls `load()`.
 - `npm start` serves `dev/index.html` (unshipped) which imports `src/lib.js` source directly (hot reload) and calls `render()` the same way embeds do; `?demo` loads Fire.
 - Rebuild discipline for `-suite`: `npm run build` here, then `npm install` there. Deliberately manual (matches `mm-modules`).
-- Known gap: `screenshot()` needs a global `window.html2canvas`, which nothing imports; `public/shared/*.css` is loaded by `<link>` in the site/dev pages, not bundled into `dist/`.
+- `html2canvas` is a `-js` dependency. `src/lib.js` assigns the bundled copy to `window.html2canvas` unless the host already defined one; the camera button and `screenshot()` read that global. **`mentalmodeler-suite` relies on this global** (its `print.js` rasterizes its own Metrics/Scenario panels with it), so don't remove the assignment without updating `-suite`.
+- Known gap: `public/shared/*.css` is loaded by `<link>` in the site/dev pages, not bundled into `dist/`.
 
 ### State shape and data flow (Redux, no middleware)
 
