@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Create React App 1.x project (`react-scripts@1.1.5`, React 16, Redux 4, react-redux 5 — old class-component/connect-based patterns throughout, no hooks).
+Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Vite + React 16 project (React 16, Redux 4, react-redux 5) — old class-component/connect-based patterns throughout, no hooks. The bundler was migrated from CRA/`react-scripts` to Vite in October 2026; see `docs/superpowers/plans/2026-10-06-vite-migration.md`. Because the codebase writes JSX in `.js` files, `vite.config.js` carries a `jsx-in-js` plugin and an `optimizeDeps` module-type override — keep them.
 
 ## Commands
 
-- `npm start` — builds CSS once, then runs the Less watcher and `react-scripts start` in parallel (dev server on :3000).
-- `npm run build` — compiles CSS, runs `react-scripts build`, then **replaces** `docs/` with the contents of `build/` (used for GitHub Pages hosting directly from `docs/` on `master`).
-- `npm run deploy` — same as `build`, plus `git add docs && git commit && git push origin master`. This directly publishes to GitHub Pages — do not run it without the user's intent to deploy.
-- `npm test` — rebuilds CSS then runs `react-scripts test --env=jsdom` (CRA/Jest, watch mode by default). Pass CI flags via `react-scripts test` directly if a single run is needed, e.g. `CI=true npx react-scripts test --env=jsdom`.
-- `npm run build-css` / `npm run watch-css` — compile `.less` files under `src/` to co-located `.css`/`.css.map` files via `node-less-chokidar`. These compiled `.css`/`.css.map` files are committed to the repo (not gitignored) — after editing any `.less` file, regenerate its `.css` counterpart before committing.
+- `npm start` — builds CSS once, then runs the Less watcher and the Vite dev server in parallel (dev server on :3000).
+- `npm run build` — compiles CSS, then `vite build` into `build/` (stable unhashed `build/static/js/main.js` and `build/static/css/main.css`, `./`-relative asset paths for GH Pages subpath hosting).
+- `npm run deploy` — builds, then `gh-pages -d build` pushes to the `gh-pages` branch. This publishes the site — do not run it without the user's intent to deploy.
+- `npm test` — rebuilds CSS then runs Vitest (jsdom, globals) in watch mode. Single run: `npx vitest run`.
+- `npm run build-css` / `npm run watch-css` — compile `.less` files under `src/` to co-located `.css`/`.css.map` files via `node-less-chokidar`. These compiled files are committed — after editing any `.less` file, regenerate its `.css` counterpart before committing.
 
-There is effectively one real test file (`src/App.test.js`); there is no linting script defined beyond CRA's built-in ESLint-during-build.
+There is effectively one test file (`src/App.test.js`), which currently fails because it renders `<App />` without a redux `<Provider>`. There is no lint script.
 
 ## Architecture
 
