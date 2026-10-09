@@ -1,8 +1,12 @@
 {
   "name": "mentalmodeler-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "homepage": ".",
+  "main": "dist/mentalmodeler-js.es.js",
+  "module": "dist/mentalmodeler-js.es.js",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "classnames": "^2.2.6",
     "file-saver": "^2.0.5",
@@ -17,11 +21,11 @@
   },
   "scripts": {
     "start": "npm run build-css && run-p -ncr watch-css start-js",
-    "start-js": "vite",
+    "start-js": "vite --open /dev/index.html",
     "predeploy": "run-s -n build-css build-js",
     "deploy": "gh-pages -d build",
     "build": "run-s -n build-css build-js",
-    "build-js": "vite build",
+    "build-js": "vite build --mode lib && vite build --mode embed",
     "test": "run-s -n build-css test-js",
     "test-js": "vitest",
     "build-css": "node-less-chokidar src",

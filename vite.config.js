@@ -1,5 +1,6 @@
 import { defineConfig, transformWithOxc } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path';
 
 // This codebase writes JSX in .js files; Vite 8's oxc transform infers the
 // language from the extension, so compile src/**/*.js as .jsx before plugin-react.
@@ -12,37 +13,35 @@ const jsxInJs = {
     },
 };
 
-export default defineConfig({
-    plugins: [jsxInJs, react()],
-    // relative base matches CRA's "homepage": "." — required because the
-    // deployed site lives at a GH Pages project subpath, not domain root.
-    base: './',
-    server: {
-        port: 3000,
-    },
-    optimizeDeps: {
-        // the dep scanner parses src/**/*.js as plain JS; this codebase writes JSX in .js files
-        rolldownOptions: {
-            moduleTypes: { '.js': 'jsx' },
+// `vite build --mode lib`   -> dist/mentalmodeler-js.es.js (+ .css): ES module for import
+// `vite build --mode embed` -> dist/embed/main.js (+ main.css): IIFE sets window.MentalModelerConceptMap
+export default defineConfig(({ mode, command }) => {
+    const embed = mode === 'embed';
+    return {
+        plugins: [jsxInJs, react()],
+        base: './',
+        // dist/ is a package, not a site: build-site copies public/ into build/ itself
+        publicDir: command === 'build' ? false : 'public',
+        server: { port: 3000 },
+        optimizeDeps: {
+            // the dep scanner parses src/**/*.js as plain JS; this codebase writes JSX in .js files
+            rolldownOptions: { moduleTypes: { '.js': 'jsx' } },
         },
-    },
-    build: {
-        outDir: 'build',
-        sourcemap: true,
-        rollupOptions: {
-            output: {
-                entryFileNames: 'static/js/main.js',
-                chunkFileNames: 'static/js/[name].js',
-                assetFileNames: (assetInfo) => {
-                    const name = assetInfo.name || (assetInfo.names && assetInfo.names[0]) || '';
-                    return name.endsWith('.css') ? 'static/css/main.css' : 'static/media/[name][extname]';
-                },
+        // Library mode does not replace process.env.NODE_ENV, and bundled React/Redux read it.
+        // Build-only so dev keeps React's development warnings.
+        define: command === 'build' ? { 'process.env.NODE_ENV': JSON.stringify('production') } : {},
+        build: {
+            outDir: embed ? 'dist/embed' : 'dist',
+            emptyOutDir: !embed, // embed runs second and must not wipe the ES build
+            sourcemap: true,
+            lib: {
+                entry: resolve(__dirname, embed ? 'src/embed.js' : 'src/lib.js'),
+                name: 'MentalModelerConceptMapBundle',
+                formats: [embed ? 'iife' : 'es'],
+                fileName: () => (embed ? 'main.js' : 'mentalmodeler-js.es.js'),
+                cssFileName: embed ? 'main' : 'mentalmodeler-js',
             },
         },
-    },
-    test: {
-        environment: 'jsdom',
-        // mirrors Jest's implicit it()/describe() globals so App.test.js needs no edits
-        globals: true,
-    },
+        test: { environment: 'jsdom', globals: true },
+    };
 });

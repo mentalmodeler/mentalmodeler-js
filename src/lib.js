@@ -3,7 +3,7 @@ import './index.css';
 //--------------
 // polyfills
 //--------------
-if (!Element.prototype.matches) {
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
     Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 }
 
