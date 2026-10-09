@@ -18,13 +18,19 @@ There is effectively one test file (`src/App.test.js`), which currently fails be
 
 ## Architecture
 
-### Dual build targets: standalone app vs. embeddable widget
+### Two build outputs, no "standalone" mode
 
-`src/index.js` is the real entry point (not just a `ReactDOM.render` call). It decides at load time whether to self-render:
+There is no runtime standalone/host detection. `src/api.js` is a side-effect-free module (store + `render(target, {showLoadSaveButtons = true})`, `load(json)`, `save()`, `screenshot()`, plus `downloadModel()` used by the SAVE button). Two thin entries wrap it, and `vite.config.js` builds each by `--mode`:
 
-- `standalone` is true when the URL has a `?standalone` param, `NODE_ENV === 'development'`, or the hostname is `mentalmodeler.github.io`. In standalone mode the app renders itself into `#root` immediately.
-- Otherwise, the app does **not** auto-render. Instead it exposes a public API on `window.MentalModelerConceptMap = {render, load, save, screenshot}` so a host page (the "suite" application) can embed it: call `render(targetElementOrSelector)` to mount, `load(json)` to load a model, `save()` to get `{js, json}` (or trigger a file download when standalone), and `screenshot()` to get an `html2canvas` canvas of `.map__content`.
-- Keep this dual-mode contract in mind when changing `index.js`, `App.js`, or the Redux store shape — external embedders depend on the shape of `load`/`save` payloads (see `util.initData` / `util.exportData`).
+- `src/lib.js` → `dist/mentalmodeler-js.es.js` + `dist/mentalmodeler-js.css` (`vite build --mode lib`): named exports, imported by `mentalmodeler-suite` via `"mentalmodeler-js": "file:../mentalmodeler-js"` (`main`/`module` in `package.json`, `files: ["dist"]`, no npm publish).
+- `src/embed.js` → `dist/embed/main.js` + `dist/embed/main.css` (`vite build --mode embed`, IIFE, stable unhashed names): assigns `window.MentalModelerConceptMap = {render, load, save, screenshot}` for plain `<script>` embeds.
+
+Both bundle React 16 inside (not externalized). `save()` **always returns** `{js, json}` and never downloads (a download there is what silently broke `-suite` in production); the in-widget SAVE button calls `downloadModel()` instead. LOAD/SAVE buttons are shown by default and hidden with `showLoadSaveButtons: false` (`-suite` does this). `Map` gets `showLoadSaveButtons`/`onLoad`/`onDownload` as props via `App`; no component reads `window.MentalModelerConceptMap`.
+
+- `npm run build` = `build-css` + `build-js` (both outputs) + `build-site` (`scripts/build-site.mjs` assembles `build/` for GH Pages from `site/index.html`, `dist/embed`, `public/`, and `src/models/fire.mmp.json`). `site/index.html` is a thin consumer of the embed build; `?demo` fetches the Fire model and calls `load()`.
+- `npm start` serves `dev/index.html` (unshipped) which imports `src/lib.js` source directly (hot reload) and calls `render()` the same way embeds do; `?demo` loads Fire.
+- Rebuild discipline for `-suite`: `npm run build` here, then `npm install` there. Deliberately manual (matches `mm-modules`).
+- Known gap: `screenshot()` needs a global `window.html2canvas`, which nothing imports; `public/shared/*.css` is loaded by `<link>` in the site/dev pages, not bundled into `dist/`.
 
 ### State shape and data flow (Redux, no middleware)
 
@@ -38,7 +44,7 @@ There is effectively one test file (`src/App.test.js`), which currently fails be
 
 - `util.initData(data)` converts a raw `.mmp.json`-style model (`{concepts, groupNames, info, scenarios}`) into the Redux `concepts` slice shape, coercing `x`/`y`/`influence` to numbers and computing dual-relationship flags.
 - `util.exportData(state)` does the inverse, stripping transient UI fields back down to the serializable `{concepts, groupNames}` shape used by `save()`/file export.
-- Example models live in `src/data/*.mmp.js` and `src/models/*.mmp.json` and are only wired up behind the dev-only `?init` query param (`loadTestFile` in `index.js`).
+- Example models live in `src/data/*.mmp.js` and `src/models/*.mmp.json`. Only `src/models/fire.mmp.json` is used (by `dev/index.html` and `scripts/build-site.mjs` for `?demo`); `src/data/*.mmp.js` is unreferenced.
 
 ### Component tree
 
