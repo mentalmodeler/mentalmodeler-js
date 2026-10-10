@@ -14,6 +14,10 @@
   color: #333;
   cursor: default;
 }
+:where(.MentalMapper) :where(*) {
+  margin: 0;
+  padding: 0;
+}
 :where(.MentalMapper) :where(button, input, select, textarea) {
   font-family: inherit;
   font-size: 100%;
