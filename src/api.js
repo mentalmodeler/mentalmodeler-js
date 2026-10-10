@@ -1,33 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { saveAs } from 'file-saver';
 
-// import registerServiceWorker from './registerServiceWorker'; 
 import allReducers from './reducers';
 import App from './App';
 import util from './utils/util';
-import {modelLoad} from './actions/index';
-import { saveAs } from 'file-saver';
+import { modelLoad } from './actions/index';
 
-
-import fire from './data/fire.mmp'; // eslint-disable-line
-import simple from './models/simple.mmp.json'; // eslint-disable-line
-
-import './index.css';
-
-//--------------
-// polyfills
-//--------------
-if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-}
-
-const params = new URLSearchParams(document.location.search.substring(1));
-const dev = process.env.NODE_ENV === 'development';
-const standalone = !!params.has('standalone') || dev || document.location.hostname === 'mentalmodeler.github.io';
-const loadTestFile = !!params.has('demo');
-let store = createStore(allReducers, {});
+const store = createStore(allReducers, {});
 
 function loadModel(state) {
     store.dispatch(modelLoad(state));
@@ -75,28 +57,32 @@ function writeLocalFile({content, name, type}) {
     }
 }
 
-function save() {
+export function save() {
     try {
-        const data =  util.exportData(store.getState());
-        return standalone
-            ? writeLocalFile({content: data.json, name: 'mmp.json', type: 'json'})
-            : data;        
+        return util.exportData(store.getState());
     } catch (e) {
         console.error('ERROR - ConceptMap > save, e:', e);
     }
 }
 
-function render(target = '#root') {
+// used by the SAVE button; the public save() only returns data
+export function downloadModel() {
+    const data = save();
+    if (data) {
+        writeLocalFile({content: data.json, name: 'mmp.json', type: 'json'});
+    }
+}
+
+export function render(target = '#root', {showLoadSaveButtons = true} = {}) {
     try {
-        let elem;
-        if (target instanceof Element || target instanceof HTMLDocument) {
-            elem = target;
-        } else if (typeof target === 'string') {
-            elem = document.querySelector(target);
-        }
+        const elem = typeof target === 'string' ? document.querySelector(target) : target;
         ReactDOM.render(
             <Provider store={store}>
-                <App standalone={standalone}/>
+                <App
+                    showLoadSaveButtons={showLoadSaveButtons}
+                    onLoad={load}
+                    onDownload={downloadModel}
+                />
             </Provider>,
             elem
         );
@@ -141,29 +127,4 @@ function screenshot () {
     }
 }
 
-if (standalone) {
-    render();
-    if (loadTestFile) {
-        load(fire);
-    }
-}
-
-// Define public API
-let publicApi = {
-    render,
-    load,
-    save,
-    screenshot
-};
-
-// registerServiceWorker();
-// console.log('store.getState():', store.getState());
-
-// Expose to global scope
-if (typeof window !== 'undefined') {
-    window.MentalModelerConceptMap = publicApi;
-}
-
-// document.body.addEventListener('click', () => {
-//     console.log('screenshot:', screenshot());
-// });
+export { load, screenshot };

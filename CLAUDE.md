@@ -4,27 +4,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Create React App 1.x project (`react-scripts@1.1.5`, React 16, Redux 4, react-redux 5 — old class-component/connect-based patterns throughout, no hooks).
+Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Vite + React 16 project (React 16, Redux 4, react-redux 5) — old class-component/connect-based patterns throughout, no hooks. The bundler was migrated from CRA/`react-scripts` to Vite in October 2026; see `docs/superpowers/plans/2026-10-06-vite-migration.md`. Because the codebase writes JSX in `.js` files, `vite.config.js` carries a `jsx-in-js` plugin and an `optimizeDeps` module-type override — keep them.
 
 ## Commands
 
-- `npm start` — builds CSS once, then runs the Less watcher and `react-scripts start` in parallel (dev server on :3000).
-- `npm run build` — compiles CSS, runs `react-scripts build`, then **replaces** `docs/` with the contents of `build/` (used for GitHub Pages hosting directly from `docs/` on `master`).
-- `npm run deploy` — same as `build`, plus `git add docs && git commit && git push origin master`. This directly publishes to GitHub Pages — do not run it without the user's intent to deploy.
-- `npm test` — rebuilds CSS then runs `react-scripts test --env=jsdom` (CRA/Jest, watch mode by default). Pass CI flags via `react-scripts test` directly if a single run is needed, e.g. `CI=true npx react-scripts test --env=jsdom`.
-- `npm run build-css` / `npm run watch-css` — compile `.less` files under `src/` to co-located `.css`/`.css.map` files via `node-less-chokidar`. These compiled `.css`/`.css.map` files are committed to the repo (not gitignored) — after editing any `.less` file, regenerate its `.css` counterpart before committing.
+- `npm start` — builds CSS once, then runs the Less watcher and the Vite dev server in parallel (dev server on :3000).
+- `npm run build` — compiles CSS, then `vite build` into `build/` (stable unhashed `build/static/js/main.js` and `build/static/css/main.css`, `./`-relative asset paths for GH Pages subpath hosting).
+- `npm run deploy` — builds, then `gh-pages -d build` pushes to the `gh-pages` branch. This publishes the site — do not run it without the user's intent to deploy.
+- `npm test` — rebuilds CSS then runs Vitest (jsdom, globals) in watch mode. Single run: `npx vitest run`.
+- `npm run build-css` / `npm run watch-css` — compile `.less` files under `src/` to co-located `.css`/`.css.map` files via `node-less-chokidar`. These compiled files are committed — after editing any `.less` file, regenerate its `.css` counterpart before committing.
 
-There is effectively one real test file (`src/App.test.js`); there is no linting script defined beyond CRA's built-in ESLint-during-build.
+There is effectively one test file (`src/App.test.js`), which currently fails because it renders `<App />` without a redux `<Provider>`. There is no lint script.
 
 ## Architecture
 
-### Dual build targets: standalone app vs. embeddable widget
+### Two build outputs, no "standalone" mode
 
-`src/index.js` is the real entry point (not just a `ReactDOM.render` call). It decides at load time whether to self-render:
+There is no runtime standalone/host detection. `src/api.js` is a side-effect-free module (store + `render(target, {showLoadSaveButtons = true})`, `load(json)`, `save()`, `screenshot()`, plus `downloadModel()` used by the SAVE button). Two thin entries wrap it, and `vite.config.js` builds each by `--mode`:
 
-- `standalone` is true when the URL has a `?standalone` param, `NODE_ENV === 'development'`, or the hostname is `mentalmodeler.github.io`. In standalone mode the app renders itself into `#root` immediately.
-- Otherwise, the app does **not** auto-render. Instead it exposes a public API on `window.MentalModelerConceptMap = {render, load, save, screenshot}` so a host page (the "suite" application) can embed it: call `render(targetElementOrSelector)` to mount, `load(json)` to load a model, `save()` to get `{js, json}` (or trigger a file download when standalone), and `screenshot()` to get an `html2canvas` canvas of `.map__content`.
-- Keep this dual-mode contract in mind when changing `index.js`, `App.js`, or the Redux store shape — external embedders depend on the shape of `load`/`save` payloads (see `util.initData` / `util.exportData`).
+- `src/lib.js` → `dist/mentalmodeler-js.es.js` + `dist/mentalmodeler-js.css` (`vite build --mode lib`): named exports, imported by `mentalmodeler-suite` via `"mentalmodeler-js": "file:../mentalmodeler-js"` (`main`/`module` in `package.json`, `files: ["dist"]`, no npm publish).
+- `src/embed.js` → `dist/embed/main.js` + `dist/embed/main.css` (`vite build --mode embed`, IIFE, stable unhashed names): assigns `window.MentalModelerConceptMap = {render, load, save, screenshot}` for plain `<script>` embeds.
+
+Both bundle React 16 inside (not externalized). `save()` **always returns** `{js, json}` and never downloads (a download there is what silently broke `-suite` in production); the in-widget SAVE button calls `downloadModel()` instead. LOAD/SAVE buttons are shown by default and hidden with `showLoadSaveButtons: false` (`-suite` does this). `Map` gets `showLoadSaveButtons`/`onLoad`/`onDownload` as props via `App`; no component reads `window.MentalModelerConceptMap`.
+
+- `npm run build` = `build-css` + `build-js` (both outputs) + `build-site` (`scripts/build-site.mjs` assembles `build/` for GH Pages from `site/index.html`, `dist/embed`, `public/`, and `src/models/fire.mmp.json`). `site/index.html` is a thin consumer of the embed build; `?demo` fetches the Fire model and calls `load()`.
+- `npm start` serves `dev/index.html` (unshipped) which imports `src/lib.js` source directly (hot reload) and calls `render()` the same way embeds do; `?demo` loads Fire.
+- Rebuild discipline for `-suite`: `npm run build` here, then `npm install` there. Deliberately manual (matches `mm-modules`).
+- `html2canvas` is a `-js` dependency. `src/lib.js` assigns the bundled copy to `window.html2canvas` unless the host already defined one; the camera button and `screenshot()` read that global. **`mentalmodeler-suite` relies on this global** (its `print.js` rasterizes its own Metrics/Scenario panels with it), so don't remove the assignment without updating `-suite`.
+- Base styles: the widget's inherited page-level styles (font, color, line-height, form-control font inheritance, textarea alignment) are scoped under `.MentalMapper` in `src/App.less` using `:where()` (type-selector specificity, so widget class rules still win). Embeds therefore don't need `public/shared/*.css`; the site and dev pages still load them. Verified: bare page computes identical styles to the old `app.css`-loaded look. Note `App.less` still has a global `* { box-sizing: border-box }` that leaks into host pages.
 
 ### State shape and data flow (Redux, no middleware)
 
@@ -38,7 +45,7 @@ There is effectively one real test file (`src/App.test.js`); there is no linting
 
 - `util.initData(data)` converts a raw `.mmp.json`-style model (`{concepts, groupNames, info, scenarios}`) into the Redux `concepts` slice shape, coercing `x`/`y`/`influence` to numbers and computing dual-relationship flags.
 - `util.exportData(state)` does the inverse, stripping transient UI fields back down to the serializable `{concepts, groupNames}` shape used by `save()`/file export.
-- Example models live in `src/data/*.mmp.js` and `src/models/*.mmp.json` and are only wired up behind the dev-only `?init` query param (`loadTestFile` in `index.js`).
+- Example models live in `src/models/*.mmp.json`. Only `fire.mmp.json` is used (by `dev/index.html` and `scripts/build-site.mjs` for `?demo`).
 
 ### Component tree
 

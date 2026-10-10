@@ -10,7 +10,11 @@ class App extends Component {
         return (
             <div className="MentalMapper">
                 <Controls />  
-                <Map standalone={this.props.standalone}/>
+                <Map
+                    showLoadSaveButtons={this.props.showLoadSaveButtons}
+                    onLoad={this.props.onLoad}
+                    onDownload={this.props.onDownload}
+                />
             </div>
         );
     }

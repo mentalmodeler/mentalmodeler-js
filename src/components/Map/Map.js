@@ -150,11 +150,7 @@ class Map extends Component {
 
     onFileReaderLoadEnd = (e) => {
         const result = e.target.result;
-        if (window.MentalModelerConceptMap) {
-            window.MentalModelerConceptMap.load(result);
-        } else {
-            console.error('ERROR - window.MentalModelerConceptMap is undefined');
-        }
+        this.props.onLoad && this.props.onLoad(result);
     }
 
     handleInputChange = (e) => {
@@ -177,9 +173,7 @@ class Map extends Component {
     }
 
     onClickSave = (e) => {
-        if (window.MentalModelerConceptMap) {
-            window.MentalModelerConceptMap.save();
-        }
+        this.props.onDownload && this.props.onDownload();
     }
 
     handleLayoutClick = (e) => {
@@ -307,7 +301,7 @@ class Map extends Component {
                             </ul>
                         </div>
                     }
-                    {this.props.standalone &&
+                    {this.props.showLoadSaveButtons &&
                         <Fragment>
                             <div>
                                 <input
