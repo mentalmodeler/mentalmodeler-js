@@ -1,4 +1,8 @@
-* {
+// Scoped (not global) so the widget doesn't change box sizing on host pages.
+:where(.MentalMapper),
+:where(.MentalMapper) *,
+:where(.MentalMapper) *::before,
+:where(.MentalMapper) *::after {
     box-sizing: border-box;
 }
 
@@ -20,6 +24,11 @@
     cursor: default;
 }
 
+:where(.MentalMapper) :where(*) {
+    margin: 0;
+    padding: 0;
+}
+
 :where(.MentalMapper) :where(button, input, select, textarea) {
     font-family: inherit;
     font-size: 100%;
@@ -30,6 +39,32 @@
     display: block;
     overflow: auto;
     vertical-align: top;
+}
+
+// Remaining differences found by diffing the widget's computed styles with and without
+// shared/*.css (foundation + normalize), so embeds look the same without them.
+:where(.MentalMapper) :where(ul, ol) {
+    padding: 0;
+}
+
+:where(.MentalMapper) :where(label) {
+    font-size: 0.875rem;
+    color: #4d4d4d;
+    cursor: pointer;
+}
+
+:where(.MentalMapper) :where(button) {
+    appearance: button;
+    position: relative;
+    transition: background-color 300ms ease-out;
+}
+
+:where(.MentalMapper) :where(textarea),
+:where(.MentalMapper) :where(input[type="text"]) {
+    appearance: none;
+    color: rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
 }
 
 .MentalMapper__screenshot-overlay {
