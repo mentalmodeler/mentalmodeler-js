@@ -4,23 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Vite + React 16 project (React 16, Redux 4, react-redux 5) — old class-component/connect-based patterns throughout, no hooks. The bundler was migrated from CRA/`react-scripts` to Vite in October 2026; see `docs/superpowers/plans/2026-10-06-vite-migration.md`. Because the codebase writes JSX in `.js` files, `vite.config.js` carries a `jsx-in-js` plugin and an `optimizeDeps` module-type override — keep them.
+Mental Modeler is a React + Redux app for building "fuzzy cognitive map" style concept diagrams: users add concepts (nodes), draw directed relationships (influences) between them with a confidence/influence value, and the map is editable on an SVG/CSS canvas. It is a Vite + React 16 project (React 16, Redux 4, react-redux 5) — old class-component/connect-based patterns throughout, no hooks. The bundler was migrated from CRA/`react-scripts` to Vite in October 2026; see `docs/superpowers/plans/2026-10-06-vite-migration.md`. Because the codebase writes JSX in `.js` files, `vite.config.mjs` carries a `jsx-in-js` plugin and an `optimizeDeps` module-type override — keep them.
 
 ## Commands
 
+Node is pinned to 24 via `.nvmrc` (Vite 8 and Vitest 5 need Node 22.12+, 24, or 26+).
+
 - `npm start` — builds CSS once, then runs the Less watcher and the Vite dev server in parallel (dev server on :3000).
-- `npm run build` — compiles CSS, then `vite build` into `build/` (stable unhashed `build/static/js/main.js` and `build/static/css/main.css`, `./`-relative asset paths for GH Pages subpath hosting).
+- `npm run build` — compiles CSS, runs both library builds into `dist/` (`vite build --mode lib` and `--mode embed`), then `scripts/build-site.mjs` assembles `build/` for GH Pages (stable unhashed `build/embed/main.js` and `main.css`, `./`-relative asset paths for subpath hosting). See "Two build outputs" below.
 - `npm run deploy` — builds, then `gh-pages -d build` pushes to the `gh-pages` branch. This publishes the site — do not run it without the user's intent to deploy.
 - `npm test` — rebuilds CSS then runs Vitest (jsdom, globals) in watch mode. Single run: `npx vitest run`.
 - `npm run build-css` / `npm run watch-css` — compile `.less` files under `src/` to co-located `.css`/`.css.map` files via `node-less-chokidar`. These compiled files are committed — after editing any `.less` file, regenerate its `.css` counterpart before committing.
 
-There is effectively one test file (`src/App.test.js`), which currently fails because it renders `<App />` without a redux `<Provider>`. There is no lint script.
+Tests live in `src/App.test.js`, `src/api.test.js` and `src/lib.test.js` (9 tests, all passing). There is no lint script.
 
 ## Architecture
 
 ### Two build outputs, no "standalone" mode
 
-There is no runtime standalone/host detection. `src/api.js` is a side-effect-free module (store + `render(target, {showLoadSaveButtons = true})`, `load(json)`, `save()`, `screenshot()`, plus `downloadModel()` used by the SAVE button). Two thin entries wrap it, and `vite.config.js` builds each by `--mode`:
+There is no runtime standalone/host detection. `src/api.js` is a side-effect-free module (store + `render(target, {showLoadSaveButtons = true})`, `load(json)`, `save()`, `screenshot()`, plus `downloadModel()` used by the SAVE button). Two thin entries wrap it, and `vite.config.mjs` builds each by `--mode`:
 
 - `src/lib.js` → `dist/mentalmodeler-js.es.js` + `dist/mentalmodeler-js.css` (`vite build --mode lib`): named exports, imported by `mentalmodeler-suite` via `"mentalmodeler-js": "file:../mentalmodeler-js"` (`main`/`module` in `package.json`, `files: ["dist"]`, no npm publish).
 - `src/embed.js` → `dist/embed/main.js` + `dist/embed/main.css` (`vite build --mode embed`, IIFE, stable unhashed names): assigns `window.MentalModelerConceptMap = {render, load, save, screenshot}` for plain `<script>` embeds.

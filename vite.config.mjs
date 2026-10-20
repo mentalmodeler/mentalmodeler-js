@@ -35,7 +35,7 @@ export default defineConfig(({ mode, command }) => {
             emptyOutDir: !embed, // embed runs second and must not wipe the ES build
             sourcemap: true,
             lib: {
-                entry: resolve(__dirname, embed ? 'src/embed.js' : 'src/lib.js'),
+                entry: resolve(import.meta.dirname, embed ? 'src/embed.js' : 'src/lib.js'),
                 name: 'MentalModelerConceptMapBundle',
                 formats: [embed ? 'iife' : 'es'],
                 fileName: () => (embed ? 'main.js' : 'mentalmodeler-js.es.js'),
